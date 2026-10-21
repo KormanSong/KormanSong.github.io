@@ -1,0 +1,12 @@
+{{ define "main" }}
+<header class="row page-head">
+  <div class="main"><h1>{{ .Title }}</h1></div>
+</header>
+<div class="row">
+  <ul class="main term-list">
+    {{- range .Data.Terms.Alphabetical }}
+    <li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a><span class="count">{{ .Count }}편</span></li>
+    {{- end }}
+  </ul>
+</div>
+{{ end }}

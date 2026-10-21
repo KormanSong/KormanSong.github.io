@@ -1,0 +1,19 @@
+{{- /* data/projects.yaml 의 한 항목. dict "p" 항목 "h" 제목 단계 */ -}}
+{{- $p := .p -}}
+{{- $h := .h | default 3 -}}
+<article class="row entry">
+  <p class="side">{{ with $p.since }}<time datetime="{{ . }}">{{ replace . "-" "." }}</time>{{ end }}</p>
+  <div class="main">
+    {{ printf "<h%d class=\"entry-title\">" $h | safeHTML }}{{ $p.title }}{{ printf "</h%d>" $h | safeHTML }}
+    {{- with $p.stack }}
+    <p class="stack">{{ delimit . ", " }}</p>
+    {{- end }}
+    {{- with $p.summary }}
+    <p class="entry-sum">{{ . | markdownify }}</p>
+    {{- end }}
+    {{ partial "trace.html" $p }}
+    {{- with $p.post }}{{ with site.GetPage . }}
+    <p class="related"><span>관련 글</span><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+    {{- end }}{{ end }}
+  </div>
+</article>

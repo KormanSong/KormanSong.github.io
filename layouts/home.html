@@ -1,0 +1,30 @@
+{{ define "main" }}
+<section class="hero row">
+  <div class="main">
+    <h1>{{ .Title }}</h1>
+    <div class="hero-text">{{ .Content }}</div>
+  </div>
+</section>
+
+{{- with where hugo.Data.projects "status" "now" }}
+<section class="block" aria-labelledby="h-now">
+  <div class="row"><h2 class="main block-title" id="h-now">지금 하는 일</h2></div>
+  {{- range . }}
+  {{ partial "project.html" (dict "p" . "h" 3) }}
+  {{- end }}
+</section>
+{{- end }}
+
+{{- $posts := where site.RegularPages "Section" "posts" }}
+{{- with $posts }}
+<section class="block" aria-labelledby="h-posts">
+  <div class="row"><h2 class="main block-title" id="h-posts">최근 글</h2></div>
+  {{- range first 8 . }}
+  {{ partial "post-row.html" (dict "page" . "h" 3) }}
+  {{- end }}
+  {{- if gt (len .) 8 }}
+  <div class="row"><p class="main"><a href="{{ "posts/" | relURL }}">글 전체 보기</a></p></div>
+  {{- end }}
+</section>
+{{- end }}
+{{ end }}

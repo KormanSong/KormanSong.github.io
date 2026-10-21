@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{- $isPost := eq .Section "posts" }}
+<article>
+  <header class="row page-head">
+    <p class="side">
+      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }}분 분량</span>{{ end -}}
+    </p>
+    <div class="main">
+      <h1>{{ .Title }}</h1>
+      {{ partial "trace.html" .Params }}
+    </div>
+  </header>
+
+  <div class="row">
+    <div class="main prose">
+      {{ .Content }}
+    </div>
+  </div>
+
+  {{- if $isPost }}
+  <footer class="row page-foot">
+    <div class="main">
+      {{- with .GetTerms "categories" }}
+      <p><span class="label">분류</span>{{ range $i, $t := . }}{{ if $i }}, {{ end }}<a href="{{ $t.RelPermalink }}">{{ $t.LinkTitle }}</a>{{ end }}</p>
+      {{- end }}
+      {{- with .GetTerms "tags" }}
+      <ul class="tags" aria-label="태그">
+        {{- range . }}
+        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- /* Hugo에서 PrevInSection은 더 오래된 글, NextInSection은 더 새로운 글이다 (실험으로 확인). */}}
+      {{- if or .PrevInSection .NextInSection }}
+      <nav class="pager" aria-label="이전 글과 다음 글">
+        {{- with .PrevInSection }}
+        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">이전 글</span><span class="pager-title">{{ .Title }}</span></a>
+        {{- end }}
+        {{- with .NextInSection }}
+        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">다음 글</span><span class="pager-title">{{ .Title }}</span></a>
+        {{- end }}
+      </nav>
+      {{- end }}
+    </div>
+  </footer>
+  {{- end }}
+</article>
+{{ end }}

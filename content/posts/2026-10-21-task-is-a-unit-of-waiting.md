@@ -4,8 +4,10 @@ date = 2026-10-21T21:00:00+09:00
 draft = false
 tags = ["FreeRTOS", "RTOS", "상태기계", "설계"]
 categories = ["깨달음"]
-series = ["RTOS 다시 배우기"]
 summary = "버튼 두 개짜리 카운터를 FreeRTOS로 짜다가 막혔다. 막힌 이유는 태스크를 '기능'으로 나눴기 때문이었다."
+did = "버튼 두 개짜리 카운터를 FreeRTOS 태스크 둘로 나눠 짰다."
+broke = "버튼 B를 어디에 넣을지 정하지 못했다. 장치를 입력이 들어오면 출력이 나오는 함수로만 보고 있었다."
+fixed = "상태를 드러내자 사양이 표 하나로 줄었다. 태스크는 기능이 아니라 기다리는 대상으로 나눈다."
 +++
 
 <!-- 초안입니다. 본인의 말로 고쳐 쓰세요. 특히 "내가 실제로 겪은 것" 부분은 더 구체적으로. -->
@@ -54,11 +56,21 @@ summary = "버튼 두 개짜리 카운터를 FreeRTOS로 짜다가 막혔다. �
 
 이 기준으로 다시 그리면 이렇다.
 
-```
-[버튼 ISR]   ──A/B──▶ ┐
-[1초 타이머] ──TICK──▶ ├─▶ [큐] ─▶ [로직 태스크: 상태기계] ─▶ [디스플레이 태스크]
-                     ┘
-```
+<figure class="flow">
+  <div class="flow-steps">
+    <div class="flow-src">
+      <span class="flow-node">버튼 ISR<small>A, B</small></span>
+      <span class="flow-node">1초 타이머<small>TICK</small></span>
+    </div>
+    <span class="flow-arrow" aria-hidden="true"></span>
+    <span class="flow-node">큐</span>
+    <span class="flow-arrow" aria-hidden="true"></span>
+    <span class="flow-node">로직 태스크<small>상태기계</small></span>
+    <span class="flow-arrow" aria-hidden="true"></span>
+    <span class="flow-node">디스플레이 태스크</span>
+  </div>
+  <figcaption>버튼과 타이머는 사건을 큐에 넣기만 한다. 로직 태스크가 사건을 꺼내 상태를 바꾸고, 디스플레이 태스크는 넘겨받은 값을 그린다.</figcaption>
+</figure>
 
 태스크는 여전히 둘이다. 로직 태스크는 **사건**을 기다리고, 디스플레이 태스크는 **2ms**를 기다린다. 기다리는 게 다르니까 둘이고, 셋일 이유는 없다. 버튼과 타이머는 태스크가 아니라 사건의 공급자다.
 

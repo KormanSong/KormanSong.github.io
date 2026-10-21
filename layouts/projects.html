@@ -1,0 +1,24 @@
+{{ define "main" }}
+{{- $all := hugo.Data.projects }}
+<header class="row page-head">
+  <div class="main">
+    <h1>{{ .Title }}</h1>
+    {{- with .Content }}
+    <div class="lede">{{ . }}</div>
+    {{- end }}
+  </div>
+</header>
+
+{{- range slice (slice "now" "지금 하는 일") (slice "planned" "할 일") (slice "done" "끝낸 일") }}
+{{- $status := index . 0 }}
+{{- $label := index . 1 }}
+{{- with where $all "status" $status }}
+<section class="block" aria-labelledby="h-{{ $status }}">
+  <div class="row"><h2 class="main block-title" id="h-{{ $status }}">{{ $label }}</h2></div>
+  {{- range . }}
+  {{ partial "project.html" (dict "p" . "h" 3) }}
+  {{- end }}
+</section>
+{{- end }}
+{{- end }}
+{{ end }}

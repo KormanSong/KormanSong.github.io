@@ -1,0 +1,44 @@
+# 프로젝트 목록. 첫 화면의 "지금 하는 일"과 /projects/ 페이지가 이 파일 하나에서 만들어집니다.
+#
+# status    now(지금 하는 일) | planned(할 일) | done(끝낸 일)
+# since     시작한 달, YYYY-MM (선택). 왼쪽 시간 열에 표시됩니다.
+# stack     쓰는 칩, 도구, 기술
+# summary   한두 문장 설명 (주로 할 일에)
+# did       한 일
+# broke     막힌 곳. 이 줄에 노란 표시등이 켜집니다.
+# fixed     고친 방법
+# next      다음 단계
+# post      관련 글 경로. content/ 기준, 확장자 없이.
+#
+# 쓰지 않는 칸은 지우면 됩니다.
+
+- title: FreeRTOS 두 태스크 카운터를 이벤트 기반으로 다시 설계
+  status: now
+  since: "2026-10"
+  stack: [STM32, FreeRTOS, 7세그먼트 다중 구동]
+  did: 디스플레이와 카운터를 두 태스크로 나누고 `vTaskDelayUntil`로 주기를 맞췄다. 버튼 A/B 사양을 상태 표로 다시 정의했다.
+  broke: 디스플레이 태스크가 자리마다 전역 변수를 다시 읽어서 찢어진 값이 잠깐 보일 수 있었다. 블로킹 호출이 없어 idle 태스크가 돌지 못했다.
+  next: 프레임마다 스냅샷을 한 번만 뜨고 2 ms마다 블로킹한다. 주기가 짧은 태스크에 높은 우선순위를 준다. 그다음 슈퍼루프, FreeRTOS, 동기식 세 가지 구현을 비교한다.
+  post: posts/2026-10-21-task-is-a-unit-of-waiting
+
+- title: BeagleBone Black 커널을 직접 빌드하기
+  status: now
+  since: "2026-10"
+  stack: [AM335x, Linux 5.10 (TI), Device Tree]
+  did: USB 네트워크로 SSH에 접속하고, sysfs로 LED 트리거를 바꿨다. Device Tree에서 주소, compatible 문자열, 드라이버로 이어지는 연결을 따라갔다.
+  next: Bootlin 실습 자료로 U-Boot, 커널, 루트 파일시스템을 직접 빌드한다. DT 오버레이로 I2C를 켜고 시리얼 콘솔을 연결한다.
+
+- title: 1 GHz 리눅스가 115200 bps 비트뱅을 못 하는데 200 MHz PRU는 되는 이유
+  status: planned
+  stack: [cyclictest, PREEMPT_RT, PRU]
+  summary: 유저스페이스, 커널 hrtimer, PRU 세 방식으로 비트 폭 지터를 스코프로 재서 비교한다.
+
+- title: I2C 압력 센서용 리눅스 IIO 드라이버
+  status: planned
+  stack: [Linux IIO, I2C, Device Tree]
+  summary: 커널에 드라이버가 없는 센서를 골라, 업스트림에 낼 수 있는 수준으로 작성한다.
+
+- title: PRU로 만드는 작은 MFC
+  status: planned
+  stack: [PRU, PID, 유량 센서]
+  summary: 유량 센서와 밸브, PID 제어 루프를 PRU에 올리고, 제어 루프 지터를 세 방식으로 잰다.

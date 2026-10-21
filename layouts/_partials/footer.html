@@ -1,0 +1,12 @@
+<footer class="site-foot frame">
+  <div class="row">
+    <p class="side"><span>{{ now.Year }}</span></p>
+    <ul class="main foot-links">
+      <li>{{ site.Params.author }}</li>
+      {{- with site.Params.github }}
+      <li><a href="{{ . }}">GitHub</a></li>
+      {{- end }}
+      <li><a href="{{ "index.xml" | relURL }}">RSS</a></li>
+    </ul>
+  </div>
+</footer>

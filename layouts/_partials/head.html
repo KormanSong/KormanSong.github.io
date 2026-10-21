@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+{{- $desc := site.Params.description }}
+{{- if not .IsHome }}{{ with .Description | default .Params.summary | default .Summary }}{{ $desc = . | plainify | htmlUnescape | truncate 160 }}{{ end }}{{ end }}
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ site.Params.author }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1d1d1b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+{{- $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{- end }}
+{{ partial "opengraph.html" . }}

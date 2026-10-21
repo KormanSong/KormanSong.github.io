@@ -1,0 +1,2 @@
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- /* 스코프 캡처 등 이미지: 지연 로딩, 본문 폭에 맞춤 */ -}}

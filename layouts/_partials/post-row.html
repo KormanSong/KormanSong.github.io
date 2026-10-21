@@ -1,0 +1,12 @@
+{{- /* 글 목록의 한 줄. dict "page" 페이지 "h" 제목 단계(2 또는 3) */ -}}
+{{- $p := .page -}}
+{{- $h := .h | default 3 -}}
+<article class="row entry">
+  <p class="side"><time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time></p>
+  <div class="main">
+    {{ printf "<h%d class=\"entry-title\">" $h | safeHTML }}<a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>{{ printf "</h%d>" $h | safeHTML }}
+    {{- with $p.Params.summary | default $p.Summary }}
+    <p class="entry-sum">{{ . | plainify | htmlUnescape }}</p>
+    {{- end }}
+  </div>
+</article>
