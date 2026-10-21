@@ -1,0 +1,129 @@
+# ─────────────────────────────────────────────────────────────
+#  Hugo + PaperMod 설정
+#  바꿔야 할 곳은 "TODO" 로 표시했습니다. 나머지는 그대로 두어도 됩니다.
+# ─────────────────────────────────────────────────────────────
+
+# TODO: GitHub 아이디로 바꾸세요. (저장소 이름이 <아이디>.github.io 일 때)
+baseURL = "https://USERNAME.github.io/"
+languageCode = "ko-kr"
+title = "Firmware Notes"           # TODO: 블로그 이름
+theme = "PaperMod"
+defaultContentLanguage = "ko"
+hasCJKLanguage = true              # 한국어 글자 수/읽기 시간 계산용
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+pagination.pagerSize = 10
+timeZone = "Asia/Seoul"
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[params]
+  env = "production"
+  description = "임베디드 펌웨어 엔지니어의 작업 기록. 측정한 것, 깨달은 것, 틀렸던 것."
+  author = "USERNAME"              # TODO: 이름 또는 핸들
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+  ShowWordCount = false
+  ShowRssButtonInSectionTermList = true
+  disableSpecial1stPost = false
+  hideSummary = false
+  comments = false
+
+  [params.homeInfoParams]
+    Title = "Firmware Notes"       # TODO
+    Content = """
+임베디드 펌웨어 엔지니어입니다. 반도체 장비용 Mass Flow Controller 펌웨어를 만들고 있고,
+MCU/RTOS에서 임베디드 리눅스로 무대를 넓히는 중입니다.
+
+여기에는 세 종류의 글을 씁니다.
+**측정** — 스코프와 숫자가 있는 실험 기록 (주로 영어),
+**깨달음** — 일하면서 바뀐 생각 (주로 한국어),
+**실수** — 틀렸던 것과 그 이유.
+"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/USERNAME"     # TODO
+
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/USERNAME"   # TODO (없으면 이 블록 삭제)
+
+  [[params.socialIcons]]
+    name = "rss"
+    url = "index.xml"
+
+  [params.assets]
+    disableHLJS = true             # Hugo 내장 하이라이터(Chroma) 사용
+
+  [params.label]
+    text = "Firmware Notes"        # TODO
+
+  # 검색 페이지(/search) 용
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    threshold = 0.4
+    minMatchCharLength = 1
+    keys = ["title", "permalink", "summary", "content"]
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]   # JSON은 검색 기능에 필요
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true                  # 마크다운 안의 HTML 허용 (스킬 맵 표 등)
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = false
+    noClasses = true
+    codeFences = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+  [[menu.main]]
+    identifier = "skillmap"
+    name = "Skill Map"
+    url = "/skill-map/"
+    weight = 20
+  [[menu.main]]
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
+    weight = 30
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 40
+  [[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "/search/"
+    weight = 50
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 60
