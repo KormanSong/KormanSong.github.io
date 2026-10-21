@@ -5,7 +5,7 @@
 ## 처음 한 번만 (약 20분)
 
 ### 1. GitHub 저장소 만들기
-GitHub에서 새 저장소를 **`<아이디>.github.io`** 이름으로, **Public**, 빈 상태(README 없이)로 만든다.
+GitHub에서 새 저장소를 **`KormanSong.github.io`** 이름으로, **Public**, 빈 상태(README 없이)로 만든다.
 
 ### 2. 이 폴더를 올리기
 ```bash
@@ -14,19 +14,19 @@ git submodule update --init --recursive    # 테마가 비어 있으면 한 번 
 git add -A
 git commit -m "Initial site"
 git branch -M main
-git remote add origin https://github.com/<아이디>/<아이디>.github.io.git
+git remote add origin https://github.com/KormanSong/KormanSong.github.io.git
 git push -u origin main
 ```
 > zip에는 `.git`이 포함되어 있어 `git init`은 필요 없다. 만약 `git status`가 안 되면 `git init` 후 위 순서대로.
 
 ### 3. Pages 켜기
 저장소 **Settings → Pages → Build and deployment → Source** 를 **GitHub Actions** 로 바꾼다.
-그러면 **Actions** 탭에서 "Deploy Hugo site to Pages"가 돌고, 1~2분 뒤 `https://<아이디>.github.io` 에서 열린다.
+그러면 **Actions** 탭에서 "Deploy Hugo site to Pages"가 돌고, 1~2분 뒤 `https://KormanSong.github.io` 에서 열린다.
 
 ### 4. TODO 채우기
-`hugo.toml`, `content/about.md` 안의 `USERNAME` 과 `TODO` 를 찾아 바꾼다.
+`hugo.toml`, `content/about.md` 안의 `KormanSong` 과 `TODO` 를 찾아 바꾼다.
 ```bash
-grep -rn "USERNAME\|TODO" hugo.toml content/
+grep -rn "KormanSong\|TODO" hugo.toml content/
 ```
 
 ## 글 쓰는 법 (매번)

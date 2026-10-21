@@ -25,6 +25,5 @@ The [Skill Map](/skill-map/) says what I've done and how deep; every claim above
 
 주장보다 증거, 일반보다 구체. 스코프 캡처 없는 성능 이야기는 쓰지 않으려고 합니다.
 
-- GitHub: [USERNAME](https://github.com/USERNAME)
-- LinkedIn: [USERNAME](https://www.linkedin.com/in/USERNAME)
+- GitHub: [KormanSong](https://github.com/KormanSong)
 - Email: <!-- TODO -->
