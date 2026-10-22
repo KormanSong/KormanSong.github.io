@@ -1,0 +1,64 @@
+{{- /* 역량 지도: 도메인과 펌웨어 구조를 위에, MCU를 가운데, 도구를 아래에 쌓는다.
+       data/skills.yaml 의 area 값으로 칸이 배치되고, level 로 채움이 정해진다. */ -}}
+{{- $d := hugo.Data.skills -}}
+{{- $all := slice -}}
+{{- range $d.groups }}{{ range .items }}{{ $all = $all | append . }}{{ end }}{{ end -}}
+{{- $misfit := false -}}
+{{- range $all }}{{ if and .area (ge (.level | default 0 | int) 3) (not .evidence) }}{{ $misfit = true }}{{ end }}{{ end -}}
+{{- $above := slice (dict "key" "domain" "title" "유량 제어") (dict "key" "software" "title" "펌웨어 구조") -}}
+{{- $mcu := slice (dict "key" "io" "title" "입출력") (dict "key" "core" "title" "코어와 메모리") (dict "key" "comm" "title" "통신") -}}
+{{- $below := slice (dict "key" "tools" "title" "개발 도구") (dict "key" "next" "title" "넓혀 가는 중") -}}
+<figure class="sd" aria-labelledby="sd-caption">
+  <div class="sd-stack">
+    {{- range $above }}
+    {{- $title := .title }}
+    {{- with where $all "area" .key }}
+    <div class="sd-layer">
+      <h3 class="sd-layer-title">{{ $title }}</h3>
+      <ul class="sd-chips">
+        {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
+      </ul>
+    </div>
+    {{- end }}
+    {{- end }}
+
+    <section class="sd-mcu" aria-labelledby="sd-mcu-title">
+      <h3 class="sd-mcu-title" id="sd-mcu-title">MCU</h3>
+      {{- range $mcu }}
+      {{- $title := .title }}
+      {{- with where $all "area" .key }}
+      <div class="sd-layer">
+        <h4 class="sd-layer-title">{{ $title }}</h4>
+        <ul class="sd-chips">
+          {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
+        </ul>
+      </div>
+      {{- end }}
+      {{- end }}
+    </section>
+
+    {{- range $below }}
+    {{- $title := .title }}
+    {{- with where $all "area" .key }}
+    <div class="sd-layer">
+      <h3 class="sd-layer-title">{{ $title }}</h3>
+      <ul class="sd-chips">
+        {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
+      </ul>
+    </div>
+    {{- end }}
+    {{- end }}
+  </div>
+
+  <figcaption class="sd-legend" id="sd-caption">
+    <ul class="sd-key">
+      <li><span class="sd-swatch lv-hi" aria-hidden="true"></span>3~4등급: 파형으로 검증했거나 구조를 설계했다</li>
+      <li><span class="sd-swatch lv-mid" aria-hidden="true"></span>1~2등급: 써 봤거나 레지스터를 직접 다뤘다</li>
+      <li><span class="sd-swatch lv-none" aria-hidden="true"></span>아직 평가하지 않았다</li>
+      {{- if $misfit }}
+      <li><span class="lamp" aria-hidden="true"></span>3등급 이상인데 근거 글이 아직 없다</li>
+      {{- end }}
+    </ul>
+    <p>칸 안의 막대 수가 등급입니다. 밑줄이 있는 칸을 누르면 근거 글로 이동합니다. 화살표는 칩 바깥과의 연결로, ←는 들어오는 신호, →는 나가는 신호, ↔는 주고받는 통신입니다.</p>
+  </figcaption>
+</figure>

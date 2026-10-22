@@ -1,12 +1,21 @@
-# 스킬 맵 데이터. /skill-map/ 페이지가 이 파일 하나에서 만들어집니다.
+# 스킬 맵 데이터. /skill-map/ 페이지의 역량 지도와 표가 모두 이 파일 하나에서 만들어집니다.
 #
 # level     0 = 평가 전, 1~4 = 아래 levels 기준. 방어할 수 있는 등급만 적습니다.
-# note      항목 아래 작게 붙는 설명 (선택)
+# note      표에서 항목 아래 작게 붙는 설명 (선택)
 # evidence  근거가 되는 글의 경로. content/ 기준, 확장자 없이.
 #           예: posts/2026-10-21-task-is-a-unit-of-waiting
 #
-# 3등급 이상인데 evidence가 비어 있으면 페이지에 노란 표시등과 "근거 없음"이 뜹니다.
-# evidence 경로가 틀리면 "글을 찾을 수 없음"이 뜹니다.
+# 역량 지도(그림)용 칸
+# area      그림에서 놓일 층. 비워 두면 그림에는 나오지 않고 표에만 나옵니다.
+#           domain(유량 제어) software(펌웨어 구조)
+#           io(MCU 입출력) core(MCU 코어와 메모리) comm(MCU 통신)
+#           tools(개발 도구) next(넓혀 가는 중)
+# short     그림에 쓸 짧은 이름 (10자 안팎). 없으면 name을 씁니다.
+# io        칩 바깥의 연결 상대 (예: 유량 센서)
+# io_dir    in(바깥에서 들어옴) | out(바깥으로 나감) | both(주고받음)
+#
+# 3등급 이상인데 evidence가 비어 있으면 그림과 표에 노란 표시등과 "근거 없음"이 뜹니다.
+# evidence 경로가 틀리면 표에 "글을 찾을 수 없음"이 뜹니다.
 
 levels:
   - n: 1
@@ -22,91 +31,136 @@ levels:
     meaning: 프로토콜이나 구조를 설계했고, 남에게 설명해서 적용시켰다
     ask: 왜 그렇게 설계했고, 대안은 무엇이었나
 
-# 칩과 가까운 것부터 제품과 일하는 방식 쪽으로 정렬합니다.
+# 표의 순서: 칩과 가까운 것부터 제품과 일하는 방식 쪽으로.
 groups:
   - name: MCU와 개발 도구
     items:
       - name: ARM Cortex-M (bare-metal)
+        short: Cortex-M
+        area: core
         level: 0
         note: 스타트업 코드, 벡터 테이블, 링커 스크립트
       - name: C (임베디드, MISRA 일부)
+        short: C
+        area: software
         level: 0
       - name: GCC, Make, CMake
+        area: tools
         level: 0
       - name: JTAG/SWD 디버깅
+        short: JTAG/SWD
+        area: tools
         level: 0
         note: OpenOCD, J-Link 등
       - name: 오실로스코프, 로직 분석기
+        short: 스코프, 로직 분석기
+        area: tools
         level: 0
 
   - name: 주변장치
     items:
-      - name: GPIO, EXTI
-        level: 0
-      - name: 타이머, PWM, 입력 캡처
-        level: 0
       - name: ADC
+        area: io
+        io: 유량 센서
+        io_dir: in
         level: 0
         note: 센서 입력 경로. 오버샘플링, 캘리브레이션
       - name: DAC
+        area: io
+        io: 밸브
+        io_dir: out
         level: 0
         note: 밸브와 액추에이터 출력 경로
+      - name: 타이머, PWM, 입력 캡처
+        short: 타이머, PWM
+        area: io
+        level: 0
+      - name: GPIO, EXTI
+        area: io
+        level: 0
       - name: DMA
+        area: core
         level: 0
       - name: Flash, EEPROM
+        area: core
         level: 0
         note: 캘리브레이션 값 저장
       - name: Watchdog
+        area: core
         level: 0
 
   - name: 통신
     items:
       - name: UART
+        area: comm
         level: 0
       - name: RS-485
+        area: comm
+        io: 장비 컨트롤러
+        io_dir: both
         level: 0
         note: 반이중, 송수신 방향 제어
       - name: SPI
+        area: comm
         level: 0
       - name: I2C
+        area: comm
         level: 0
       - name: CAN
+        area: comm
         level: 0
       # 실제로 써 본 프로토콜 이름으로 바꾸세요.
       - name: 산업용 필드버스
+        short: 필드버스
+        area: comm
         level: 0
         note: EtherCAT, Modbus 등
       - name: USB
+        area: comm
         level: 0
         note: CDC 등
 
   - name: 시스템 소프트웨어
     items:
       - name: FreeRTOS
+        area: software
         level: 0
         note: 태스크, 큐, 태스크 알림
         evidence: posts/2026-10-21-task-is-a-unit-of-waiting
       - name: 이벤트 기반 상태기계
+        short: 상태기계
+        area: software
         level: 0
       - name: 부트로더, 펌웨어 업데이트
+        short: 부트로더, 업데이트
+        area: software
         level: 0
       - name: 임베디드 리눅스
+        area: next
         level: 1
         note: BeagleBone Black, Device Tree. 커널 직접 빌드 진행 중
       - name: 리눅스 커널 드라이버 (IIO)
+        short: 커널 드라이버 (IIO)
+        area: next
         level: 0
         note: 예정
 
   - name: 유량 제어
     items:
       - name: 질량 유량 제어기(MFC) 펌웨어
+        short: MFC 펌웨어
+        area: domain
         level: 0
         note: 반도체 공정 장비용
       - name: PID 제어 루프
+        area: domain
         level: 0
       - name: 센서 캘리브레이션, 선형화
+        short: 캘리브레이션, 선형화
+        area: domain
         level: 0
       - name: 실시간 제약
+        area: domain
         level: 0
         note: 지터, 마감 시간
 

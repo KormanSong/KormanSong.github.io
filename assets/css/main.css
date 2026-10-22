@@ -550,6 +550,157 @@ thead th {
 }
 .lv { font-variant-numeric: tabular-nums; }
 
+/* ── 역량 지도 ─────────────────────────────────────── */
+/* 위에서 아래로: 도메인, 펌웨어 구조, MCU(칩 테두리), 도구, 넓혀 가는 중.
+   칸의 깊이: 점선 = 평가 전, 윤곽선 = 1~2, 채움 = 3~4. 막대 수 = 등급. */
+
+.sd { margin: 1rem 0 0; }
+
+.sd-stack {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.sd-layer {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  align-items: start;
+  padding: 0.4rem 0.75rem;
+}
+.sd-layer-title {
+  margin: 0;
+  padding-top: 0.28rem;
+  color: var(--graphite);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.sd-mcu {
+  position: relative;
+  margin: 0.85rem 0 0.45rem;
+  padding: 0.8rem 0 0.4rem;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+}
+.sd-mcu > .sd-layer { padding-inline: calc(0.75rem - 1px); }
+.sd-mcu-title {
+  position: absolute;
+  top: 0;
+  left: calc(0.75rem - 1px - 0.3rem);
+  margin: 0;
+  padding: 0 0.3rem;
+  transform: translateY(-50%);
+  background: var(--paper);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.sd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sd-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+.sd-item.lv-none {
+  border-style: dashed;
+  border-color: var(--off);
+  color: var(--graphite);
+}
+.sd-item.lv-none .sd-meter { display: none; }   /* 점선이 이미 "평가 전"을 말한다 */
+.sd-item.lv-hi {
+  background: var(--ink);
+  color: var(--paper);
+}
+.sd-item .lamp { margin: 0; }
+
+.sd-name { color: inherit; }
+a.sd-name {
+  text-decoration-color: currentColor;
+  text-underline-offset: 0.2em;
+}
+a.sd-name::after {            /* 칸 전체를 누를 수 있게 */
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+a.sd-name:focus-visible { outline: none; }
+.sd-item:has(a.sd-name:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.sd-io { font-size: 0.75rem; }
+
+.sd-meter {
+  display: inline-flex;
+  gap: 1.5px;
+}
+.sd-meter i {
+  display: block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px currentColor;
+  opacity: 0.5;
+}
+.sd-meter i.on {
+  background: currentColor;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.sd-legend {
+  margin-top: 1.1rem;
+  color: var(--graphite);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.sd-legend p { margin: 0; }
+.sd-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.25rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+.sd-key li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.sd-key .lamp { margin: 0; }
+.sd-swatch {
+  display: inline-block;
+  width: 1.1rem;
+  height: 0.7rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+}
+.sd-swatch.lv-hi { background: var(--ink); }
+.sd-swatch.lv-none {
+  border-style: dashed;
+  border-color: var(--off);
+}
+
 /* ── 분류와 태그 ───────────────────────────────────── */
 
 .term-list {
@@ -618,6 +769,15 @@ thead th {
   .levels li { grid-template-columns: 5rem minmax(0, 1fr); }
   .trace > div { grid-template-columns: 4.5rem minmax(0, 1fr); }
 
+  .sd-layer {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.35rem;
+    padding-inline: 0.6rem;
+  }
+  .sd-mcu > .sd-layer { padding-inline: calc(0.6rem - 1px); }
+  .sd-layer-title { padding-top: 0; }
+  .sd-item { white-space: normal; }
+
   .flow-steps {
     flex-direction: column;
     align-items: flex-start;
@@ -636,6 +796,9 @@ thead th {
   }
   .meter i { border: 1px solid CanvasText; box-shadow: none; }
   .meter i.on { background: CanvasText; }
+  .sd-item.lv-hi { border-width: 3px; }
+  .sd-meter i { border: 1px solid CanvasText; box-shadow: none; opacity: 1; }
+  .sd-meter i.on { background: CanvasText; }
 }
 
 @media print {
