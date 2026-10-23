@@ -43,7 +43,7 @@ T(jω) is the closed-loop frequency response. R(jω) is the transform of the com
 
 So the step command alone falls at −20&nbsp;dB per decade, starting from 0&nbsp;Hz. The loop only bends this line down. After the first pole, the slope becomes −40&nbsp;dB per decade. After the second pole, it becomes −60&nbsp;dB per decade.
 
-![The step command alone (dashed) and the step response (solid). Vertical lines mark the poles at 0.95 Hz and 3.87 Hz.](/images/step-spectrum.png)
+![The step command alone (dashed) and the step response (solid). Vertical lines mark the poles at 0.95 Hz and 3.87 Hz.](/images/charts/step-spectrum.png)
 
 The step command (dashed line) sets the shape. The closed loop (solid line) only bends the line down after each pole.
 
@@ -59,7 +59,7 @@ The derivative removes the step. Because y(0) = 0, the transform of dy/dt is the
 
 dy/dt also decays to zero, so a finite record contains all of it.
 
-![The FFT of dy/dt (dashed) lies on the theoretical closed-loop response (grey). The −3 dB point is at 0.92 Hz.](/images/dydt-spectrum.png)
+![The FFT of dy/dt (dashed) lies on the theoretical closed-loop response (grey). The −3 dB point is at 0.92 Hz.](/images/charts/dydt-spectrum.png)
 
 The FFT of dy/dt (dashed line) lies on the theory (grey line). Below 5&nbsp;Hz, the largest difference is 0.007&nbsp;%.
 
