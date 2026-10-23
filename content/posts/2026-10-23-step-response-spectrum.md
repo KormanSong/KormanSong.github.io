@@ -1,7 +1,7 @@
 +++
 title = 'The FFT of a step response mostly shows the step'
 date = 2026-10-23T12:00:00+09:00
-draft = true
+draft = false
 categories = ["Design"]
 tags = ["Control", "FFT", "Signal processing", "MFC"]
 summary = "The spectrum of a step response is largest at 0 Hz and falls steadily, because the step itself shapes it. To see the control loop, take the FFT of dy/dt."

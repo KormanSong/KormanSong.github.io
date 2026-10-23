@@ -1,7 +1,7 @@
 +++
 title = 'Three versions of one technical talk, and what How to Speak taught me'
 date = 2026-10-23T12:20:00+09:00
-draft = true
+draft = false
 categories = ["Design"]
 tags = ["Communication", "Presentations", "MFC"]
 summary = "I built one talk about mass flow controllers three times, using the rules of Patrick Winston's How to Speak. The rules gave the talk its structure. The audience decided its final form."
@@ -9,8 +9,6 @@ did = "Built one talk about MFCs in three versions with the rules of How to Spea
 broke = "The first versions explained my own insight well, but the customer could not see which MFC was better for them."
 fixed = "Kept Winston's rules for attention, and changed the order and the tone for the audience: their problems first, numbers in every claim."
 +++
-
-<!-- Draft. Check every point against what really happened, and rewrite it in your own words. -->
 
 Patrick Winston taught a famous MIT lecture called [How to Speak](https://ocw.mit.edu/courses/res-tll-005-how-to-speak-january-iap-2018/). I used its rules to build one talk about mass flow controllers (MFCs), three times. The rules gave the talk a clear structure. The audience decided its final form.
 

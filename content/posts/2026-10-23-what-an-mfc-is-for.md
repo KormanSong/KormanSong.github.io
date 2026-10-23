@@ -1,7 +1,7 @@
 +++
 title = 'What an MFC is for: the same command, the same dose'
 date = 2026-10-23T12:10:00+09:00
-draft = true
+draft = false
 categories = ["Design"]
 tags = ["MFC", "Semiconductor process", "Requirements"]
 summary = "I used to define an MFC as a device that delivers an accurate flow, fast. The wafer taught me a better definition: the same command must deliver the same dose, under any condition."
@@ -9,8 +9,6 @@ did = "Asked what the wafer actually feels from an MFC, and rewrote the definiti
 broke = "My definition came from the spec sheet: accuracy, settling time, overshoot. It did not say what those numbers are for."
 fixed = "New definition: an MFC delivers an accurate flow, fast, and the same way under any condition. Four new spec lines make it testable."
 +++
-
-<!-- Draft. Check every point against what really happened, and rewrite it in your own words. -->
 
 A mass flow controller (MFC) delivers an accurate flow, fast, and the same way under any condition. The last part is what I missed for two years. This post explains how I got there, in three steps.
 
