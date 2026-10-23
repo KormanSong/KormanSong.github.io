@@ -5,14 +5,15 @@
 # evidence  근거가 되는 글의 경로. content/ 기준, 확장자 없이.
 #           예: posts/2026-10-21-task-is-a-unit-of-waiting
 #
-# 역량 지도(그림)용 칸
-# area      그림에서 놓일 층. 비워 두면 그림에는 나오지 않고 표에만 나옵니다.
-#           domain(유량 제어) software(펌웨어 구조)
-#           io(MCU 입출력) core(MCU 코어와 메모리) comm(MCU 통신)
-#           tools(개발 도구) next(넓혀 가는 중)
-# short     그림에 쓸 짧은 이름 (10자 안팎). 없으면 name을 씁니다.
+# 역량 지도(MCU 블록 다이어그램)용 칸
+# area      그림에서 놓일 자리. 비워 두면 그림에는 나오지 않고 표에만 나옵니다.
+#           io(칩 왼쪽 입출력) comm(칩 오른쪽 통신) core(코어 아래 메모리·시스템)
+#           domain, software(코어 안 펌웨어 타일) tools(칩 바깥 도구) next(리눅스 SoC)
+# cpu       true면 코어 자체 (코어 상자의 머리 칸)
+# slot      도구의 자리: build(빌드) debug(디버그 포트) probe(계측기)
+# short     그림에 쓸 짧은 이름 (한글 6자 안팎). 없으면 name을 씁니다.
 # io        칩 바깥의 연결 상대 (예: 유량 센서)
-# io_dir    in(바깥에서 들어옴) | out(바깥으로 나감) | both(주고받음)
+# io_dir    in(들어옴) | out(나감) | both(주고받음)
 #
 # 3등급 이상인데 evidence가 비어 있으면 그림과 표에 노란 표시등과 "근거 없음"이 뜹니다.
 # evidence 경로가 틀리면 표에 "글을 찾을 수 없음"이 뜹니다.
@@ -38,6 +39,7 @@ groups:
       - name: ARM Cortex-M (bare-metal)
         short: Cortex-M
         area: core
+        cpu: true
         level: 0
         note: 스타트업 코드, 벡터 테이블, 링커 스크립트
       - name: C (임베디드, MISRA 일부)
@@ -45,16 +47,20 @@ groups:
         area: software
         level: 0
       - name: GCC, Make, CMake
+        short: GCC/Make
         area: tools
+        slot: build
         level: 0
       - name: JTAG/SWD 디버깅
         short: JTAG/SWD
         area: tools
+        slot: debug
         level: 0
         note: OpenOCD, J-Link 등
       - name: 오실로스코프, 로직 분석기
-        short: 스코프, 로직 분석기
+        short: 스코프/LA
         area: tools
+        slot: probe
         level: 0
 
   - name: 주변장치
@@ -72,7 +78,7 @@ groups:
         level: 0
         note: 밸브와 액추에이터 출력 경로
       - name: 타이머, PWM, 입력 캡처
-        short: 타이머, PWM
+        short: 타이머/PWM
         area: io
         level: 0
       - name: GPIO, EXTI
@@ -82,6 +88,7 @@ groups:
         area: core
         level: 0
       - name: Flash, EEPROM
+        short: Flash/EEPROM
         area: core
         level: 0
         note: 캘리브레이션 값 저장
@@ -132,7 +139,7 @@ groups:
         area: software
         level: 0
       - name: 부트로더, 펌웨어 업데이트
-        short: 부트로더, 업데이트
+        short: 부트로더
         area: software
         level: 0
       - name: 임베디드 리눅스
@@ -140,7 +147,7 @@ groups:
         level: 1
         note: BeagleBone Black, Device Tree. 커널 직접 빌드 진행 중
       - name: 리눅스 커널 드라이버 (IIO)
-        short: 커널 드라이버 (IIO)
+        short: 커널 드라이버
         area: next
         level: 0
         note: 예정
@@ -153,10 +160,11 @@ groups:
         level: 0
         note: 반도체 공정 장비용
       - name: PID 제어 루프
+        short: PID 제어
         area: domain
         level: 0
       - name: 센서 캘리브레이션, 선형화
-        short: 캘리브레이션, 선형화
+        short: 캘리브레이션
         area: domain
         level: 0
       - name: 실시간 제약

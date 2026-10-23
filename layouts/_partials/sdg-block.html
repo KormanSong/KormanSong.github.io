@@ -1,0 +1,14 @@
+{{- /* MCU 블록 다이어그램의 칸 하나. dict "item" "x" "y" "w" "h". 채움 농도 = 등급(0~4). */ -}}
+{{- $it := .item -}}
+{{- $x := .x | int }}{{ $y := .y | int }}{{ $w := .w | int }}{{ $h := .h | int -}}
+{{- $lv := $it.level | default 0 | int -}}
+{{- $label := $it.short | default $it.name -}}
+<g class="blk lv{{ $lv }}">
+<title>{{ $it.name }}: {{ if gt $lv 0 }}{{ $lv }}등급{{ else }}평가 전{{ end }}</title>
+<rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" rx="3"/>
+<text x="{{ add $x (div $w 2) }}" y="{{ add $y (div $h 2) }}" text-anchor="middle" dominant-baseline="central">{{ $label }}</text>
+{{- if and (ge $lv 3) (not $it.evidence) }}
+{{- $r := sub (add $x $w) 1 }}{{ $t := add $y 1 }}
+<polygon class="miss" points="{{ sub $r 10 }},{{ $t }} {{ $r }},{{ $t }} {{ $r }},{{ add $t 10 }}"/>
+{{- end }}
+</g>

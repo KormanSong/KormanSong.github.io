@@ -1,64 +1,195 @@
-{{- /* 역량 지도: 도메인과 펌웨어 구조를 위에, MCU를 가운데, 도구를 아래에 쌓는다.
-       data/skills.yaml 의 area 값으로 칸이 배치되고, level 로 채움이 정해진다. */ -}}
+{{- /* MCU 블록 다이어그램.
+       칩 외곽과 핀, 가운데 코어(안에 펌웨어 타일), 코어 아래 메모리, 양옆 버스,
+       왼쪽 입출력, 오른쪽 통신, 칩 바깥 연결(센서, 밸브, 장비 컨트롤러, 디버그, 빌드, 계측기),
+       아래에 다음 단계(리눅스 SoC). 칸의 채움 농도가 등급이다. 데이터는 data/skills.yaml. */ -}}
 {{- $d := hugo.Data.skills -}}
 {{- $all := slice -}}
 {{- range $d.groups }}{{ range .items }}{{ $all = $all | append . }}{{ end }}{{ end -}}
+
+{{- $io := where $all "area" "io" -}}
+{{- $comm := where $all "area" "comm" -}}
+{{- $app := where $all "area" "domain" -}}
+{{- $sys := where $all "area" "software" -}}
+{{- $next := where $all "area" "next" -}}
+{{- $build := where $all "slot" "build" -}}
+{{- $debug := where $all "slot" "debug" -}}
+{{- $probe := where $all "slot" "probe" -}}
+{{- $cpu := slice -}}
+{{- $mem := slice -}}
+{{- range where $all "area" "core" }}{{ if .cpu }}{{ $cpu = $cpu | append . }}{{ else }}{{ $mem = $mem | append . }}{{ end }}{{ end -}}
 {{- $misfit := false -}}
 {{- range $all }}{{ if and .area (ge (.level | default 0 | int) 3) (not .evidence) }}{{ $misfit = true }}{{ end }}{{ end -}}
-{{- $above := slice (dict "key" "domain" "title" "유량 제어") (dict "key" "software" "title" "펌웨어 구조") -}}
-{{- $mcu := slice (dict "key" "io" "title" "입출력") (dict "key" "core" "title" "코어와 메모리") (dict "key" "comm" "title" "통신") -}}
-{{- $below := slice (dict "key" "tools" "title" "개발 도구") (dict "key" "next" "title" "넓혀 가는 중") -}}
-<figure class="sd" aria-labelledby="sd-caption">
-  <div class="sd-stack">
-    {{- range $above }}
-    {{- $title := .title }}
-    {{- with where $all "area" .key }}
-    <div class="sd-layer">
-      <h3 class="sd-layer-title">{{ $title }}</h3>
-      <ul class="sd-chips">
-        {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
-      </ul>
-    </div>
-    {{- end }}
-    {{- end }}
 
-    <section class="sd-mcu" aria-labelledby="sd-mcu-title">
-      <h3 class="sd-mcu-title" id="sd-mcu-title">MCU</h3>
-      {{- range $mcu }}
-      {{- $title := .title }}
-      {{- with where $all "area" .key }}
-      <div class="sd-layer">
-        <h4 class="sd-layer-title">{{ $title }}</h4>
-        <ul class="sd-chips">
-          {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
-        </ul>
-      </div>
-      {{- end }}
-      {{- end }}
-    </section>
+{{- /* 격자 */ -}}
+{{- $cx0 := 100 }}{{ $cx1 := 580 }}{{ $cy0 := 56 -}}
+{{- $lc := 116 }}{{ $lcw := 100 }}{{ $bl := 228 -}}
+{{- $cc := 240 }}{{ $ccw := 200 }}{{ $br := 452 -}}
+{{- $rc := 464 }}{{ $rcw := 100 -}}
+{{- $row0 := 92 }}{{ $bh := 30 }}{{ $pitch := 38 -}}
+{{- $tw := 89 }}{{ $th := 26 }}{{ $tp := 32 }}{{ $mw := 97 -}}
 
-    {{- range $below }}
-    {{- $title := .title }}
-    {{- with where $all "area" .key }}
-    <div class="sd-layer">
-      <h3 class="sd-layer-title">{{ $title }}</h3>
-      <ul class="sd-chips">
-        {{- range . }}{{ partial "skill-chip.html" . }}{{ end }}
-      </ul>
-    </div>
-    {{- end }}
-    {{- end }}
-  </div>
+{{- /* 코어 상자: 머리(코어) + 응용 타일 + 구분선 + 시스템 타일 */ -}}
+{{- $appRows := div (add (len $app) 1) 2 -}}
+{{- $sysRows := div (add (len $sys) 1) 2 -}}
+{{- $appTop := add $row0 34 -}}
+{{- $appEnd := add $appTop (sub (mul $appRows $tp) 6) -}}
+{{- $divY := add $appEnd 6 -}}
+{{- $sysTop := add $divY 6 -}}
+{{- $sysEnd := add $sysTop (sub (mul $sysRows $tp) 6) -}}
+{{- $coreBottom := add $sysEnd 8 -}}
 
-  <figcaption class="sd-legend" id="sd-caption">
-    <ul class="sd-key">
-      <li><span class="sd-swatch lv-hi" aria-hidden="true"></span>3~4등급: 파형으로 검증했거나 구조를 설계했다</li>
-      <li><span class="sd-swatch lv-mid" aria-hidden="true"></span>1~2등급: 써 봤거나 레지스터를 직접 다뤘다</li>
-      <li><span class="sd-swatch lv-none" aria-hidden="true"></span>아직 평가하지 않았다</li>
-      {{- if $misfit }}
-      <li><span class="lamp" aria-hidden="true"></span>3등급 이상인데 근거 글이 아직 없다</li>
-      {{- end }}
-    </ul>
-    <p>칸 안의 막대 수가 등급입니다. 밑줄이 있는 칸을 누르면 근거 글로 이동합니다. 화살표는 칩 바깥과의 연결로, ←는 들어오는 신호, →는 나가는 신호, ↔는 주고받는 통신입니다.</p>
-  </figcaption>
+{{- /* 코어 아래 메모리, 시스템 칸 (2열) */ -}}
+{{- $memTop := add $coreBottom 8 -}}
+{{- $memRows := div (add (len $mem) 1) 2 -}}
+{{- $memEnd := add $memTop (sub (mul $memRows $pitch) 8) -}}
+
+{{- $leftEnd := add $row0 (sub (mul (len $io) $pitch) 8) -}}
+{{- $rightEnd := add $row0 (sub (mul (len $comm) $pitch) 8) -}}
+{{- $chipBottom := add (int (math.Max (math.Max $leftEnd $rightEnd) $memEnd)) 16 -}}
+
+{{- /* 버스 길이 */ -}}
+{{- $hc := add $row0 13 -}}
+{{- $blMax := add $row0 (add (mul (sub (len $io) 1) $pitch) 15) -}}
+{{- $brMax := add $row0 (add (mul (sub (len $comm) 1) $pitch) 15) -}}
+{{- range $i, $m := $mem }}{{ $cy := add $memTop (add (mul (div $i 2) $pitch) 15) }}{{ if eq (mod $i 2) 0 }}{{ $blMax = int (math.Max $blMax $cy) }}{{ else }}{{ $brMax = int (math.Max $brMax $cy) }}{{ end }}{{ end -}}
+
+{{- /* 디버그 포트: 칩 위쪽 테두리에 걸침 */ -}}
+{{- $jw := 96 }}{{ $jh := 26 -}}
+{{- $jx := add $cc (div (sub $ccw $jw) 2) -}}
+{{- $jy := sub $cy0 13 -}}
+
+{{- /* 다음 단계 SoC */ -}}
+{{- $nw := 110 }}{{ $ngap := 8 }}{{ $socH := 64 -}}
+{{- $nCount := len $next -}}
+{{- $socW := add 24 (add (mul $nCount $nw) (mul (sub $nCount 1) $ngap)) -}}
+{{- $socX := sub $cx1 $socW -}}
+{{- $socY := add $chipBottom 30 -}}
+{{- $H := add $chipBottom 16 -}}
+{{- if $next }}{{ $H = add (add $socY $socH) 8 }}{{ end -}}
+
+<figure class="sdg-fig">
+<div class="sdg-scroll">
+<svg class="sdg" viewBox="0 0 680 {{ $H }}" role="img" aria-labelledby="sdg-t">
+<title id="sdg-t">MCU 역량 지도. 칸이 진할수록 등급이 높습니다. 항목별 등급과 근거는 아래 표에 있습니다.</title>
+
+{{- /* 칩 외곽과 핀 */}}
+<rect class="chip" x="{{ $cx0 }}" y="{{ $cy0 }}" width="{{ sub $cx1 $cx0 }}" height="{{ sub $chipBottom $cy0 }}" rx="8"/>
+{{- $pinN := add (div (sub (sub $chipBottom $cy0) 32) 24) 1 }}
+{{- range seq 0 (sub $pinN 1) }}{{ $py := add (add $cy0 16) (mul . 24) }}
+<line class="pin" x1="{{ sub $cx0 8 }}" y1="{{ $py }}" x2="{{ $cx0 }}" y2="{{ $py }}"/><line class="pin" x1="{{ $cx1 }}" y1="{{ $py }}" x2="{{ add $cx1 8 }}" y2="{{ $py }}"/>
+{{- end }}
+{{- range seq 0 18 }}{{ $px := add (add $cx0 24) (mul . 24) }}
+{{- if or (lt $px (sub $jx 6)) (gt $px (add (add $jx $jw) 6)) }}<line class="pin" x1="{{ $px }}" y1="{{ sub $cy0 8 }}" x2="{{ $px }}" y2="{{ $cy0 }}"/>{{ end }}
+<line class="pin" x1="{{ $px }}" y1="{{ $chipBottom }}" x2="{{ $px }}" y2="{{ add $chipBottom 8 }}"/>
+{{- end }}
+<circle class="pin1" cx="{{ add $cx0 14 }}" cy="{{ add $cy0 18 }}" r="3"/>
+<text class="chip-title" x="{{ add $cx0 24 }}" y="{{ add $cy0 18 }}" dominant-baseline="central">MCU</text>
+
+{{- /* 버스 */}}
+<line class="bus" x1="{{ $bl }}" y1="{{ $hc }}" x2="{{ $bl }}" y2="{{ $blMax }}"/>
+<line class="bus" x1="{{ $br }}" y1="{{ $hc }}" x2="{{ $br }}" y2="{{ $brMax }}"/>
+<line class="stub" x1="{{ $bl }}" y1="{{ $hc }}" x2="{{ $cc }}" y2="{{ $hc }}"/>
+<line class="stub" x1="{{ add $cc $ccw }}" y1="{{ $hc }}" x2="{{ $br }}" y2="{{ $hc }}"/>
+
+{{- /* 코어 */}}
+<rect class="core" x="{{ $cc }}" y="{{ $row0 }}" width="{{ $ccw }}" height="{{ sub $coreBottom $row0 }}" rx="4"/>
+{{- range first 1 $cpu }}
+{{ partial "sdg-block.html" (dict "item" . "x" $cc "y" $row0 "w" $ccw "h" 26) }}
+{{- end }}
+{{- range $i, $it := $app }}
+{{ partial "sdg-block.html" (dict "item" $it "x" (add (add $cc 8) (mul (mod $i 2) (add $tw 6))) "y" (add $appTop (mul (div $i 2) $tp)) "w" $tw "h" $th) }}
+{{- end }}
+{{- if and $app $sys }}
+<line class="divider" x1="{{ add $cc 8 }}" y1="{{ $divY }}" x2="{{ sub (add $cc $ccw) 8 }}" y2="{{ $divY }}"/>
+{{- end }}
+{{- range $i, $it := $sys }}
+{{ partial "sdg-block.html" (dict "item" $it "x" (add (add $cc 8) (mul (mod $i 2) (add $tw 6))) "y" (add $sysTop (mul (div $i 2) $tp)) "w" $tw "h" $th) }}
+{{- end }}
+
+{{- /* 코어 아래: 메모리와 시스템 */}}
+{{- range $i, $it := $mem }}
+{{- $x := add $cc (mul (mod $i 2) (add $mw 6)) }}{{ $y := add $memTop (mul (div $i 2) $pitch) }}{{ $cy := add $y 15 }}
+{{- if eq (mod $i 2) 0 }}
+<line class="stub" x1="{{ $bl }}" y1="{{ $cy }}" x2="{{ $cc }}" y2="{{ $cy }}"/>
+{{- else }}
+<line class="stub" x1="{{ add $cc $ccw }}" y1="{{ $cy }}" x2="{{ $br }}" y2="{{ $cy }}"/>
+{{- end }}
+{{ partial "sdg-block.html" (dict "item" $it "x" $x "y" $y "w" $mw "h" $bh) }}
+{{- end }}
+
+{{- /* 왼쪽: 입출력, 바깥 연결 */}}
+{{- range $i, $it := $io }}
+{{- $y := add $row0 (mul $i $pitch) }}{{ $cy := add $y 15 }}
+<line class="stub" x1="{{ add $lc $lcw }}" y1="{{ $cy }}" x2="{{ $bl }}" y2="{{ $cy }}"/>
+{{ partial "sdg-block.html" (dict "item" $it "x" $lc "y" $y "w" $lcw "h" $bh) }}
+{{- with $it.io }}
+{{- $dir := $it.io_dir | default "both" }}
+<line class="wire" x1="86" y1="{{ $cy }}" x2="{{ $lc }}" y2="{{ $cy }}"/>
+{{- if or (eq $dir "in") (eq $dir "both") }}<polygon class="head" points="{{ $lc }},{{ $cy }} {{ sub $lc 7 }},{{ sub $cy 4 }} {{ sub $lc 7 }},{{ add $cy 4 }}"/>{{ end }}
+{{- if or (eq $dir "out") (eq $dir "both") }}<polygon class="head" points="86,{{ $cy }} 93,{{ sub $cy 4 }} 93,{{ add $cy 4 }}"/>{{ end }}
+<text class="ext" x="82" y="{{ $cy }}" text-anchor="end" dominant-baseline="central">{{ . }}</text>
+{{- end }}
+{{- end }}
+
+{{- /* 오른쪽: 통신, 바깥 연결 */}}
+{{- range $i, $it := $comm }}
+{{- $y := add $row0 (mul $i $pitch) }}{{ $cy := add $y 15 }}{{ $x0 := add $rc $rcw }}
+<line class="stub" x1="{{ $br }}" y1="{{ $cy }}" x2="{{ $rc }}" y2="{{ $cy }}"/>
+{{ partial "sdg-block.html" (dict "item" $it "x" $rc "y" $y "w" $rcw "h" $bh) }}
+{{- with $it.io }}
+{{- $dir := $it.io_dir | default "both" }}
+<line class="wire" x1="{{ $x0 }}" y1="{{ $cy }}" x2="594" y2="{{ $cy }}"/>
+{{- if or (eq $dir "out") (eq $dir "both") }}<polygon class="head" points="594,{{ $cy }} 587,{{ sub $cy 4 }} 587,{{ add $cy 4 }}"/>{{ end }}
+{{- if or (eq $dir "in") (eq $dir "both") }}<polygon class="head" points="{{ $x0 }},{{ $cy }} {{ add $x0 7 }},{{ sub $cy 4 }} {{ add $x0 7 }},{{ add $cy 4 }}"/>{{ end }}
+{{- $words := split . " " }}
+{{- if gt (len $words) 1 }}
+<text class="ext" x="598" y="{{ sub $cy 8 }}" dominant-baseline="central">{{ index $words 0 }}</text>
+<text class="ext" x="598" y="{{ add $cy 8 }}" dominant-baseline="central">{{ delimit (after 1 $words) " " }}</text>
+{{- else }}
+<text class="ext" x="598" y="{{ $cy }}" dominant-baseline="central">{{ . }}</text>
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- /* 위: 빌드 → 디버그 포트 → 코어 */}}
+{{- range first 1 $debug }}
+<line class="wire" x1="{{ add $jx (div $jw 2) }}" y1="{{ add $jy $jh }}" x2="{{ add $jx (div $jw 2) }}" y2="{{ $row0 }}"/>
+{{ partial "sdg-block.html" (dict "item" . "x" $jx "y" $jy "w" $jw "h" $jh) }}
+{{- end }}
+{{- range first 1 $build }}
+{{- $gx := 150 }}{{ $gy := 6 }}{{ $gw := 96 }}{{ $gh := 26 }}{{ $ax := add $jx 20 }}
+{{ partial "sdg-block.html" (dict "item" . "x" $gx "y" $gy "w" $gw "h" $gh) }}
+<path class="wire" d="M{{ add $gx $gw }},{{ add $gy 13 }} H{{ $ax }} V{{ sub $jy 6 }}"/>
+<polygon class="head" points="{{ $ax }},{{ $jy }} {{ sub $ax 4 }},{{ sub $jy 7 }} {{ add $ax 4 }},{{ sub $jy 7 }}"/>
+{{- end }}
+
+{{- /* 왼쪽 아래: 계측기 프로브 */}}
+{{- range first 1 $probe }}
+{{- $px := 8 }}{{ $pw := 76 }}{{ $ph := 26 }}{{ $py := sub $chipBottom 52 }}{{ $pcy := add $py 13 }}
+{{ partial "sdg-block.html" (dict "item" . "x" $px "y" $py "w" $pw "h" $ph) }}
+<line class="probe" x1="{{ add $px $pw }}" y1="{{ $pcy }}" x2="{{ $cx0 }}" y2="{{ $pcy }}"/>
+<circle class="tip" cx="{{ $cx0 }}" cy="{{ $pcy }}" r="2.5"/>
+{{- end }}
+
+{{- /* 아래: 다음 단계 */}}
+{{- with $next }}
+{{- $ax := add $socX 40 }}
+<line class="probe" x1="{{ $ax }}" y1="{{ add $chipBottom 8 }}" x2="{{ $ax }}" y2="{{ sub $socY 6 }}"/>
+<polygon class="head dim" points="{{ $ax }},{{ $socY }} {{ sub $ax 4 }},{{ sub $socY 7 }} {{ add $ax 4 }},{{ sub $socY 7 }}"/>
+<rect class="soc" x="{{ $socX }}" y="{{ $socY }}" width="{{ $socW }}" height="{{ $socH }}" rx="6"/>
+<text class="soc-title" x="{{ add $socX 12 }}" y="{{ add $socY 16 }}" dominant-baseline="central">리눅스 SoC</text>
+{{- range $i, $it := . }}
+{{ partial "sdg-block.html" (dict "item" $it "x" (add (add $socX 12) (mul $i (add $nw $ngap))) "y" (add $socY 30) "w" $nw "h" 26) }}
+{{- end }}
+{{- end }}
+</svg>
+</div>
+<figcaption class="sdg-key">
+  <span class="sdg-key-t">등급</span>
+  <span class="sw lv0" aria-hidden="true"></span><span>평가 전</span>
+  <span class="sw lv1">1</span><span class="sw lv2">2</span><span class="sw lv3">3</span><span class="sw lv4">4</span>
+  {{- if $misfit }}
+  <span class="sdg-key-miss"><svg viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2"/><polygon points="12,0.5 21.5,0.5 21.5,10"/></svg>근거 없음</span>
+  {{- end }}
+</figcaption>
 </figure>

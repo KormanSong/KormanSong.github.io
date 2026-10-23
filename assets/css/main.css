@@ -18,6 +18,10 @@
   --signal: #f2b300;       /* 표시등: 팹 노광 구역의 황색 조명 */
   --signal-edge: #9a7200;  /* 흰 바탕에서 표시등 윤곽 4.4:1 */
   --code-literal: #3f5a70;
+  --lv1: #efefeb;          /* 등급 채움: 진할수록 깊다 */
+  --lv2: #cbcbc3;
+  --lv3: #6e6e67;
+  --lv4: #262624;
 
   --font: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -39,6 +43,10 @@
     --off: #6f6f68;
     --signal-edge: #f2b300;
     --code-literal: #a9c1d6;
+    --lv1: #2b2b28;
+    --lv2: #45453f;
+    --lv3: #9a9a93;
+    --lv4: #e8e8e3;
   }
 }
 
@@ -550,156 +558,85 @@ thead th {
 }
 .lv { font-variant-numeric: tabular-nums; }
 
-/* ── 역량 지도 ─────────────────────────────────────── */
-/* 위에서 아래로: 도메인, 펌웨어 구조, MCU(칩 테두리), 도구, 넓혀 가는 중.
-   칸의 깊이: 점선 = 평가 전, 윤곽선 = 1~2, 채움 = 3~4. 막대 수 = 등급. */
+/* ── 역량 지도: MCU 블록 다이어그램 ─────────────────── */
 
-.sd { margin: 1rem 0 0; }
-
-.sd-stack {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.sd-layer {
-  display: grid;
-  grid-template-columns: 6.25rem minmax(0, 1fr);
-  column-gap: 0.75rem;
-  align-items: start;
-  padding: 0.4rem 0.75rem;
-}
-.sd-layer-title {
-  margin: 0;
-  padding-top: 0.28rem;
-  color: var(--graphite);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.sd-mcu {
-  position: relative;
-  margin: 0.85rem 0 0.45rem;
-  padding: 0.8rem 0 0.4rem;
-  border: 1px solid var(--ink);
-  border-radius: 3px;
-}
-.sd-mcu > .sd-layer { padding-inline: calc(0.75rem - 1px); }
-.sd-mcu-title {
-  position: absolute;
-  top: 0;
-  left: calc(0.75rem - 1px - 0.3rem);
-  margin: 0;
-  padding: 0 0.3rem;
-  transform: translateY(-50%);
-  background: var(--paper);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.sd-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sd-item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.2rem 0.55rem;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  white-space: nowrap;
-}
-.sd-item.lv-none {
-  border-style: dashed;
-  border-color: var(--off);
-  color: var(--graphite);
-}
-.sd-item.lv-none .sd-meter { display: none; }   /* 점선이 이미 "평가 전"을 말한다 */
-.sd-item.lv-hi {
-  background: var(--ink);
-  color: var(--paper);
-}
-.sd-item .lamp { margin: 0; }
-
-.sd-name { color: inherit; }
-a.sd-name {
-  text-decoration-color: currentColor;
-  text-underline-offset: 0.2em;
-}
-a.sd-name::after {            /* 칸 전체를 누를 수 있게 */
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-a.sd-name:focus-visible { outline: none; }
-.sd-item:has(a.sd-name:focus-visible) {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
-}
-
-.sd-io { font-size: 0.75rem; }
-
-.sd-meter {
-  display: inline-flex;
-  gap: 1.5px;
-}
-.sd-meter i {
+.sdg-fig { margin: 1rem 0 0; }
+.sdg-scroll { overflow-x: auto; }
+.sdg {
   display: block;
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 1px;
-  box-shadow: inset 0 0 0 1px currentColor;
-  opacity: 0.5;
+  width: 100%;
+  min-width: 600px;        /* 좁은 화면에서는 글자를 줄이는 대신 옆으로 밀어서 본다 */
+  height: auto;
 }
-.sd-meter i.on {
-  background: currentColor;
-  box-shadow: none;
-  opacity: 1;
+.sdg text {
+  fill: var(--ink);
+  font-family: var(--font);
+  font-size: 12.5px;
 }
+.sdg .chip { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.sdg .pin { stroke: var(--off); stroke-width: 1.5; }
+.sdg .pin1 { fill: var(--off); }
+.sdg .chip-title { font-size: 13px; font-weight: 600; }
+.sdg .core { fill: none; stroke: var(--ink); stroke-width: 1.25; }
+.sdg .divider { stroke: var(--rule); }
+.sdg .bus { stroke: var(--graphite); stroke-width: 2.5; stroke-linecap: round; }
+.sdg .stub { stroke: var(--graphite); stroke-width: 1; }
+.sdg .wire { fill: none; stroke: var(--ink); stroke-width: 1.25; }
+.sdg .head { fill: var(--ink); }
+.sdg .head.dim { fill: var(--off); }
+.sdg .probe { stroke: var(--off); stroke-width: 1.25; stroke-dasharray: 3 3; }
+.sdg .tip { fill: var(--off); }
+.sdg .ext { fill: var(--graphite); font-size: 12px; }
+.sdg .soc { fill: none; stroke: var(--off); stroke-dasharray: 4 3; }
+.sdg .soc-title { fill: var(--graphite); font-size: 12px; font-weight: 600; }
 
-.sd-legend {
-  margin-top: 1.1rem;
-  color: var(--graphite);
-  font-size: 0.875rem;
-  line-height: 1.7;
-}
-.sd-legend p { margin: 0; }
-.sd-key {
+.sdg .blk rect { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+.sdg .blk.lv0 rect { stroke: var(--off); stroke-dasharray: 3 2.5; }
+.sdg .blk.lv0 text { fill: var(--graphite); }
+.sdg .blk.lv1 rect { fill: var(--lv1); }
+.sdg .blk.lv2 rect { fill: var(--lv2); }
+.sdg .blk.lv3 rect { fill: var(--lv3); stroke: var(--lv3); }
+.sdg .blk.lv4 rect { fill: var(--lv4); stroke: var(--lv4); }
+.sdg .blk.lv3 text,
+.sdg .blk.lv4 text { fill: var(--paper); }
+.sdg .miss { fill: var(--signal); stroke: var(--signal-edge); stroke-width: 0.75; stroke-linejoin: round; }
+
+.sdg-key {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem 1.25rem;
-  margin: 0 0 0.5rem;
-  padding: 0;
-  list-style: none;
-}
-.sd-key li {
-  display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  color: var(--graphite);
+  font-size: 0.8125rem;
 }
-.sd-key .lamp { margin: 0; }
-.sd-swatch {
-  display: inline-block;
-  width: 1.1rem;
-  height: 0.7rem;
+.sdg-key-t { margin-right: 0.35rem; color: var(--ink); font-weight: 600; }
+.sw {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.1rem;
   border: 1px solid var(--ink);
   border-radius: 2px;
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
-.sd-swatch.lv-hi { background: var(--ink); }
-.sd-swatch.lv-none {
-  border-style: dashed;
-  border-color: var(--off);
+.sw.lv0 { border: 1px dashed var(--off); }
+.sw.lv1 { background: var(--lv1); }
+.sw.lv1 { margin-left: 0.6rem; }
+.sw.lv2 { background: var(--lv2); }
+.sw.lv3 { background: var(--lv3); border-color: var(--lv3); color: var(--paper); }
+.sw.lv4 { background: var(--lv4); border-color: var(--lv4); color: var(--paper); }
+.sdg-key-miss {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.9rem;
 }
+.sdg-key-miss svg { width: 1.1rem; height: 0.8rem; margin-right: 0.35rem; overflow: visible; }
+.sdg-key-miss rect { fill: var(--lv3); }
+.sdg-key-miss polygon { fill: var(--signal); stroke: var(--signal-edge); stroke-width: 0.75; }
 
 /* ── 분류와 태그 ───────────────────────────────────── */
 
@@ -769,15 +706,6 @@ a.sd-name:focus-visible { outline: none; }
   .levels li { grid-template-columns: 5rem minmax(0, 1fr); }
   .trace > div { grid-template-columns: 4.5rem minmax(0, 1fr); }
 
-  .sd-layer {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 0.35rem;
-    padding-inline: 0.6rem;
-  }
-  .sd-mcu > .sd-layer { padding-inline: calc(0.6rem - 1px); }
-  .sd-layer-title { padding-top: 0; }
-  .sd-item { white-space: normal; }
-
   .flow-steps {
     flex-direction: column;
     align-items: flex-start;
@@ -796,9 +724,6 @@ a.sd-name:focus-visible { outline: none; }
   }
   .meter i { border: 1px solid CanvasText; box-shadow: none; }
   .meter i.on { background: CanvasText; }
-  .sd-item.lv-hi { border-width: 3px; }
-  .sd-meter i { border: 1px solid CanvasText; box-shadow: none; opacity: 1; }
-  .sd-meter i.on { background: CanvasText; }
 }
 
 @media print {
