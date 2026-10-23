@@ -12,8 +12,6 @@ next: Next step
 
 # Home page
 current_projects: Current projects
-recent_posts: Recent posts
-all_posts: All posts
 
 # Lists
 no_posts: No posts yet.
@@ -27,8 +25,6 @@ status_done: Done
 reading_time:
   one: "{{ .Count }} min read"
   other: "{{ .Count }} min read"
-category: Category
-tags: Tags
 older_post: Older post
 newer_post: Newer post
 older_newer: Older and newer posts
@@ -65,3 +61,7 @@ diagram_level: Level
 # 404 page
 not_found_title: Page not found
 not_found_text: 'This page may have moved, or it may not exist. Try the <a href="{{ .posts }}">post list</a> or the <a href="{{ .home }}">home page</a>.'
+
+# Dense lists
+posts: Posts
+result: Result

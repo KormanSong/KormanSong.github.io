@@ -10,8 +10,6 @@ fixed: 해결 방법
 next: 다음 계획
 
 current_projects: 진행 중인 프로젝트
-recent_posts: 최근 글
-all_posts: 글 전체 보기
 
 no_posts: 등록된 글이 없습니다.
 related_post: 관련 글
@@ -21,8 +19,6 @@ status_planned: 예정
 status_done: 완료
 
 reading_time: "읽는 시간 {{ .Count }}분"
-category: 분류
-tags: 태그
 older_post: 이전 글
 newer_post: 다음 글
 older_newer: 이전 글과 다음 글
@@ -50,3 +46,6 @@ diagram_level: 등급
 
 not_found_title: 페이지를 찾을 수 없습니다
 not_found_text: '주소가 바뀌었거나 삭제된 페이지일 수 있습니다. <a href="{{ .posts }}">글 목록</a>이나 <a href="{{ .home }}">첫 화면</a>에서 다시 찾아 주십시오.'
+
+posts: 글
+result: 결과

@@ -1,10 +1,12 @@
 /* Firmware Notes styles
 
    Rules
-   1. The text comes first: one centered column of about 66 characters per line.
-   2. Color is used only to show status. Yellow marks only "Problem" and "No evidence".
-   3. Figures may be wider than the text. Nothing else is.
-   4. No decoration, cards, shadows, animation, or JavaScript. */
+   1. Nothing unnecessary. Every element on a page carries information.
+   2. Lists are dense: one row per post, with its key result.
+   3. Reading text sits in one centered column of about 66 characters per line.
+   4. Lists, figures, and the skill map may use the wide column. Nothing else does.
+   5. Color is used only to show status. Yellow marks only "Problem" and "No evidence".
+   6. No decoration, cards, shadows, animation, or JavaScript. */
 
 /* ── Tokens ───────────────────────────────────────── */
 
@@ -129,10 +131,97 @@ a:hover {
 /* ── Layout: one centered column. Dates and reading time sit above the title. ── */
 
 .frame {
-  max-width: calc(var(--measure) + 3rem);
+  max-width: calc(var(--wide) + 3rem);
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
+
+/* Reading width. Lists (.index) are not inside a .row, so they use the wide column. */
+.row {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+/* ── Dense index: one row per post or project ─────── */
+
+.intro {
+  max-width: var(--measure);
+  margin: clamp(2rem, 6vw, 3.5rem) 0 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+.label {
+  margin: 2.75rem 0 0.5rem;
+  color: var(--graphite);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.label a { color: inherit; text-decoration: none; }
+.label a:hover { color: var(--ink); }
+
+.index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+.index li {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr) 6.5rem;
+  column-gap: 1.25rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.ix-date,
+.ix-cat {
+  color: var(--graphite);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.ix-cat { text-align: right; }
+.ix-title {
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration-color: transparent;
+}
+.ix-title:hover { text-decoration-color: currentColor; }
+.ix-result {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--graphite);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.ix-result p { display: inline; margin: 0; }
+
+@media (max-width: 36rem) {
+  .index li {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 0.15rem;
+  }
+  .ix-main { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* Key result under a post title */
+.result {
+  margin: 1rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+.result span {
+  margin-right: 0.6rem;
+  color: var(--graphite);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.result p { display: inline; margin: 0; }
 
 .side {
   display: flex;
@@ -200,6 +289,7 @@ a:hover {
   font-size: 0.875rem;
 }
 .site-foot .row {
+  max-width: none;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -215,19 +305,6 @@ a:hover {
   padding: 0;
   list-style: none;
 }
-
-/* ── Home page ─────────────────────────────────────── */
-
-.hero { padding-block: clamp(3rem, 9vw, 6.5rem) clamp(2.5rem, 6vw, 4.5rem); }
-.hero h1 {
-  margin: 0 0 1.5rem;
-  max-width: 16em;
-  font-size: clamp(1.75rem, 1.1rem + 2.4vw, 2.6rem);
-  font-weight: 500;
-  line-height: 1.34;
-  letter-spacing: -0.02em;
-}
-.hero-text p { margin: 0 0 1rem; max-width: 34em; }
 
 /* ── Lists and entries ─────────────────────────────── */
 

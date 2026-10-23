@@ -1,13 +1,11 @@
 +++
-title = 'Design for a technical blog: bring order to complexity'
+title = 'Blog design: order, not decoration'
 date = 2026-10-23T14:00:00+09:00
 draft = false
-categories = ["Design"]
+categories = ["Writing"]
 tags = ["Design", "Typography", "This blog"]
 summary = "This blog was hard to read. I measured why, and studied Dieter Rams, Jony Ive, typographers, and the best technical sites. The lesson: design for reading, and bring order to complex content instead of decorating it."
-did = "Measured the reading problems of this blog, and studied the design principles of Rams, Ive, Butterick, Bringhurst, and the best technical sites."
-broke = "Lines were 83 characters long on a wide screen. A date column pushed the text off center. On a phone, the summary at the top left about 30 characters per line."
-fixed = "Six design values, and a new layout: one centered column of about 66 characters per line, the date above the title, and wider charts."
+result = "Line length cut from 83 to 67 characters (ideal: 66)"
 +++
 
 The design of a technical blog has one job: to make complex content easy to read. Decoration does not help. Order does. This post explains why my blog was hard to read. It also covers what great designers and typographers say, and the design values that I will follow.

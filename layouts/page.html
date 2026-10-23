@@ -2,47 +2,33 @@
 {{- $isPost := eq .Section "posts" }}
 <article>
   <header class="row page-head">
+    {{- if $isPost }}
     <p class="side">
-      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time><span>{{ T "reading_time" .ReadingTime }}</span>{{ end -}}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time>
+      <span>{{ T "reading_time" .ReadingTime }}</span>
+      {{- with .GetTerms "categories" }}{{ with index . 0 }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}{{ end }}
     </p>
-    <div class="main">
-      <h1>{{ partial "kotext.html" .Title }}</h1>
-      {{ partial "trace.html" .Params }}
-    </div>
+    {{- end }}
+    <h1>{{ partial "kotext.html" .Title }}</h1>
+    {{- with .Params.result }}
+    <p class="result"><span>{{ T "result" }}</span>{{ partial "kotext.html" (. | markdownify) }}</p>
+    {{- end }}
   </header>
 
-  <div class="row">
-    <div class="main prose">
-      {{ partial "kotext.html" .Content }}
-    </div>
+  <div class="row prose">
+    {{ partial "kotext.html" .Content }}
   </div>
 
-  {{- if $isPost }}
-  <footer class="row page-foot">
-    <div class="main">
-      {{- with .GetTerms "categories" }}
-      <p><span class="label">{{ T "category" }}</span>{{ range $i, $t := . }}{{ if $i }}, {{ end }}<a href="{{ $t.RelPermalink }}">{{ $t.LinkTitle }}</a>{{ end }}</p>
-      {{- end }}
-      {{- with .GetTerms "tags" }}
-      <ul class="tags" aria-label="{{ T "tags" }}">
-        {{- range . }}
-        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
-        {{- end }}
-      </ul>
-      {{- end }}
-      {{- /* In Hugo, PrevInSection is the older post and NextInSection is the newer post (checked with a test post). */}}
-      {{- if or .PrevInSection .NextInSection }}
-      <nav class="pager" aria-label="{{ T "older_newer" }}">
-        {{- with .PrevInSection }}
-        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "older_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
-        {{- end }}
-        {{- with .NextInSection }}
-        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "newer_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
-        {{- end }}
-      </nav>
-      {{- end }}
-    </div>
-  </footer>
+  {{- if and $isPost (or .PrevInSection .NextInSection) }}
+  {{- /* In Hugo, PrevInSection is the older post and NextInSection is the newer post (checked with a test post). */}}
+  <nav class="row pager" aria-label="{{ T "older_newer" }}">
+    {{- with .PrevInSection }}
+    <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "older_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
+    {{- end }}
+    {{- with .NextInSection }}
+    <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "newer_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
+    {{- end }}
+  </nav>
   {{- end }}
 </article>
 {{ end }}

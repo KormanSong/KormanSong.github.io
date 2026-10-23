@@ -26,14 +26,15 @@ Many readers do not speak English as a first language, and some read a machine t
 - Do not put more than two nouns in front of a noun.
 - Keep text in figures short, because figures are not translated.
 - Use sentence case for titles and headings: "Split FreeRTOS tasks by what they wait for".
+- These rules are for body text. Titles, labels, and list entries are short phrases with numbers, as in a datasheet: "Line length cut from 83 to 67 characters".
 
 ### Terms
 
 | Concept | Term |
 |---|---|
-| Rows of the summary list | What I did, Problem, Solution, Next step |
+| Rows of a project entry | What I did, Problem, Solution, Next step |
 | Project status | In progress, Planned, Done |
-| Post category | Measurement, Design, Troubleshooting |
+| Post category (topic) | Firmware, Control, Process, Linux, Writing |
 | A skill with no level | Not rated |
 | The skills page | Skills (the address is /skill-map/) |
 | The product | mass flow controller (MFC) |
@@ -49,18 +50,19 @@ These rules come from Patrick Winston's talk "How to Speak" and from the referen
 
 - Give each post one main idea. If a post has two ideas, write two posts.
 - State the main idea in the title and in the first paragraph. Put the conclusion first.
-- Repeat the main idea in three places: the title, the summary list, and the "Summary" section at the end.
+- Repeat the main idea in three places: the title, the result line, and the "Summary" section at the end.
 - Give every performance claim a number, the test conditions, and the instrument.
 - If you were wrong about something, add a "What I got wrong" section.
 - End with what the reader learned and what comes next. Do not end with "Thanks for reading".
 
 ### Design
 
-The values behind the design are in the post "Design for a technical blog: bring order to complexity".
+The values behind the design are in the post "Blog design: order, not decoration".
 
-- Reading comes first. One centered column, about 66 characters per line, text at 18 pixels (17 on phones).
-- The date and reading time sit above the title.
-- Figures and the skill map may be wider than the text (up to 46 rem). Nothing else is.
+- Nothing unnecessary. Every element on a page carries information.
+- Lists are dense: one row per post, with its date, title, key result, and category.
+- Reading text sits in one centered column, about 66 characters per line, at 18 pixels (17 on phones).
+- Lists, figures, and the skill map may use the wide column (46 rem). Nothing else does.
 - Color is used only to show status. Yellow marks only "Problem" and "No evidence".
 - No decoration, shadows, animation, or JavaScript.
 - Fonts: IBM Plex Sans (text) and IBM Plex Mono (code). Korean pages use IBM Plex Sans KR. Colors and sizes are at the top of `assets/css/main.css`.
@@ -73,21 +75,18 @@ On GitHub, open `content/posts/`, then select Add file → Create new file. Name
 
 ```toml
 +++
-title = 'Title in sentence case'
+title = 'Short title that states the point'
 date = 2026-11-01T21:00:00+09:00
-categories = ['Measurement']   # Measurement, Design, or Troubleshooting
+categories = ['Firmware']      # Firmware, Control, Process, Linux, or Writing
 tags = ['FreeRTOS']
-summary = 'One or two sentences for the post list. State the main idea.'
-did = 'What I did'
-broke = 'The problem'
-fixed = 'The solution'
-next = ''                      # The next step, if the problem is not solved yet
+summary = 'One or two sentences for search engines and RSS.'
+result = 'The key result, with a number and its condition'
 +++
 
 Write the post here in Markdown.
 ```
 
-Empty fields (`did`, `broke`, `fixed`, `next`) are not shown. On a PC, `hugo new content posts/2026-11-01-title.md` creates a file with the same front matter and a section outline.
+`result` appears in every list and under the title, so write it as a short phrase with a number, for example `FFT of dy/dt matches T(jω) within 0.007&nbsp;% below 5&nbsp;Hz`. Titles are short phrases, not full sentences. On a PC, `hugo new content posts/2026-11-01-title.md` creates a file with the same front matter and a section outline.
 
 ### Change a skill level
 

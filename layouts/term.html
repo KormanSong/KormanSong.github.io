@@ -1,11 +1,7 @@
 {{ define "main" }}
-<header class="row page-head">
-  <div class="main">
-    <h1>{{ partial "kotext.html" .Title }}</h1>
-    <p class="lede">{{ T (cond (eq .Data.Plural "tags") "tag_count" "category_count") (len .Pages) }}</p>
-  </div>
+<header class="page-head">
+  <h1>{{ partial "kotext.html" .Title }}</h1>
+  <p class="lede">{{ T (cond (eq .Data.Plural "tags") "tag_count" "category_count") (len .Pages) }}</p>
 </header>
-{{- range .Pages }}
-{{ partial "post-row.html" (dict "page" . "h" 2) }}
-{{- end }}
+{{ partial "post-index.html" .Pages }}
 {{ end }}

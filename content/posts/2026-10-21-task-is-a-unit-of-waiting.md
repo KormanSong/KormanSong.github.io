@@ -3,11 +3,9 @@ title = 'Split FreeRTOS tasks by what they wait for'
 date = 2026-10-21T21:00:00+09:00
 draft = false
 tags = ["FreeRTOS", "RTOS", "State machines", "Task design"]
-categories = ["Design"]
+categories = ["Firmware"]
 summary = "A small counter with two buttons taught me one rule: split work into FreeRTOS tasks by what each task waits for, not by feature."
-did = "Built a counter with two buttons, using two FreeRTOS tasks"
-broke = "Could not decide where to handle button B. I had modeled the device as a function of its inputs only."
-fixed = "Wrote the behavior as one state transition table. Split the tasks by what each one waits for: an event or a period."
+result = "Two tasks: one waits on a queue for events, one waits for a 2&nbsp;ms period"
 +++
 
 <!-- Draft. Rewrite it in your own words, based on what really happened. -->

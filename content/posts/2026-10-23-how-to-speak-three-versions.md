@@ -1,13 +1,11 @@
 +++
-title = 'Three versions of one technical talk, and what How to Speak taught me'
+title = 'One talk, three versions: How to Speak in practice'
 date = 2026-10-23T12:20:00+09:00
 draft = false
-categories = ["Design"]
+categories = ["Writing"]
 tags = ["Communication", "Presentations", "MFC"]
 summary = "I built one talk about mass flow controllers three times, using the rules of Patrick Winston's How to Speak. The rules gave the talk its structure. The audience decided its final form."
-did = "Built one talk about MFCs in three versions with the rules of How to Speak: two in Winston's own style, and a final one for an equipment maker."
-broke = "The first versions explained my own insight well, but the customer could not see which MFC was better for them."
-fixed = "Kept Winston's rules for attention, and changed the order and the tone for the audience: their problems first, numbers in every claim."
+result = "Slide text cut from about 207 to 77 characters; customer problems first"
 +++
 
 Patrick Winston taught a famous MIT lecture called [How to Speak](https://ocw.mit.edu/courses/res-tll-005-how-to-speak-january-iap-2018/). I used its rules to build one talk about mass flow controllers (MFCs), three times. The rules gave the talk a clear structure. The audience decided its final form.
@@ -34,7 +32,7 @@ The talk followed one story in three parts:
 2. Why the same dose matters: integration, repetition, the moments when users say "Huh?", overshoot, and the environment.
 3. The answer: the split of work with the tool maker, four new spec lines, and a new definition.
 
-I wrote this story as a post: [What an MFC is for](/posts/2026-10-23-what-an-mfc-is-for/).
+I wrote this story as a post: [An MFC’s job: same command, same dose](/posts/2026-10-23-what-an-mfc-is-for/).
 
 For example, the slide "What does the wafer feel?" showed only a chain of four boxes: MFC, pipe, chamber, and wafer. The point of the slide was in what I said.
 

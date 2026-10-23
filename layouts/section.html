@@ -1,16 +1,11 @@
 {{ define "main" }}
-<header class="row page-head">
-  <div class="main">
-    <h1>{{ partial "kotext.html" .Title }}</h1>
-    {{- with .Content }}
-    <div class="lede">{{ partial "kotext.html" . }}</div>
-    {{- end }}
-  </div>
+<header class="page-head">
+  <h1>{{ partial "kotext.html" .Title }}</h1>
+  {{- with .Content }}<div class="lede">{{ partial "kotext.html" . }}</div>{{ end }}
 </header>
-
-{{- range .Pages.ByDate.Reverse }}
-{{ partial "post-row.html" (dict "page" . "h" 2) }}
+{{- with .Pages.ByDate.Reverse }}
+{{ partial "post-index.html" . }}
 {{- else }}
-<div class="row"><p class="main">{{ T "no_posts" }}</p></div>
+<p class="row">{{ T "no_posts" }}</p>
 {{- end }}
 {{ end }}

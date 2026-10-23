@@ -1,30 +1,32 @@
 {{ define "main" }}
-<section class="hero row">
-  <div class="main">
-    <h1>{{ partial "kotext.html" .Title }}</h1>
-    <div class="hero-text">{{ partial "kotext.html" .Content }}</div>
-  </div>
-</section>
-
-{{- with where (partial "data.html" "projects") "status" "now" }}
-<section class="block" aria-labelledby="h-now">
-  <div class="row"><h2 class="main block-title" id="h-now">{{ T "current_projects" }}</h2></div>
-  {{- range . }}
-  {{ partial "project.html" (dict "p" . "h" 3) }}
-  {{- end }}
-</section>
-{{- end }}
+<h1 class="intro">{{ partial "kotext.html" .Title }}</h1>
 
 {{- $posts := where site.RegularPages "Section" "posts" }}
 {{- with $posts }}
-<section class="block" aria-labelledby="h-posts">
-  <div class="row"><h2 class="main block-title" id="h-posts">{{ T "recent_posts" }}</h2></div>
-  {{- range first 8 . }}
-  {{ partial "post-row.html" (dict "page" . "h" 3) }}
-  {{- end }}
-  {{- if gt (len .) 8 }}
-  <div class="row"><p class="main"><a href="{{ "posts/" | relLangURL }}">{{ T "all_posts" }}</a></p></div>
-  {{- end }}
+<section aria-labelledby="h-posts">
+  <h2 class="label" id="h-posts"><a href="{{ "posts/" | relLangURL }}">{{ T "posts" }}</a></h2>
+  {{ partial "post-index.html" (first 20 .) }}
+</section>
+{{- end }}
+
+{{- with where (partial "data.html" "projects") "status" "now" }}
+<section aria-labelledby="h-now">
+  <h2 class="label" id="h-now"><a href="{{ "projects/" | relLangURL }}">{{ T "current_projects" }}</a></h2>
+  <ol class="index">
+    {{- range . }}
+    {{- $line := "" }}{{ $key := "" }}
+    {{- with .broke }}{{ $line = . }}{{ $key = "broke" }}{{ else }}{{ with .next }}{{ $line = . }}{{ $key = "next" }}{{ end }}{{ end }}
+    {{- $line = index (split $line ". ") 0 | strings.TrimSuffix "." }}
+    <li>
+      {{- with .since }}<time class="ix-date" datetime="{{ . }}">{{ . }}</time>{{ else }}<span class="ix-date"></span>{{ end }}
+      <div class="ix-main">
+        <a class="ix-title" href="{{ "projects/" | relLangURL }}">{{ partial "kotext.html" .title }}</a>
+        {{- with $line }}<span class="ix-result">{{ if eq $key "broke" }}<span class="lamp" aria-hidden="true"></span>{{ end }}{{ T $key }}: {{ partial "kotext.html" (. | markdownify) }}</span>{{ end }}
+      </div>
+      <span class="ix-cat">{{ T "status_now" }}</span>
+    </li>
+    {{- end }}
+  </ol>
 </section>
 {{- end }}
 {{ end }}

@@ -2,13 +2,10 @@
 title = 'The FFT of a step response mostly shows the step'
 date = 2026-10-23T12:00:00+09:00
 draft = false
-categories = ["Design"]
+categories = ["Control"]
 tags = ["Control", "FFT", "Signal processing", "MFC"]
 summary = "The spectrum of a step response is largest at 0 Hz and falls steadily, because the step itself shapes it. To see the control loop, take the FFT of dy/dt."
-did = "Modeled the flow loop as a first-order plant with integral control. Compared the FFT of the simulated response with theory."
-broke = "Expected a peak at a \"flow frequency\". The spectrum of the response had no peak and fell steadily from 0&nbsp;Hz."
-fixed = "Took the FFT of dy/dt instead. It matches the closed-loop frequency response T(jω) within 0.01&nbsp;% below 5&nbsp;Hz."
-next = "Add what real firmware has: a 4&nbsp;ms control period, computation delay, and a sensor filter. Then compare with measured data."
+result = "FFT of dy/dt matches T(jω) within 0.007&nbsp;% below 5&nbsp;Hz"
 +++
 
 I wanted to know which frequencies a flow step contains, so I took the FFT of a simulated step response. The result had no peak. It was largest at 0&nbsp;Hz and fell steadily. This post explains why, and shows what to analyze instead: the derivative of the response, dy/dt.

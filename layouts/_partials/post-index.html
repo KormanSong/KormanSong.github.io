@@ -1,0 +1,13 @@
+{{- /* Dense post list: one row per post. Date, title, key result (front matter "result"), category. */ -}}
+<ol class="index">
+  {{- range . }}
+  <li>
+    <time class="ix-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    <div class="ix-main">
+      <a class="ix-title" href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a>
+      {{- with .Params.result }}<span class="ix-result">{{ partial "kotext.html" (. | markdownify) }}</span>{{ end }}
+    </div>
+    <span class="ix-cat">{{ with .GetTerms "categories" }}{{ (index . 0).LinkTitle }}{{ end }}</span>
+  </li>
+  {{- end }}
+</ol>
