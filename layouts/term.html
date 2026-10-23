@@ -1,9 +1,9 @@
 {{ define "main" }}
 <header class="row page-head">
   <div class="main">
-    <h1>{{ .Title }}</h1>
+    <h1>{{ partial "kotext.html" .Title }}</h1>
     <p class="lede">
-      {{- if eq .Data.Plural "tags" }}이 태그가 붙은 글 {{ len .Pages }}편{{ else }}이 분류에 속한 글 {{ len .Pages }}편{{ end -}}
+      {{- if eq .Data.Plural "tags" }}이 태그의 글 {{ len .Pages }}편{{ else }}이 분류의 글 {{ len .Pages }}편{{ end -}}
     </p>
   </div>
 </header>

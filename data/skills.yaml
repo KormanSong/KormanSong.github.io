@@ -1,99 +1,81 @@
-# 스킬 맵 데이터. /skill-map/ 페이지의 역량 지도와 표가 모두 이 파일 하나에서 만들어집니다.
+# 기술 역량 데이터. /skill-map/ 페이지의 구성도와 표가 모두 이 파일에서 만들어집니다.
 #
-# level     0 = 평가 전, 1~4 = 아래 levels 기준. 방어할 수 있는 등급만 적습니다.
-# note      표에서 항목 아래 작게 붙는 설명 (선택)
-# evidence  근거가 되는 글의 경로. content/ 기준, 확장자 없이.
+# level     0 = 미평가, 1~4 = 아래 levels 기준. 근거를 제시할 수 있는 등급만 적습니다.
+# note      표에서 항목 이름 아래에 표시되는 설명 (선택)
+# evidence  근거 글의 경로. content/ 기준이며 확장자는 쓰지 않습니다.
 #           예: posts/2026-10-21-task-is-a-unit-of-waiting
 #
-# 역량 지도(MCU 블록 다이어그램)용 칸
-# area      그림에서 놓일 자리. 비워 두면 그림에는 나오지 않고 표에만 나옵니다.
-#           io(칩 왼쪽 입출력) comm(칩 오른쪽 통신) core(코어 아래 메모리·시스템)
-#           domain, software(코어 안 펌웨어 타일) tools(칩 바깥 도구) next(리눅스 SoC)
-# cpu       true면 코어 자체 (코어 상자의 머리 칸)
-# slot      도구의 자리: build(빌드) debug(디버그 포트) probe(계측기)
-# short     그림에 쓸 짧은 이름 (한글 6자 안팎). 없으면 name을 씁니다.
-# io        칩 바깥의 연결 상대 (예: 유량 센서)
-# io_dir    in(들어옴) | out(나감) | both(주고받음)
+# 구성도(MCU 블록 다이어그램) 관련 항목
+# area      구성도에서의 위치. 비워 두면 구성도에는 표시되지 않고 표에만 표시됩니다.
+#           domain(코어 안 응용)  software(코어 안 펌웨어)  core(코어 아래 메모리·시스템)
+#           io(칩 왼쪽 입출력)  comm(칩 오른쪽 통신)  tools(칩 바깥 도구)  next(리눅스 SoC)
+# cpu       true이면 코어 자체(코어 상자의 제목 칸)
+# slot      도구의 위치: build(빌드)  debug(디버그 포트)  probe(계측기)
+# short     구성도에 표시할 짧은 이름. 없으면 name을 씁니다. 칸보다 길면 글자가 작아집니다.
+# io        칩 바깥의 연결 대상 (예: 유량 센서)
+# io_dir    in(입력) | out(출력) | both(양방향)
 #
-# 3등급 이상인데 evidence가 비어 있으면 그림과 표에 노란 표시등과 "근거 없음"이 뜹니다.
-# evidence 경로가 틀리면 표에 "글을 찾을 수 없음"이 뜹니다.
+# 3등급 이상인데 evidence가 비어 있으면 구성도와 표에 '근거 없음' 표시가 나타납니다.
+# evidence 경로가 잘못되면 표에 '글을 찾을 수 없음'이 표시됩니다.
 
 levels:
   - n: 1
-    meaning: 벤더 드라이버나 HAL을 호출해 봤다
-    ask: 어떤 API를 어떤 순서로 불렀나
+    meaning: 벤더 HAL·드라이버 호출 경험
+    ask: 호출한 API와 호출 순서
   - n: 2
-    meaning: 레지스터를 직접 설정했거나 드라이버를 썼다
-    ask: 어떤 레지스터를, 왜 그 값으로 설정했나
+    meaning: 레지스터 직접 설정 또는 드라이버 작성
+    ask: 설정한 레지스터와 설정값의 근거
   - n: 3
-    meaning: 스코프나 로직 분석기로 파형을 보며 디버깅했고, 에러와 타이밍을 다뤘다
-    ask: 어떤 파형을 봤고, 무엇이 잘못돼 있었나
+    meaning: 오실로스코프·로직 애널라이저로 파형을 분석해 오류·타이밍 문제 해결
+    ask: 확인한 파형과 문제의 원인
   - n: 4
-    meaning: 프로토콜이나 구조를 설계했고, 남에게 설명해서 적용시켰다
-    ask: 왜 그렇게 설계했고, 대안은 무엇이었나
+    meaning: 프로토콜·구조를 설계하고 팀에 적용
+    ask: 설계 근거와 검토한 대안
 
-# 표의 순서: 칩과 가까운 것부터 제품과 일하는 방식 쪽으로.
+# 표의 순서: 하드웨어(코어, 입출력, 통신) → 펌웨어 → 응용 → 도구 → 확장 분야 → 개발 방식
 groups:
-  - name: MCU와 개발 도구
+  - name: MCU 코어·메모리
     items:
-      - name: ARM Cortex-M (bare-metal)
+      - name: ARM Cortex-M (베어메탈)
         short: Cortex-M
         area: core
         cpu: true
         level: 0
         note: 스타트업 코드, 벡터 테이블, 링커 스크립트
-      - name: C (임베디드, MISRA 일부)
-        short: C
-        area: software
+      - name: DMA
+        area: core
         level: 0
-      - name: GCC, Make, CMake
-        short: GCC/Make
-        area: tools
-        slot: build
+        note: 직접 메모리 접근
+      - name: 플래시·EEPROM
+        area: core
         level: 0
-      - name: JTAG/SWD 디버깅
-        short: JTAG/SWD
-        area: tools
-        slot: debug
-        level: 0
-        note: OpenOCD, J-Link 등
-      - name: 오실로스코프, 로직 분석기
-        short: 스코프/LA
-        area: tools
-        slot: probe
+        note: 캘리브레이션 데이터 저장
+      - name: 워치독 타이머
+        short: 워치독
+        area: core
         level: 0
 
-  - name: 주변장치
+  - name: 입출력
     items:
       - name: ADC
         area: io
         io: 유량 센서
         io_dir: in
         level: 0
-        note: 센서 입력 경로. 오버샘플링, 캘리브레이션
+        note: 아날로그-디지털 변환기. 센서 신호 입력, 오버샘플링
       - name: DAC
         area: io
-        io: 밸브
+        io: 제어 밸브
         io_dir: out
         level: 0
-        note: 밸브와 액추에이터 출력 경로
-      - name: 타이머, PWM, 입력 캡처
-        short: 타이머/PWM
+        note: 디지털-아날로그 변환기. 밸브 구동 출력
+      - name: 타이머·PWM·입력 캡처
+        short: 타이머·PWM
         area: io
         level: 0
-      - name: GPIO, EXTI
+      - name: GPIO·외부 인터럽트
+        short: GPIO·EXTI
         area: io
-        level: 0
-      - name: DMA
-        area: core
-        level: 0
-      - name: Flash, EEPROM
-        short: Flash/EEPROM
-        area: core
-        level: 0
-        note: 캘리브레이션 값 저장
-      - name: Watchdog
-        area: core
         level: 0
 
   - name: 통신
@@ -101,12 +83,13 @@ groups:
       - name: UART
         area: comm
         level: 0
+        note: 비동기 직렬 통신
       - name: RS-485
         area: comm
-        io: 장비 컨트롤러
+        io: 상위 제어기
         io_dir: both
         level: 0
-        note: 반이중, 송수신 방향 제어
+        note: 반이중 통신, 송수신 방향 제어
       - name: SPI
         area: comm
         level: 0
@@ -116,69 +99,98 @@ groups:
       - name: CAN
         area: comm
         level: 0
-      # 실제로 써 본 프로토콜 이름으로 바꾸세요.
+      # 실제로 사용한 프로토콜 이름으로 바꾸십시오.
       - name: 산업용 필드버스
         short: 필드버스
         area: comm
         level: 0
-        note: EtherCAT, Modbus 등
+        note: EtherCAT, DeviceNet, Modbus 등
       - name: USB
         area: comm
         level: 0
-        note: CDC 등
+        note: CDC 클래스 등
 
-  - name: 시스템 소프트웨어
+  - name: 펌웨어
     items:
+      - name: C 언어
+        area: software
+        level: 0
+        note: 임베디드 C
       - name: FreeRTOS
         area: software
         level: 0
         note: 태스크, 큐, 태스크 알림
         evidence: posts/2026-10-21-task-is-a-unit-of-waiting
-      - name: 이벤트 기반 상태기계
-        short: 상태기계
+      - name: 유한 상태 기계(FSM)
+        short: 상태 기계
         area: software
         level: 0
-      - name: 부트로더, 펌웨어 업데이트
-        short: 부트로더
+        note: 이벤트 기반 설계
+      - name: 부트 로더·펌웨어 업데이트
+        short: 부트 로더
         area: software
         level: 0
-      - name: 임베디드 리눅스
-        area: next
-        level: 1
-        note: BeagleBone Black, Device Tree. 커널 직접 빌드 진행 중
-      - name: 리눅스 커널 드라이버 (IIO)
-        short: 커널 드라이버
-        area: next
-        level: 0
-        note: 예정
 
-  - name: 유량 제어
+  - name: 유량 제어 응용
     items:
       - name: 질량 유량 제어기(MFC) 펌웨어
         short: MFC 펌웨어
         area: domain
         level: 0
-        note: 반도체 공정 장비용
-      - name: PID 제어 루프
-        short: PID 제어
+        note: 반도체 장비용
+      - name: PID 제어
         area: domain
         level: 0
-      - name: 센서 캘리브레이션, 선형화
+        note: 유량 제어 루프
+      - name: 센서 캘리브레이션·선형화
         short: 캘리브레이션
         area: domain
         level: 0
-      - name: 실시간 제약
+      - name: 실시간 제약 조건
+        short: 실시간 제약
         area: domain
         level: 0
         note: 지터, 마감 시간
 
-  - name: 일하는 방식
+  - name: 개발·계측 도구
     items:
-      - name: 타깃 밖 단위 테스트
+      - name: GCC·Make·CMake
+        short: GCC·Make
+        area: tools
+        slot: build
         level: 0
-        note: 하드웨어 없이 PC에서 로직 테스트
-      - name: Git, 코드 리뷰
+      - name: JTAG/SWD 디버깅
+        short: JTAG/SWD
+        area: tools
+        slot: debug
         level: 0
-      - name: 영어 기술 문서
+        note: OpenOCD, J-Link 등
+      - name: 오실로스코프·로직 애널라이저
+        short: 계측기
+        area: tools
+        slot: probe
         level: 0
-        note: 이 블로그
+
+  - name: 임베디드 리눅스
+    items:
+      - name: 리눅스 커널·루트 파일 시스템 빌드
+        short: 커널 빌드
+        area: next
+        level: 1
+        note: BeagleBone Black, 디바이스 트리. 진행 중
+      - name: 리눅스 커널 드라이버(IIO)
+        short: 커널 드라이버
+        area: next
+        level: 0
+        note: 계획
+
+  - name: 개발 방식
+    items:
+      - name: 호스트 PC 기반 단위 테스트
+        level: 0
+        note: 하드웨어 없이 로직 검증
+      - name: Git·코드 리뷰
+        level: 0
+      - name: 영문 기술 문서 작성
+        level: 0
+        note: 이 블로그의 측정 기록

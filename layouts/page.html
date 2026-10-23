@@ -3,17 +3,17 @@
 <article>
   <header class="row page-head">
     <p class="side">
-      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ .ReadingTime }}분 분량</span>{{ end -}}
+      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006. 1. 2." }}</time><span>읽는 시간 {{ .ReadingTime }}분</span>{{ end -}}
     </p>
     <div class="main">
-      <h1>{{ .Title }}</h1>
+      <h1>{{ partial "kotext.html" .Title }}</h1>
       {{ partial "trace.html" .Params }}
     </div>
   </header>
 
   <div class="row">
     <div class="main prose">
-      {{ .Content }}
+      {{ partial "kotext.html" .Content }}
     </div>
   </div>
 
@@ -34,10 +34,10 @@
       {{- if or .PrevInSection .NextInSection }}
       <nav class="pager" aria-label="이전 글과 다음 글">
         {{- with .PrevInSection }}
-        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">이전 글</span><span class="pager-title">{{ .Title }}</span></a>
+        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">이전 글</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
         {{- end }}
         {{- with .NextInSection }}
-        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">다음 글</span><span class="pager-title">{{ .Title }}</span></a>
+        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">다음 글</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
         {{- end }}
       </nav>
       {{- end }}

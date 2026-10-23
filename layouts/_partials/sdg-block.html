@@ -3,10 +3,17 @@
 {{- $x := .x | int }}{{ $y := .y | int }}{{ $w := .w | int }}{{ $h := .h | int -}}
 {{- $lv := $it.level | default 0 | int -}}
 {{- $label := $it.short | default $it.name -}}
+{{- /* 글자 폭 추정(한글 1em, 영문 대문자·숫자 0.62em, 공백 0.3em, 그 밖 0.5em). 칸보다 넓으면 글자 크기를 줄인다. */ -}}
+{{- $em := 0.0 -}}
+{{- range split $label "" }}{{ if findRE "[가-힣]" . }}{{ $em = add $em 1.0 }}{{ else if eq . " " }}{{ $em = add $em 0.3 }}{{ else if findRE "[A-Z0-9]" . }}{{ $em = add $em 0.62 }}{{ else }}{{ $em = add $em 0.5 }}{{ end }}{{ end -}}
+{{- $fs := 12.5 -}}
+{{- $need := mul $em 12.5 -}}
+{{- $avail := float (sub $w 12) -}}
+{{- if gt $need $avail }}{{ $fs = div (mul 12.5 $avail) $need }}{{ end -}}
 <g class="blk lv{{ $lv }}">
-<title>{{ $it.name }}: {{ if gt $lv 0 }}{{ $lv }}등급{{ else }}평가 전{{ end }}</title>
+<title>{{ $it.name }}: {{ if gt $lv 0 }}{{ $lv }}등급{{ else }}미평가{{ end }}</title>
 <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" rx="3"/>
-<text x="{{ add $x (div $w 2) }}" y="{{ add $y (div $h 2) }}" text-anchor="middle" dominant-baseline="central">{{ $label }}</text>
+<text x="{{ add $x (div $w 2) }}" y="{{ add $y (div $h 2) }}" text-anchor="middle" dominant-baseline="central"{{ if lt $fs 12.5 }} style="font-size: {{ printf "%.1f" $fs }}px"{{ end }}>{{ $label }}</text>
 {{- if and (ge $lv 3) (not $it.evidence) }}
 {{- $r := sub (add $x $w) 1 }}{{ $t := add $y 1 }}
 <polygon class="miss" points="{{ sub $r 10 }},{{ $t }} {{ $r }},{{ $t }} {{ $r }},{{ add $t 10 }}"/>

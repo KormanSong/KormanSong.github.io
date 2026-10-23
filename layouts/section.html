@@ -1,9 +1,9 @@
 {{ define "main" }}
 <header class="row page-head">
   <div class="main">
-    <h1>{{ .Title }}</h1>
+    <h1>{{ partial "kotext.html" .Title }}</h1>
     {{- with .Content }}
-    <div class="lede">{{ . }}</div>
+    <div class="lede">{{ partial "kotext.html" . }}</div>
     {{- end }}
   </div>
 </header>
@@ -11,6 +11,6 @@
 {{- range .Pages.ByDate.Reverse }}
 {{ partial "post-row.html" (dict "page" . "h" 2) }}
 {{- else }}
-<div class="row"><p class="main">아직 올린 글이 없습니다.</p></div>
+<div class="row"><p class="main">등록된 글이 없습니다.</p></div>
 {{- end }}
 {{ end }}

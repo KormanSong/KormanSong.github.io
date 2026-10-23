@@ -1,14 +1,14 @@
 {{ define "main" }}
 <section class="hero row">
   <div class="main">
-    <h1>{{ .Title }}</h1>
-    <div class="hero-text">{{ .Content }}</div>
+    <h1>{{ partial "kotext.html" .Title }}</h1>
+    <div class="hero-text">{{ partial "kotext.html" .Content }}</div>
   </div>
 </section>
 
 {{- with where hugo.Data.projects "status" "now" }}
 <section class="block" aria-labelledby="h-now">
-  <div class="row"><h2 class="main block-title" id="h-now">지금 하는 일</h2></div>
+  <div class="row"><h2 class="main block-title" id="h-now">진행 중인 프로젝트</h2></div>
   {{- range . }}
   {{ partial "project.html" (dict "p" . "h" 3) }}
   {{- end }}

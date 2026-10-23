@@ -70,7 +70,7 @@
 <figure class="sdg-fig">
 <div class="sdg-scroll">
 <svg class="sdg" viewBox="0 0 680 {{ $H }}" role="img" aria-labelledby="sdg-t">
-<title id="sdg-t">MCU 역량 지도. 칸이 진할수록 등급이 높습니다. 항목별 등급과 근거는 아래 표에 있습니다.</title>
+<title id="sdg-t">MCU 기준 기술 구성도. 칸이 진할수록 등급이 높습니다. 항목별 등급과 근거는 아래 표에 있습니다.</title>
 
 {{- /* 칩 외곽과 핀 */}}
 <rect class="chip" x="{{ $cx0 }}" y="{{ $cy0 }}" width="{{ sub $cx1 $cx0 }}" height="{{ sub $chipBottom $cy0 }}" rx="8"/>
@@ -186,7 +186,7 @@
 </div>
 <figcaption class="sdg-key">
   <span class="sdg-key-t">등급</span>
-  <span class="sw lv0" aria-hidden="true"></span><span>평가 전</span>
+  <span class="sw lv0" aria-hidden="true"></span><span>미평가</span>
   <span class="sw lv1">1</span><span class="sw lv2">2</span><span class="sw lv3">3</span><span class="sw lv4">4</span>
   {{- if $misfit }}
   <span class="sdg-key-miss"><svg viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2"/><polygon points="12,0.5 21.5,0.5 21.5,10"/></svg>근거 없음</span>

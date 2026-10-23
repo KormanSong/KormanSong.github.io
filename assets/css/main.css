@@ -1,9 +1,8 @@
-/* Firmware Notes
-   측정 기록장: 흰 종이, 회색 잉크, 그리고 어긋난 곳에만 켜지는 노란 표시등.
+/* Firmware Notes 스타일
 
    원칙
-   1. 색은 신호일 때만 쓴다. 노랑은 "막힌 곳"과 "근거 없음"에만.
-   2. 왼쪽 열은 언제나 시간(날짜)이다. 오른쪽 열은 내용이다.
+   1. 색은 상태 표시에만 쓴다. 노란색은 '문제'와 '근거 없음'에만 쓴다.
+   2. 왼쪽 열에는 날짜, 오른쪽 열에는 내용을 둔다.
    3. 장식, 카드, 그림자, 애니메이션, 자바스크립트는 쓰지 않는다. */
 
 /* ── 토큰 ─────────────────────────────────────────── */
@@ -15,8 +14,8 @@
   --graphite: #66665f;     /* 보조 글자 5.8:1 */
   --rule: #d9d9d3;         /* 표의 가는 선 */
   --off: #8c8c85;          /* 꺼진 미터 칸, 밑줄 3.4:1 */
-  --signal: #f2b300;       /* 표시등: 팹 노광 구역의 황색 조명 */
-  --signal-edge: #9a7200;  /* 흰 바탕에서 표시등 윤곽 4.4:1 */
+  --signal: #f2b300;       /* 상태 표시: 문제, 근거 없음 */
+  --signal-edge: #9a7200;  /* 흰 바탕에서 표시 윤곽 대비 4.4:1 */
   --code-literal: #3f5a70;
   --lv1: #efefeb;          /* 등급 채움: 진할수록 깊다 */
   --lv2: #cbcbc3;
@@ -67,7 +66,7 @@ body {
   font-family: var(--font);
   font-weight: 400;
   line-height: 1.8;
-  word-break: keep-all;    /* 한글을 어절 단위로 줄바꿈 */
+  word-break: keep-all;    /* 한글 어절 단위 줄바꿈 */
   overflow-wrap: break-word;
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
@@ -121,7 +120,7 @@ a:hover {
   border: 0;
 }
 
-/* ── 틀: 왼쪽은 시간, 오른쪽은 내용 ───────────────── */
+/* ── 배치: 왼쪽 날짜 열, 오른쪽 내용 열 ───────────── */
 
 .frame {
   max-width: calc(var(--side) + var(--gap) + var(--measure) + 3rem);
@@ -252,7 +251,7 @@ a:hover {
   font-size: 0.875rem;
 }
 
-/* 한 일 / 막힌 곳 / 고친 방법 */
+/* 작업 내용 / 문제 / 해결 방법 / 다음 계획 */
 .trace {
   display: grid;
   gap: 0.45rem;
@@ -274,7 +273,7 @@ a:hover {
   line-height: 1.7;
 }
 
-/* 표시등: 어긋난 곳에만 켜진다 */
+/* 상태 표시: 문제, 근거 없음 */
 .lamp {
   display: inline-block;
   width: 0.55rem;
@@ -380,7 +379,7 @@ blockquote p:last-child { margin-bottom: 0; }
   font-size: 0.875rem;
 }
 
-/* 흐름 그림: 글 안의 간단한 블록 다이어그램. 좁은 화면에서는 세로로 쌓인다. */
+/* 흐름도: 본문 안의 간단한 블록 다이어그램. 좁은 화면에서는 세로로 배치된다. */
 .flow { margin: 2rem 0; }
 .flow-steps {
   display: flex;
@@ -528,7 +527,7 @@ thead th {
 .skills td:nth-of-type(1) { white-space: nowrap; }
 .none { color: var(--graphite); }
 
-/* 첫 표 다음부터는 같은 열 이름을 되풀이해 보여 주지 않는다 (화면 낭독기에는 남긴다) */
+/* 두 번째 표부터는 열 이름을 화면에 다시 표시하지 않는다(화면 낭독기에는 제공) */
 .skills.is-cont { border-top: 1px solid var(--ink); }
 .skills.is-cont thead {
   position: absolute;
@@ -538,7 +537,7 @@ thead th {
   clip: rect(0 0 0 0);
 }
 
-/* 등급 미터: 켜진 칸은 잉크, 꺼진 칸은 윤곽만 */
+/* 등급 표시: 해당 등급까지 채우고 나머지는 윤곽선 */
 .meter {
   display: inline-flex;
   gap: 2px;
@@ -558,14 +557,14 @@ thead th {
 }
 .lv { font-variant-numeric: tabular-nums; }
 
-/* ── 역량 지도: MCU 블록 다이어그램 ─────────────────── */
+/* ── 기술 역량 구성도: MCU 블록 다이어그램 ────────── */
 
 .sdg-fig { margin: 1rem 0 0; }
 .sdg-scroll { overflow-x: auto; }
 .sdg {
   display: block;
   width: 100%;
-  min-width: 600px;        /* 좁은 화면에서는 글자를 줄이는 대신 옆으로 밀어서 본다 */
+  min-width: 600px;        /* 좁은 화면에서는 글자를 줄이지 않고 가로 스크롤로 표시 */
   height: auto;
 }
 .sdg text {

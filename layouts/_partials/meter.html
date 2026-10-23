@@ -1,4 +1,4 @@
-{{- /* 등급 미터 (0~4). 미터 자체는 보조 정보이고, 숫자(또는 화면 낭독기용 "평가 전")가 뜻을 전한다. */ -}}
+{{- /* 등급 표시(0~4). 칸은 보조 정보이고, 숫자(또는 화면 낭독기용 "미평가")가 뜻을 전한다. */ -}}
 {{- $n := . | int -}}
 <span class="meter" aria-hidden="true">{{ range seq 4 }}<i{{ if le . $n }} class="on"{{ end }}></i>{{ end }}</span>
-{{- if gt $n 0 }}<span class="lv">{{ $n }}</span>{{ else }}<span class="vh">평가 전</span>{{ end -}}
+{{- if gt $n 0 }}<span class="lv">{{ $n }}</span>{{ else }}<span class="vh">미평가</span>{{ end -}}

@@ -1,16 +1,16 @@
 {{ define "main" }}
 {{- $d := hugo.Data.skills }}
 <header class="row page-head">
-  <p class="side"><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time><span>기준</span></p>
+  <p class="side"><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006. 1. 2." }}</time><span>기준</span></p>
   <div class="main">
-    <h1>{{ .Title }}</h1>
-    <div class="lede">{{ .Content }}</div>
+    <h1>{{ partial "kotext.html" .Title }}</h1>
+    <div class="lede">{{ partial "kotext.html" .Content }}</div>
   </div>
 </header>
 
 <section class="row group" aria-labelledby="h-map">
   <div class="main">
-    <h2 id="h-map">역량 지도</h2>
+    <h2 id="h-map">구성도</h2>
     {{ partial "skill-diagram.html" . }}
   </div>
 </section>
@@ -23,20 +23,20 @@
       <li>
         <span>{{ partial "meter.html" .n }}</span>
         <div>
-          <p>{{ .meaning }}</p>
-          <p class="ask">답할 수 있어야 하는 질문: {{ .ask }}</p>
+          <p>{{ partial "kotext.html" .meaning }}</p>
+          <p class="ask">확인 사항: {{ partial "kotext.html" .ask }}</p>
         </div>
       </li>
       {{- end }}
     </ol>
-    <p class="levels-note"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>빈 미터는 아직 평가하지 않은 항목입니다.</p>
+    <p class="levels-note"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>빈 칸은 미평가 항목입니다.</p>
   </div>
 </section>
 
 {{- range $i, $g := $d.groups }}
 <section class="row group" aria-labelledby="g-{{ $i }}">
   <div class="main">
-    <h2 id="g-{{ $i }}">{{ $g.name }}</h2>
+    <h2 id="g-{{ $i }}">{{ partial "kotext.html" $g.name }}</h2>
     <div class="table-wrap">
       <table class="skills{{ if $i }} is-cont{{ end }}">
         <colgroup><col class="c-name"><col class="c-level"><col class="c-evidence"></colgroup>
@@ -47,11 +47,11 @@
           {{- range $g.items }}
           {{- $lv := .level | default 0 | int }}
           <tr>
-            <th scope="row">{{ .name }}{{ with .note }}<span class="skill-note">{{ . }}</span>{{ end }}</th>
+            <th scope="row">{{ partial "kotext.html" .name }}{{ with .note }}<span class="skill-note">{{ partial "kotext.html" . }}</span>{{ end }}</th>
             <td>{{ partial "meter.html" $lv }}</td>
             <td>
               {{- with .evidence }}
-                {{- with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                {{- with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a>
                 {{- else }}<span class="lamp" aria-hidden="true"></span>글을 찾을 수 없음{{ end }}
               {{- else }}
                 {{- if ge $lv 3 }}<span class="lamp" aria-hidden="true"></span>근거 없음

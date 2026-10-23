@@ -1,18 +1,18 @@
-{{- /* 한 일 / 막힌 곳 / 고친 방법 / 다음. 글의 front matter나 data/projects.yaml 항목을 받는다. */ -}}
+{{- /* 작업 내용 / 문제 / 해결 방법 / 다음 계획. 글의 front matter 또는 data/projects.yaml 항목을 받는다. */ -}}
 {{- $p := . -}}
 {{- if or $p.did $p.broke $p.fixed $p.next }}
 <dl class="trace">
   {{- with $p.did }}
-  <div><dt>한 일</dt><dd>{{ . | markdownify }}</dd></div>
+  <div><dt>작업 내용</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.broke }}
-  <div><dt><span class="lamp" aria-hidden="true"></span>막힌 곳</dt><dd>{{ . | markdownify }}</dd></div>
+  <div><dt><span class="lamp" aria-hidden="true"></span>문제</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.fixed }}
-  <div><dt>고친 방법</dt><dd>{{ . | markdownify }}</dd></div>
+  <div><dt>해결 방법</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.next }}
-  <div><dt>다음</dt><dd>{{ . | markdownify }}</dd></div>
+  <div><dt>다음 계획</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
 </dl>
 {{- end -}}

@@ -2,14 +2,14 @@
 {{- $all := hugo.Data.projects }}
 <header class="row page-head">
   <div class="main">
-    <h1>{{ .Title }}</h1>
+    <h1>{{ partial "kotext.html" .Title }}</h1>
     {{- with .Content }}
-    <div class="lede">{{ . }}</div>
+    <div class="lede">{{ partial "kotext.html" . }}</div>
     {{- end }}
   </div>
 </header>
 
-{{- range slice (slice "now" "지금 하는 일") (slice "planned" "할 일") (slice "done" "끝낸 일") }}
+{{- range slice (slice "now" "진행 중") (slice "planned" "예정") (slice "done" "완료") }}
 {{- $status := index . 0 }}
 {{- $label := index . 1 }}
 {{- with where $all "status" $status }}

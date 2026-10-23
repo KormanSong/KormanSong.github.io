@@ -2,18 +2,18 @@
 {{- $p := .p -}}
 {{- $h := .h | default 3 -}}
 <article class="row entry">
-  <p class="side">{{ with $p.since }}<time datetime="{{ . }}">{{ replace . "-" "." }}</time>{{ end }}</p>
+  <p class="side">{{ with $p.since }}{{ $ym := split . "-" }}<time datetime="{{ . }}">{{ index $ym 0 }}. {{ index $ym 1 | int }}.</time>{{ end }}</p>
   <div class="main">
-    {{ printf "<h%d class=\"entry-title\">" $h | safeHTML }}{{ $p.title }}{{ printf "</h%d>" $h | safeHTML }}
+    {{ printf "<h%d class=\"entry-title\">" $h | safeHTML }}{{ partial "kotext.html" $p.title }}{{ printf "</h%d>" $h | safeHTML }}
     {{- with $p.stack }}
-    <p class="stack">{{ delimit . ", " }}</p>
+    <p class="stack">{{ partial "kotext.html" (delimit . ", ") }}</p>
     {{- end }}
     {{- with $p.summary }}
-    <p class="entry-sum">{{ . | markdownify }}</p>
+    <p class="entry-sum">{{ partial "kotext.html" (. | markdownify) }}</p>
     {{- end }}
     {{ partial "trace.html" $p }}
     {{- with $p.post }}{{ with site.GetPage . }}
-    <p class="related"><span>관련 글</span><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+    <p class="related"><span>관련 글</span><a href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a></p>
     {{- end }}{{ end }}
   </div>
 </article>

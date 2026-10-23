@@ -10,7 +10,7 @@ enableRobotsTXT = true
 timeZone = "Asia/Seoul"
 
 [params]
-  description = "반도체 장비용 유량 제어기 펌웨어 엔지니어의 작업 기록. 측정한 것, 막힌 곳, 고친 방법."
+  description = "반도체 장비용 질량 유량 제어기(MFC) 펌웨어 개발 기록. 측정 결과와 문제 해결 과정."
   author = "KormanSong"
   github = "https://github.com/KormanSong"
 
@@ -41,7 +41,7 @@ timeZone = "Asia/Seoul"
   pageRef = "/posts"
   weight = 10
 [[menus.main]]
-  name = "스킬 맵"
+  name = "기술 역량"
   pageRef = "/skill-map"
   weight = 20
 [[menus.main]]
