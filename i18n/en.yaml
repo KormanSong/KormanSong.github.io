@@ -1,0 +1,67 @@
+# Interface text for English pages. Page content lives in content/ and data/en/.
+# Date formats use Go layout strings: 2006 = year, 1 or Jan = month, 2 = day.
+
+skip_to_content: Skip to content
+main_menu: Main menu
+
+# Summary list under a title (posts and projects)
+did: What I did
+broke: Problem
+fixed: Solution
+next: Next step
+
+# Home page
+current_projects: Current projects
+recent_posts: Recent posts
+all_posts: All posts
+
+# Lists
+no_posts: No posts yet.
+related_post: Related post
+month_format: Jan 2006
+status_now: In progress
+status_planned: Planned
+status_done: Done
+
+# Post page
+reading_time:
+  one: "{{ .Count }} min read"
+  other: "{{ .Count }} min read"
+category: Category
+tags: Tags
+older_post: Older post
+newer_post: Newer post
+older_newer: Older and newer posts
+
+# Tag and category pages
+tag_count:
+  one: "{{ .Count }} post with this tag"
+  other: "{{ .Count }} posts with this tag"
+category_count:
+  one: "{{ .Count }} post in this category"
+  other: "{{ .Count }} posts in this category"
+post_count:
+  one: "{{ .Count }} post"
+  other: "{{ .Count }} posts"
+
+# Skills page
+as_of: "<span>Updated</span>{{ .Date }}"
+overview: Overview
+levels: Levels
+evidence_needed: "Evidence:"
+levels_note: An empty meter means the skill is not rated yet.
+col_skill: Skill
+col_level: Level
+col_evidence: Evidence
+no_evidence: No evidence
+post_not_found: Post not found
+none: None
+not_rated: Not rated
+level_n: "Level {{ .Count }}"
+diagram_title: "Skill map, drawn as a microcontroller. A darker block means a higher level. The tables below give the level and evidence for each skill."
+diagram_soc: Linux SoC
+diagram_level: Level
+
+# 404 page
+not_found_title: Page not found
+not_found_text: 'This page may have moved, or it may not exist. Try the <a href="{{ .posts }}">post list</a> or the <a href="{{ .home }}">home page</a>.'

@@ -1,9 +1,10 @@
-{{- /* MCU 블록 다이어그램의 칸 하나. dict "item" "x" "y" "w" "h". 채움 농도 = 등급(0~4). */ -}}
+{{- /* One block of the MCU diagram. Takes dict "item" "x" "y" "w" "h". The fill shows the level (0 to 4). */ -}}
 {{- $it := .item -}}
 {{- $x := .x | int }}{{ $y := .y | int }}{{ $w := .w | int }}{{ $h := .h | int -}}
 {{- $lv := $it.level | default 0 | int -}}
 {{- $label := $it.short | default $it.name -}}
-{{- /* 글자 폭 추정(한글 1em, 영문 대문자·숫자 0.62em, 공백 0.3em, 그 밖 0.5em). 칸보다 넓으면 글자 크기를 줄인다. */ -}}
+{{- /* Estimate the label width: Hangul 1 em, capital letters and digits 0.62 em, space 0.3 em, other characters 0.5 em.
+       If the label is wider than the block, make the font smaller. */ -}}
 {{- $em := 0.0 -}}
 {{- range split $label "" }}{{ if findRE "[가-힣]" . }}{{ $em = add $em 1.0 }}{{ else if eq . " " }}{{ $em = add $em 0.3 }}{{ else if findRE "[A-Z0-9]" . }}{{ $em = add $em 0.62 }}{{ else }}{{ $em = add $em 0.5 }}{{ end }}{{ end -}}
 {{- $fs := 12.5 -}}
@@ -11,7 +12,7 @@
 {{- $avail := float (sub $w 12) -}}
 {{- if gt $need $avail }}{{ $fs = div (mul 12.5 $avail) $need }}{{ end -}}
 <g class="blk lv{{ $lv }}">
-<title>{{ $it.name }}: {{ if gt $lv 0 }}{{ $lv }}등급{{ else }}미평가{{ end }}</title>
+<title>{{ $it.name }}: {{ if gt $lv 0 }}{{ T "level_n" $lv }}{{ else }}{{ T "not_rated" }}{{ end }}</title>
 <rect x="{{ $x }}" y="{{ $y }}" width="{{ $w }}" height="{{ $h }}" rx="3"/>
 <text x="{{ add $x (div $w 2) }}" y="{{ add $y (div $h 2) }}" text-anchor="middle" dominant-baseline="central"{{ if lt $fs 12.5 }} style="font-size: {{ printf "%.1f" $fs }}px"{{ end }}>{{ $label }}</text>
 {{- if and (ge $lv 3) (not $it.evidence) }}

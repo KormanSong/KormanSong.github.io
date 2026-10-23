@@ -1,12 +1,16 @@
 <header class="site-head frame">
-  <a class="site-name" href="{{ "/" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>{{ site.Title }}</a>
-  <nav class="site-nav" aria-label="주요 메뉴">
+  <a class="site-name" href="{{ "/" | relLangURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>{{ site.Title }}</a>
+  <nav class="site-nav" aria-label="{{ T "main_menu" }}">
     <ul>
       {{- $page := . }}
       {{- range site.Menus.main }}
       {{- $current := "" }}
       {{- if $page.IsMenuCurrent "main" . }}{{ $current = "page" }}{{ else if $page.HasMenuCurrent "main" . }}{{ $current = "true" }}{{ end }}
       <li><a href="{{ .URL }}"{{ with $current }} aria-current="{{ . }}"{{ end }}>{{ .Name }}</a></li>
+      {{- end }}
+      {{- /* Language link. It appears only when this page has a translation. */}}
+      {{- range .Translations }}
+      <li class="lang"><a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}">{{ .Language.Label }}</a></li>
       {{- end }}
     </ul>
   </nav>

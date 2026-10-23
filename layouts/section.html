@@ -11,6 +11,6 @@
 {{- range .Pages.ByDate.Reverse }}
 {{ partial "post-row.html" (dict "page" . "h" 2) }}
 {{- else }}
-<div class="row"><p class="main">등록된 글이 없습니다.</p></div>
+<div class="row"><p class="main">{{ T "no_posts" }}</p></div>
 {{- end }}
 {{ end }}

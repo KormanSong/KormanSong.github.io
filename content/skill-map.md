@@ -1,8 +1,8 @@
 +++
-title = "기술 역량"
+title = "Skills"
 layout = "skillmap"
 date = 2026-10-21T20:00:00+09:00
-summary = "분야별 경험 수준과 등급 기준."
+summary = "My experience level in each area, and what each level means."
 +++
 
-분야별 경험 수준입니다. 3등급 이상 항목에는 근거 글을 연결합니다.
+This page shows my experience level in each area. Each skill at level 3 or higher links to a post with evidence.

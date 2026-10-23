@@ -1,0 +1,52 @@
+# 한국어 페이지의 화면 문구. 페이지 본문은 *.ko.md 파일과 data/ko/에 둡니다.
+# 날짜 형식은 Go 레이아웃 문자열입니다: 2006 = 연, 1 = 월, 2 = 일.
+
+skip_to_content: 본문 바로가기
+main_menu: 주요 메뉴
+
+did: 작업 내용
+broke: 문제
+fixed: 해결 방법
+next: 다음 계획
+
+current_projects: 진행 중인 프로젝트
+recent_posts: 최근 글
+all_posts: 글 전체 보기
+
+no_posts: 등록된 글이 없습니다.
+related_post: 관련 글
+month_format: 2006. 1.
+status_now: 진행 중
+status_planned: 예정
+status_done: 완료
+
+reading_time: "읽는 시간 {{ .Count }}분"
+category: 분류
+tags: 태그
+older_post: 이전 글
+newer_post: 다음 글
+older_newer: 이전 글과 다음 글
+
+tag_count: "이 태그의 글 {{ .Count }}편"
+category_count: "이 분류의 글 {{ .Count }}편"
+post_count: "{{ .Count }}편"
+
+as_of: "{{ .Date }}<span>기준</span>"
+overview: 구성도
+levels: 등급 기준
+evidence_needed: "확인 사항:"
+levels_note: 빈 칸은 미평가 항목입니다.
+col_skill: 항목
+col_level: 등급
+col_evidence: 근거
+no_evidence: 근거 없음
+post_not_found: 글을 찾을 수 없음
+none: 없음
+not_rated: 미평가
+level_n: "{{ .Count }}등급"
+diagram_title: "MCU 기준 기술 구성도. 칸이 진할수록 등급이 높습니다. 항목별 등급과 근거는 아래 표에 있습니다."
+diagram_soc: 리눅스 SoC
+diagram_level: 등급
+
+not_found_title: 페이지를 찾을 수 없습니다
+not_found_text: '주소가 바뀌었거나 삭제된 페이지일 수 있습니다. <a href="{{ .posts }}">글 목록</a>이나 <a href="{{ .home }}">첫 화면</a>에서 다시 찾아 주십시오.'

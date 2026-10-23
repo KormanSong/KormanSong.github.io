@@ -1,5 +1,5 @@
 +++
-title = "글"
+title = "Posts"
 +++
 
-측정 기록, 설계 노트, 문제 해결 사례를 기록합니다. 측정 기록은 주로 영어로 작성합니다.
+I write three kinds of posts: measurements, design notes, and troubleshooting.

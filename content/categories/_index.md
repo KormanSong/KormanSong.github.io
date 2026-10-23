@@ -1,3 +1,3 @@
 +++
-title = "분류"
+title = "Categories"
 +++

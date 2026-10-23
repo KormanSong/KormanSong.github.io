@@ -1,19 +1,24 @@
 +++
-title = "소개"
+title = "About"
 date = 2026-10-21T20:00:00+09:00
-summary = "반도체 장비용 질량 유량 제어기(MFC) 펌웨어 엔지니어."
+summary = "Firmware engineer for mass flow controllers (MFCs) in semiconductor equipment."
 +++
 
-<p lang="en">I am an embedded firmware engineer with a B.S. in Electrical Engineering. I develop firmware for mass flow controllers used in semiconductor process equipment, covering sensor signal processing, flow control loops, calibration, and industrial communication. I am expanding from MCU and RTOS work into embedded Linux and system software.</p>
+I am an embedded firmware engineer with a B.S. in Electrical Engineering.
 
-<p lang="en">Each project on this site lists the problems I encountered and how I resolved them. Every item rated level 3 or higher on the <a href="/skill-map/">skills page</a> links to a supporting post.</p>
+I develop firmware for mass flow controllers (MFCs) in semiconductor equipment. An MFC measures the flow of a process gas and adjusts a valve to keep that flow at a set value. My work covers sensor signal processing, the flow control loop, calibration, and industrial communication.
 
-전자공학을 전공했고, 반도체 장비용 질량 유량 제어기(MFC) 펌웨어를 개발하고 있습니다. 주요 업무는 센서 신호 처리, 유량 제어 루프, 캘리브레이션, 산업용 통신입니다. 현재 MCU·RTOS에서 임베디드 리눅스로 업무 영역을 넓히고 있으며, 이 블로그에 그 과정을 기록합니다.
+I have worked mostly with microcontrollers (MCUs) and a real-time operating system (RTOS). Now I am expanding into embedded Linux, and this blog records that work.
 
-성능에 관한 내용은 측정 자료와 함께 기록합니다.
+## How I write
 
-## 연락처
+- Each post has one main idea, and the post states it first.
+- Each performance claim comes with the measurement and its conditions.
+- If I am not sure about something, I say so. If I got something wrong, I say what it was.
+- I write in plain English, so that readers whose first language is not English can read it easily.
+
+## Contact
 
 - GitHub: [KormanSong](https://github.com/KormanSong)
 
-<!-- 이메일을 공개하려면 위 목록에 한 줄을 추가하십시오. -->
+<!-- To show an email address, add a line to the list above. -->

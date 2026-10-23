@@ -6,13 +6,19 @@
 <meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ site.Params.author }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- if .IsTranslated }}{{ range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+{{- end }}{{ end }}
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1d1d1b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+{{- /* English pages load IBM Plex Sans. Korean pages load IBM Plex Sans KR, which has the same Latin letters. */}}
+{{- $sans := cond (eq site.Language.Lang "ko") "IBM+Plex+Sans+KR" "IBM+Plex+Sans" }}
+{{- $fonts := printf "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=%s:wght@400;500;600&display=swap" $sans }}
+<link rel="stylesheet" href="{{ $fonts | safeURL }}">
 {{- $css := resources.Get "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- with .OutputFormats.Get "rss" }}

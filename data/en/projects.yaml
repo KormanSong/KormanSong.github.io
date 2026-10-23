@@ -1,0 +1,44 @@
+# Projects. The "Current projects" list on the home page and the /projects/ page come from this file.
+#
+# status    now (in progress) | planned | done
+# since     Start month, YYYY-MM (optional). Shows in the date column on the left.
+# stack     Chips, tools, and technologies
+# summary   One or two sentences (mostly for planned projects)
+# did       What I did
+# broke     The problem. This row gets a yellow marker.
+# fixed     The solution
+# next      The next step
+# post      Path of a related post, relative to content/, without the file extension
+#
+# Write short, plain sentences. Delete the fields that you do not use.
+
+- title: Event-driven redesign of a FreeRTOS counter
+  status: now
+  since: "2026-10"
+  stack: [STM32, FreeRTOS, 7-segment display multiplexing]
+  did: Split the work into a display task and a counter task. Used `vTaskDelayUntil` to keep the period at exactly 1 second. Rewrote the button A and B specification as a state transition table.
+  broke: The display task reads the shared variable again for each digit, so one frame can mix old and new digits. The display task never blocks, so the idle task never runs.
+  next: Copy the value once per frame. Block for 2 ms between frames. Give the higher priority to the task with the shorter period. Then compare a superloop, FreeRTOS, and a synchronous design.
+  post: posts/2026-10-21-task-is-a-unit-of-waiting
+
+- title: Building a Linux kernel for the BeagleBone Black
+  status: now
+  since: "2026-10"
+  stack: [AM335x, Linux 5.10 (TI), Device tree]
+  did: Connected over USB networking with SSH. Changed LED triggers through sysfs. Traced how the node address and the compatible string in the device tree connect a driver to a device.
+  next: Build U-Boot, the kernel, and a root file system with the Bootlin lab materials. Enable I2C with a device tree overlay. Connect a serial console.
+
+- title: Software UART timing on Linux (1 GHz) and on the PRU (200 MHz)
+  status: planned
+  stack: [cyclictest, PREEMPT_RT, PRU]
+  summary: Send 115200 bps serial data by bit-banging in three ways, from user space, from a kernel hrtimer, and from the PRU. Measure the jitter of each bit width with an oscilloscope.
+
+- title: Linux IIO driver for an I2C pressure sensor
+  status: planned
+  stack: [Linux IIO, I2C, Device tree]
+  summary: Choose a sensor that has no driver in the mainline kernel. Write a driver that is good enough to submit upstream.
+
+- title: Small MFC controller on the PRU
+  status: planned
+  stack: [PRU, PID, Flow sensor]
+  summary: Run the flow sensor input, the valve output, and the PID control loop on the PRU. Measure the jitter of the control period in three implementations.

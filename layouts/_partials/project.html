@@ -1,8 +1,8 @@
-{{- /* data/projects.yaml 의 한 항목. dict "p" 항목 "h" 제목 단계 */ -}}
+{{- /* One entry of data/<lang>/projects.yaml. Takes dict "p" (the entry) and "h" (heading level). */ -}}
 {{- $p := .p -}}
 {{- $h := .h | default 3 -}}
 <article class="row entry">
-  <p class="side">{{ with $p.since }}{{ $ym := split . "-" }}<time datetime="{{ . }}">{{ index $ym 0 }}. {{ index $ym 1 | int }}.</time>{{ end }}</p>
+  <p class="side">{{ with $p.since }}{{ $t := time.AsTime (printf "%s-01" .) }}<time datetime="{{ . }}">{{ $t.Format (T "month_format") }}</time>{{ end }}</p>
   <div class="main">
     {{ printf "<h%d class=\"entry-title\">" $h | safeHTML }}{{ partial "kotext.html" $p.title }}{{ printf "</h%d>" $h | safeHTML }}
     {{- with $p.stack }}
@@ -13,7 +13,7 @@
     {{- end }}
     {{ partial "trace.html" $p }}
     {{- with $p.post }}{{ with site.GetPage . }}
-    <p class="related"><span>관련 글</span><a href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a></p>
+    <p class="related"><span>{{ T "related_post" }}</span><a href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a></p>
     {{- end }}{{ end }}
   </div>
 </article>

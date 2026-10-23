@@ -1,0 +1,11 @@
+{{- /*
+  Returns a data file for the current language.
+  Example: {{ $skills := partial "data.html" "skills" }}
+  Looks in data/<language>/ first, for example data/ko/skills.yaml.
+  If that file does not exist, uses data/en/.
+*/ -}}
+{{- $name := . -}}
+{{- $out := false -}}
+{{- with index hugo.Data site.Language.Lang }}{{ $out = index . $name }}{{ end -}}
+{{- if not $out }}{{ $out = index hugo.Data.en $name }}{{ end -}}
+{{- return $out -}}

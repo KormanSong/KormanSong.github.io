@@ -1,8 +1,8 @@
 {{ define "main" }}
 <header class="row page-head">
   <div class="main">
-    <h1>페이지를 찾을 수 없습니다</h1>
-    <p class="lede">주소가 바뀌었거나 삭제된 페이지일 수 있습니다. <a href="{{ "posts/" | relURL }}">글 목록</a>이나 <a href="{{ "/" | relURL }}">첫 화면</a>에서 다시 찾아 주십시오.</p>
+    <h1>{{ T "not_found_title" }}</h1>
+    <p class="lede">{{ T "not_found_text" (dict "posts" ("posts/" | relLangURL) "home" ("/" | relLangURL)) | safeHTML }}</p>
   </div>
 </header>
 {{ end }}

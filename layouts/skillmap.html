@@ -1,7 +1,8 @@
 {{ define "main" }}
-{{- $d := hugo.Data.skills }}
+{{- $d := partial "data.html" "skills" }}
 <header class="row page-head">
-  <p class="side"><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006. 1. 2." }}</time><span>기준</span></p>
+  {{- $date := printf `<time datetime="%s">%s</time>` (.Lastmod.Format "2006-01-02") (.Lastmod | time.Format ":date_medium") }}
+  <p class="side">{{ T "as_of" (dict "Date" $date) | safeHTML }}</p>
   <div class="main">
     <h1>{{ partial "kotext.html" .Title }}</h1>
     <div class="lede">{{ partial "kotext.html" .Content }}</div>
@@ -10,26 +11,26 @@
 
 <section class="row group" aria-labelledby="h-map">
   <div class="main">
-    <h2 id="h-map">구성도</h2>
-    {{ partial "skill-diagram.html" . }}
+    <h2 id="h-map">{{ T "overview" }}</h2>
+    {{ partial "skill-diagram.html" $d }}
   </div>
 </section>
 
 <section class="row group" aria-labelledby="h-levels">
   <div class="main">
-    <h2 id="h-levels">등급 기준</h2>
+    <h2 id="h-levels">{{ T "levels" }}</h2>
     <ol class="levels">
       {{- range $d.levels }}
       <li>
         <span>{{ partial "meter.html" .n }}</span>
         <div>
           <p>{{ partial "kotext.html" .meaning }}</p>
-          <p class="ask">확인 사항: {{ partial "kotext.html" .ask }}</p>
+          <p class="ask">{{ T "evidence_needed" }} {{ partial "kotext.html" .ask }}</p>
         </div>
       </li>
       {{- end }}
     </ol>
-    <p class="levels-note"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>빈 칸은 미평가 항목입니다.</p>
+    <p class="levels-note"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{{ T "levels_note" }}</p>
   </div>
 </section>
 
@@ -41,7 +42,7 @@
       <table class="skills{{ if $i }} is-cont{{ end }}">
         <colgroup><col class="c-name"><col class="c-level"><col class="c-evidence"></colgroup>
         <thead>
-          <tr><th scope="col">항목</th><th scope="col">등급</th><th scope="col">근거</th></tr>
+          <tr><th scope="col">{{ T "col_skill" }}</th><th scope="col">{{ T "col_level" }}</th><th scope="col">{{ T "col_evidence" }}</th></tr>
         </thead>
         <tbody>
           {{- range $g.items }}
@@ -52,10 +53,10 @@
             <td>
               {{- with .evidence }}
                 {{- with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ partial "kotext.html" .Title }}</a>
-                {{- else }}<span class="lamp" aria-hidden="true"></span>글을 찾을 수 없음{{ end }}
+                {{- else }}<span class="lamp" aria-hidden="true"></span>{{ T "post_not_found" }}{{ end }}
               {{- else }}
-                {{- if ge $lv 3 }}<span class="lamp" aria-hidden="true"></span>근거 없음
-                {{- else }}<span class="none"><span aria-hidden="true">–</span><span class="vh">없음</span></span>{{ end }}
+                {{- if ge $lv 3 }}<span class="lamp" aria-hidden="true"></span>{{ T "no_evidence" }}
+                {{- else }}<span class="none"><span aria-hidden="true">–</span><span class="vh">{{ T "none" }}</span></span>{{ end }}
               {{- end -}}
             </td>
           </tr>

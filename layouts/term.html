@@ -2,9 +2,7 @@
 <header class="row page-head">
   <div class="main">
     <h1>{{ partial "kotext.html" .Title }}</h1>
-    <p class="lede">
-      {{- if eq .Data.Plural "tags" }}이 태그의 글 {{ len .Pages }}편{{ else }}이 분류의 글 {{ len .Pages }}편{{ end -}}
-    </p>
+    <p class="lede">{{ T (cond (eq .Data.Plural "tags") "tag_count" "category_count") (len .Pages) }}</p>
   </div>
 </header>
 {{- range .Pages }}

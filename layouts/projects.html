@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{- $all := hugo.Data.projects }}
+{{- $all := partial "data.html" "projects" }}
 <header class="row page-head">
   <div class="main">
     <h1>{{ partial "kotext.html" .Title }}</h1>
@@ -9,12 +9,11 @@
   </div>
 </header>
 
-{{- range slice (slice "now" "진행 중") (slice "planned" "예정") (slice "done" "완료") }}
-{{- $status := index . 0 }}
-{{- $label := index . 1 }}
+{{- range slice "now" "planned" "done" }}
+{{- $status := . }}
 {{- with where $all "status" $status }}
 <section class="block" aria-labelledby="h-{{ $status }}">
-  <div class="row"><h2 class="main block-title" id="h-{{ $status }}">{{ $label }}</h2></div>
+  <div class="row"><h2 class="main block-title" id="h-{{ $status }}">{{ T (printf "status_%s" $status) }}</h2></div>
   {{- range . }}
   {{ partial "project.html" (dict "p" . "h" 3) }}
   {{- end }}

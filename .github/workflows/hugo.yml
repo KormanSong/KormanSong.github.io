@@ -1,6 +1,6 @@
-# GitHub Pages 자동 배포
-# main 브랜치에 push 하면 Hugo로 빌드해서 Pages에 올립니다.
-# 저장소 Settings → Pages → Build and deployment → Source 를 "GitHub Actions" 로 바꿔야 동작합니다.
+# Automatic deployment to GitHub Pages
+# Each push to the main branch builds the site with Hugo and publishes it to Pages.
+# This needs Settings → Pages → Build and deployment → Source set to "GitHub Actions".
 
 name: Deploy Hugo site to Pages
 

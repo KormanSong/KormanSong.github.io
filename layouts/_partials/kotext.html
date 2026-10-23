@@ -1,17 +1,21 @@
 {{- /*
-  화면에 표시하는 한국어 문구의 줄바꿈 위치를 다듬는다. 원본 파일은 고치지 않아도 된다.
+  Fixes line breaks in Korean text. On English pages it returns the text unchanged.
 
-  크롬 계열 브라우저는 word-break: keep-all을 지정해도 아래 위치에서 줄을 바꾼다.
-  해당 위치에 단어 결합 문자(U+2060, 화면에 보이지 않음)를 넣어 줄바꿈을 막는다.
-  - 가운뎃점 앞뒤: '타이머·PWM'의 가운뎃점이 줄 첫머리에 오는 문제
-  - 한글과 여는 괄호 사이: '제어기(MFC)'가 '제어기'와 '(MFC)'로 나뉘는 문제
-  - 닫는 괄호와 한글 사이: '주기)을'의 조사 '을'이 줄 첫머리에 오는 문제
+  Chromium browsers break Korean lines at these points, even with word-break: keep-all.
+  This partial adds a word joiner (U+2060, invisible) at each point to stop the break:
+  - before and after a middle dot, so that '·' never starts a line ('타이머·PWM')
+  - between Hangul and an opening parenthesis ('제어기(MFC)')
+  - between a closing parenthesis and Hangul, so that a particle never starts a line ('주기)을')
+  Source files need only normal characters.
 
-  문자열을 받으면 문자열을, HTML(.Content, markdownify 결과)을 받으면 HTML을 돌려준다.
-  사용 예: {{ partial "kotext.html" .Title }}
+  Takes a string and returns a string, or takes HTML (.Content, markdownify output) and returns HTML.
+  Example: {{ partial "kotext.html" .Title }}
 */ -}}
-{{- $out := replace . "·" "⁠·⁠" -}}
-{{- $out = replaceRE `([가-힣])\(` "${1}⁠(" $out -}}
-{{- $out = replaceRE `\)([가-힣])` ")⁠${1}" $out -}}
-{{- if eq (printf "%T" .) "template.HTML" }}{{ $out = $out | safeHTML }}{{ end -}}
+{{- $out := . -}}
+{{- if eq site.Language.Lang "ko" }}
+  {{- $s := replace . "·" "⁠·⁠" }}
+  {{- $s = replaceRE `([가-힣])\(` "${1}⁠(" $s }}
+  {{- $s = replaceRE `\)([가-힣])` ")⁠${1}" $s }}
+  {{- if eq (printf "%T" .) "template.HTML" }}{{ $out = $s | safeHTML }}{{ else }}{{ $out = $s }}{{ end }}
+{{- end -}}
 {{- return $out -}}

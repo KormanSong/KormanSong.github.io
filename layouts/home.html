@@ -6,9 +6,9 @@
   </div>
 </section>
 
-{{- with where hugo.Data.projects "status" "now" }}
+{{- with where (partial "data.html" "projects") "status" "now" }}
 <section class="block" aria-labelledby="h-now">
-  <div class="row"><h2 class="main block-title" id="h-now">진행 중인 프로젝트</h2></div>
+  <div class="row"><h2 class="main block-title" id="h-now">{{ T "current_projects" }}</h2></div>
   {{- range . }}
   {{ partial "project.html" (dict "p" . "h" 3) }}
   {{- end }}
@@ -18,12 +18,12 @@
 {{- $posts := where site.RegularPages "Section" "posts" }}
 {{- with $posts }}
 <section class="block" aria-labelledby="h-posts">
-  <div class="row"><h2 class="main block-title" id="h-posts">최근 글</h2></div>
+  <div class="row"><h2 class="main block-title" id="h-posts">{{ T "recent_posts" }}</h2></div>
   {{- range first 8 . }}
   {{ partial "post-row.html" (dict "page" . "h" 3) }}
   {{- end }}
   {{- if gt (len .) 8 }}
-  <div class="row"><p class="main"><a href="{{ "posts/" | relURL }}">글 전체 보기</a></p></div>
+  <div class="row"><p class="main"><a href="{{ "posts/" | relLangURL }}">{{ T "all_posts" }}</a></p></div>
   {{- end }}
 </section>
 {{- end }}

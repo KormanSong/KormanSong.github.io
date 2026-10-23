@@ -1,18 +1,19 @@
-{{- /* 작업 내용 / 문제 / 해결 방법 / 다음 계획. 글의 front matter 또는 data/projects.yaml 항목을 받는다. */ -}}
+{{- /* The summary list under a title: What I did / Problem / Solution / Next step.
+       Takes the front matter of a post, or one entry of data/<lang>/projects.yaml. */ -}}
 {{- $p := . -}}
 {{- if or $p.did $p.broke $p.fixed $p.next }}
 <dl class="trace">
   {{- with $p.did }}
-  <div><dt>작업 내용</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
+  <div><dt>{{ T "did" }}</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.broke }}
-  <div><dt><span class="lamp" aria-hidden="true"></span>문제</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
+  <div><dt><span class="lamp" aria-hidden="true"></span>{{ T "broke" }}</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.fixed }}
-  <div><dt>해결 방법</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
+  <div><dt>{{ T "fixed" }}</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
   {{- with $p.next }}
-  <div><dt>다음 계획</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
+  <div><dt>{{ T "next" }}</dt><dd>{{ partial "kotext.html" (. | markdownify) }}</dd></div>
   {{- end }}
 </dl>
 {{- end -}}

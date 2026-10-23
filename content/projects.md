@@ -1,8 +1,8 @@
 +++
-title = "프로젝트"
+title = "Projects"
 layout = "projects"
 date = 2026-10-21T20:00:00+09:00
-summary = "진행 중인 프로젝트와 계획."
+summary = "Current and planned projects."
 +++
 
-진행 중인 프로젝트와 계획입니다. 각 항목에는 작업 내용, 문제, 해결 방법 또는 다음 계획을 적습니다.
+My current and planned projects. Each entry lists what I did, the problems I found, and the solution or the next step.

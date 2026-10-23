@@ -1,78 +1,80 @@
 +++
-title = '버튼 카운터로 정리한 FreeRTOS 태스크 분리 기준'
+title = 'Split FreeRTOS tasks by what they wait for'
 date = 2026-10-21T21:00:00+09:00
 draft = false
-tags = ["FreeRTOS", "RTOS", "상태 기계", "태스크 설계"]
-categories = ["설계"]
-summary = "버튼 2개짜리 카운터를 FreeRTOS로 구현하면서 태스크를 나누는 기준을 정리했다."
-did = "버튼 2개짜리 카운터를 FreeRTOS 태스크 2개로 구현"
-broke = "버튼 B의 처리 위치를 정하지 못함. 장치를 입력과 출력만 있는 함수로 모델링한 것이 원인"
-fixed = "상태를 명시해 사양을 상태 전이표 하나로 정리. 태스크는 대기 조건(이벤트, 주기)을 기준으로 분리"
+tags = ["FreeRTOS", "RTOS", "State machines", "Task design"]
+categories = ["Design"]
+summary = "A small counter with two buttons taught me one rule: split work into FreeRTOS tasks by what each task waits for, not by feature."
+did = "Built a counter with two buttons, using two FreeRTOS tasks"
+broke = "Could not decide where to handle button B. I had modeled the device as a function of its inputs only."
+fixed = "Wrote the behavior as one state transition table. Split the tasks by what each one waits for: an event or a period."
 +++
 
-<!-- 초안입니다. 실제로 겪은 내용을 기준으로 본인의 표현으로 고쳐 쓰십시오. -->
+<!-- Draft. Rewrite it in your own words, based on what really happened. -->
 
-## 문제 상황
+This post gives one rule for splitting work into FreeRTOS tasks: split by what each task waits for, not by feature. I found the rule while I built a small counter with two buttons.
 
-7세그먼트 디스플레이에 숫자를 표시하는 연습 과제를 구현했다. 사양은 다음과 같다.
+## The problem
 
-- 버튼 A: 카운트를 시작한다(1초마다 1씩 증가). 다시 누르면 일시 정지하고, 한 번 더 누르면 다시 시작한다.
-- 버튼 B: 누르면 항상 0으로 초기화한다.
-- 일시 정지 중에 B를 누르면 0에서 멈춰 있고, 실행 중에 B를 누르면 0부터 다시 증가한다.
+The exercise was a counter on a 7-segment display. The specification:
 
-태스크는 2개로 나눴다. 디스플레이 태스크는 전역 변수의 값을 표시하고, 카운터 태스크는 1초마다 값을 1씩 늘린다. 여기까지는 정상적으로 동작했다.
+- Button A starts the count. The count goes up by 1 every second. Press A again to pause. Press it once more to continue.
+- Button B always resets the count to 0.
+- If you press B while the counter is paused, the display shows 0 and the counter stays paused. If you press B while the counter runs, the count starts again from 0.
 
-문제는 버튼 B의 처리 위치였다. B는 상황에 따라 다르게 동작하는 것처럼 보였고, 이를 어떤 함수로 구현해야 할지 정하지 못했다. MCU 펌웨어를 2년 동안 개발했는데도 바로 해결하지 못했다.
+I used two tasks. A display task showed the value of a shared variable. A counter task added 1 to the value every second. This part worked.
 
-## 원인
+Then I could not decide where to handle button B. B seemed to do different things in different situations, and I did not know which function should handle it. I had written MCU firmware for two years, but I did not see the answer at first.
 
-장치를 입력이 들어오면 출력이 나오는 함수로 보고 있었다. 현재 개발 중인 제품의 제어 루프가 ADC 입력, 제어 연산, DAC 출력으로 이루어진 함수 구조이기 때문이다.
+## The cause
 
-버튼 예제는 같은 입력(B)이라도 이전 상태에 따라 결과가 달라진다. 디지털 회로로 보면 조합 논리가 아닌 순차 논리에 해당한다. 함수 구조로 표현할 수 없는 문제를 함수로 다루려고 해서 해법이 보이지 않았다.
+I thought of the device as a function: inputs go in, and outputs come out. The product I work on has this structure. Its control loop reads the ADC, calculates, and writes to the DAC.
 
-누락된 개념은 상태였다. 출력과 다음 상태를 입력과 현재 상태로 나타내면 다음과 같다.
+The counter is different. The same input (B) gives a different result, depending on what happened before. In digital logic terms, the counter is sequential logic, and a function is combinational logic. A function has no memory, so it cannot describe the counter.
 
-> 출력 = f(입력, 상태), 다음 상태 = g(입력, 상태)
+The missing idea was state. With state, the device looks like this:
 
-상태는 RUN과 PAUSE 2개이고, 이벤트는 A, B, TICK 3개다. 상태 전이표로 정리하면 다음과 같다.
+> output = f(input, state), next state = g(input, state)
 
-| 상태 \ 이벤트 | A | B | TICK |
+There are two states (RUN and PAUSE) and three events (A, B, and TICK). This is the state transition table:
+
+| State \ Event | A | B | TICK |
 |---|---|---|---|
-| RUN | PAUSE로 전이 | count = 0 | count++ |
-| PAUSE | RUN으로 전이 | count = 0 | (무시) |
+| RUN | Go to PAUSE | count = 0 | count++ |
+| PAUSE | Go to RUN | count = 0 | (ignore) |
 
-표로 정리하면 B의 동작은 단순하다. 두 상태 모두 `count = 0`만 수행하고 상태는 바꾸지 않는다. 실행 중에 0부터 다시 증가하는 것은 RUN 상태가 TICK 이벤트를 계속 처리하기 때문이며, B의 동작과는 관계가 없다.
+The table makes B simple. In both states, B sets the count to 0 and does not change the state. In RUN, the count starts again from 0 only because RUN continues to handle TICK events. B itself does nothing more.
 
-## 태스크 분리 기준
+## The rule
 
-처음에는 태스크를 디스플레이, 카운터, 버튼처럼 기능 단위로 나누려 했다. 이 기준이 잘못되었다.
+At first, I wanted one task for each feature: the display, the counter, and the buttons. That was the wrong rule.
 
-FreeRTOS에서 태스크는 자기 스택을 가지고 대기(블로킹) 상태로 전환될 수 있는 실행 단위다. 기다릴 대상이 없다면 별도 태스크로 만들 필요 없이 함수 호출로 충분하다. 따라서 태스크는 무엇을 기다리는지를 기준으로 나눠야 한다.
+In FreeRTOS, a task is a unit of execution with its own stack. A task can block, which means that it waits without using the CPU. If some work never waits for anything, it does not need its own task. A function call is enough. So I now split tasks by what they wait for:
 
-- 같은 주기로, 같은 순서로 실행되는 작업은 한 태스크로 묶는다.
-- 주기가 다르거나 서로 다른 이벤트를 기다리는 작업은 별도 태스크로 나눈다.
-- 주변장치는 분리 기준으로 삼지 않는다. 주변장치는 필요한 태스크가 사용한다.
-- ISR은 이벤트를 큐에 넣고 즉시 반환한다.
+- Work that runs at the same period, in a fixed order, goes into one task.
+- Work that has a different period, or that waits for a different event, goes into a separate task.
+- Peripherals do not decide the split. A peripheral is used by the task that needs it.
+- An interrupt service routine (ISR) puts an event in a queue and returns immediately.
 
-이 기준으로 다시 구성한 구조는 다음과 같다.
+With these rules, the design looks like this:
 
 <figure class="flow">
   <div class="flow-steps">
     <div class="flow-src">
-      <span class="flow-node">버튼 ISR<small>A, B</small></span>
-      <span class="flow-node">1초 타이머<small>TICK</small></span>
+      <span class="flow-node">Button ISR<small>A, B</small></span>
+      <span class="flow-node">1&nbsp;s timer<small>TICK</small></span>
     </div>
     <span class="flow-arrow" aria-hidden="true"></span>
-    <span class="flow-node">큐</span>
+    <span class="flow-node">Queue</span>
     <span class="flow-arrow" aria-hidden="true"></span>
-    <span class="flow-node">로직 태스크<small>상태 기계</small></span>
+    <span class="flow-node">Logic task<small>state machine</small></span>
     <span class="flow-arrow" aria-hidden="true"></span>
-    <span class="flow-node">디스플레이 태스크</span>
+    <span class="flow-node">Display task</span>
   </div>
-  <figcaption>버튼 ISR과 1초 타이머는 이벤트를 큐에 넣는다. 로직 태스크는 큐에서 이벤트를 꺼내 상태를 갱신하고, 디스플레이 태스크는 전달받은 값을 표시한다.</figcaption>
+  <figcaption>The button ISR and the 1&nbsp;s timer put events in a queue. The logic task takes each event from the queue and updates the state. The display task shows the value that it receives.</figcaption>
 </figure>
 
-태스크는 여전히 2개다. 로직 태스크는 이벤트를, 디스플레이 태스크는 2&nbsp;ms 주기를 기다린다. 대기 조건이 서로 다르므로 2개로 나누며, 3개로 나눌 이유는 없다. 버튼과 타이머는 별도 태스크로 만들지 않고, 이벤트를 큐에 넣는 역할만 맡긴다.
+There are still two tasks. The logic task waits for events. The display task waits for its 2&nbsp;ms period. They wait for different things, so they are separate tasks, and there is no reason for a third task. The buttons and the timer are not tasks. They only put events in the queue.
 
 ```c
 typedef enum { EV_A, EV_B, EV_TICK } event_t;
@@ -81,7 +83,7 @@ typedef enum { RUN, PAUSE } state_t;
 void vLogicTask(void *p) {
     state_t s = PAUSE; uint32_t count = 0; event_t ev;
     for (;;) {
-        xQueueReceive(q, &ev, portMAX_DELAY);   /* 유일한 대기 지점 */
+        xQueueReceive(q, &ev, portMAX_DELAY);   /* waits only here */
         switch (s) {
         case RUN:
             if (ev == EV_A) s = PAUSE;
@@ -91,27 +93,27 @@ void vLogicTask(void *p) {
         case PAUSE:
             if (ev == EV_A) s = RUN;
             else if (ev == EV_B) count = 0;
-            break;                              /* TICK 이벤트는 무시 */
+            break;                              /* ignore TICK */
         }
         g_display_value = count;
     }
 }
 ```
 
-상태 전이표의 각 칸이 `if` 문 한 줄에 대응하고, 표에 없는 조합은 코드에도 없다. 디버깅할 때는 현재 상태와 수신한 이벤트 두 가지만 확인하면 된다.
+Each cell of the table maps to one `if` statement. A combination that is not in the table is not in the code either. To debug, I need to check only two things: the current state and the event that the task received.
 
-## 실무 적용
+## How this applies to my product
 
-현재 개발 중인 제품도 두 경로로 나눌 수 있다.
+The product I work on also has two paths:
 
-- 빠른 주기 데이터 경로: 센서 입력, 제어 연산, 액추에이터 출력으로 이어지는 함수 구조다. 주기 태스크 하나 또는 타이머 ISR로 구현한다.
-- 느린 이벤트 제어 경로: 명령 수신, 모드 전환, 오류 처리를 담당하는 상태 기계 구조다. 큐 하나와 로직 태스크 하나로 구현한다.
+- The fast data path: sensor input, control calculation, and actuator output. This path is a function. One periodic task or a timer ISR runs it.
+- The slow control path: commands, mode changes, and error handling. This path is a state machine. One queue and one logic task run it.
 
-처음에 가졌던 '장치는 함수'라는 관점은 첫 번째 경로에만 해당한다. 버튼 예제에서 해법을 찾지 못한 이유는 두 번째 경로를 첫 번째 경로와 같은 방식으로 다루려 했기 때문이다.
+My first idea, "a device is a function," is true only for the fast path. I could not solve the button problem because I treated the slow path like the fast path.
 
-## 정리
+## Summary
 
-- 태스크는 기능이 아닌 대기 조건(이벤트, 주기)을 기준으로 나눈다.
-- 이벤트를 처리하는 로직은 상태 전이표로 먼저 정리한 뒤 구현한다.
+- Split tasks by what they wait for (an event or a period), not by feature.
+- For logic that handles events, write the state transition table first. Then write the code.
 
-다음 글에서는 같은 설계를 슈퍼루프, FreeRTOS, 동기식(모든 이벤트를 `tick()` 함수 하나에서 처리) 세 가지 방식으로 구현하고, 하드웨어 없이 PC에서 테스트할 수 있는지 비교한다.
+In the next post, I will build the same design in three ways: a superloop, FreeRTOS, and a synchronous design that handles every event in one `tick()` function. Then I will compare how easy it is to test each one on a PC without hardware.

@@ -1,8 +1,10 @@
-{{- /* MCU 블록 다이어그램.
-       칩 외곽과 핀, 가운데 코어(안에 펌웨어 타일), 코어 아래 메모리, 양옆 버스,
-       왼쪽 입출력, 오른쪽 통신, 칩 바깥 연결(센서, 밸브, 장비 컨트롤러, 디버그, 빌드, 계측기),
-       아래에 다음 단계(리눅스 SoC). 칸의 채움 농도가 등급이다. 데이터는 data/skills.yaml. */ -}}
-{{- $d := hugo.Data.skills -}}
+{{- /* Skill map drawn as an MCU block diagram.
+       Chip outline and pins. The core is in the middle, with firmware blocks inside it and memory below it.
+       Buses run on both sides: I/O on the left, communication on the right.
+       Outside the chip: sensor, valve, host controller, debug port, build tools, and probe.
+       The next step (a Linux SoC) is below the chip. The fill of each block shows its level.
+       Takes the skills data (data/<lang>/skills.yaml). */ -}}
+{{- $d := . -}}
 {{- $all := slice -}}
 {{- range $d.groups }}{{ range .items }}{{ $all = $all | append . }}{{ end }}{{ end -}}
 
@@ -20,7 +22,7 @@
 {{- $misfit := false -}}
 {{- range $all }}{{ if and .area (ge (.level | default 0 | int) 3) (not .evidence) }}{{ $misfit = true }}{{ end }}{{ end -}}
 
-{{- /* 격자 */ -}}
+{{- /* Grid */ -}}
 {{- $cx0 := 100 }}{{ $cx1 := 580 }}{{ $cy0 := 56 -}}
 {{- $lc := 116 }}{{ $lcw := 100 }}{{ $bl := 228 -}}
 {{- $cc := 240 }}{{ $ccw := 200 }}{{ $br := 452 -}}
@@ -28,7 +30,7 @@
 {{- $row0 := 92 }}{{ $bh := 30 }}{{ $pitch := 38 -}}
 {{- $tw := 89 }}{{ $th := 26 }}{{ $tp := 32 }}{{ $mw := 97 -}}
 
-{{- /* 코어 상자: 머리(코어) + 응용 타일 + 구분선 + 시스템 타일 */ -}}
+{{- /* Core box: header (the CPU) + application blocks + divider + firmware blocks */ -}}
 {{- $appRows := div (add (len $app) 1) 2 -}}
 {{- $sysRows := div (add (len $sys) 1) 2 -}}
 {{- $appTop := add $row0 34 -}}
@@ -38,7 +40,7 @@
 {{- $sysEnd := add $sysTop (sub (mul $sysRows $tp) 6) -}}
 {{- $coreBottom := add $sysEnd 8 -}}
 
-{{- /* 코어 아래 메모리, 시스템 칸 (2열) */ -}}
+{{- /* Memory and system blocks below the core (2 columns) */ -}}
 {{- $memTop := add $coreBottom 8 -}}
 {{- $memRows := div (add (len $mem) 1) 2 -}}
 {{- $memEnd := add $memTop (sub (mul $memRows $pitch) 8) -}}
@@ -47,18 +49,18 @@
 {{- $rightEnd := add $row0 (sub (mul (len $comm) $pitch) 8) -}}
 {{- $chipBottom := add (int (math.Max (math.Max $leftEnd $rightEnd) $memEnd)) 16 -}}
 
-{{- /* 버스 길이 */ -}}
+{{- /* Bus lengths */ -}}
 {{- $hc := add $row0 13 -}}
 {{- $blMax := add $row0 (add (mul (sub (len $io) 1) $pitch) 15) -}}
 {{- $brMax := add $row0 (add (mul (sub (len $comm) 1) $pitch) 15) -}}
 {{- range $i, $m := $mem }}{{ $cy := add $memTop (add (mul (div $i 2) $pitch) 15) }}{{ if eq (mod $i 2) 0 }}{{ $blMax = int (math.Max $blMax $cy) }}{{ else }}{{ $brMax = int (math.Max $brMax $cy) }}{{ end }}{{ end -}}
 
-{{- /* 디버그 포트: 칩 위쪽 테두리에 걸침 */ -}}
+{{- /* Debug port: sits on the top edge of the chip */ -}}
 {{- $jw := 96 }}{{ $jh := 26 -}}
 {{- $jx := add $cc (div (sub $ccw $jw) 2) -}}
 {{- $jy := sub $cy0 13 -}}
 
-{{- /* 다음 단계 SoC */ -}}
+{{- /* Next step: SoC */ -}}
 {{- $nw := 110 }}{{ $ngap := 8 }}{{ $socH := 64 -}}
 {{- $nCount := len $next -}}
 {{- $socW := add 24 (add (mul $nCount $nw) (mul (sub $nCount 1) $ngap)) -}}
@@ -70,9 +72,9 @@
 <figure class="sdg-fig">
 <div class="sdg-scroll">
 <svg class="sdg" viewBox="0 0 680 {{ $H }}" role="img" aria-labelledby="sdg-t">
-<title id="sdg-t">MCU 기준 기술 구성도. 칸이 진할수록 등급이 높습니다. 항목별 등급과 근거는 아래 표에 있습니다.</title>
+<title id="sdg-t">{{ T "diagram_title" }}</title>
 
-{{- /* 칩 외곽과 핀 */}}
+{{- /* Chip outline and pins */}}
 <rect class="chip" x="{{ $cx0 }}" y="{{ $cy0 }}" width="{{ sub $cx1 $cx0 }}" height="{{ sub $chipBottom $cy0 }}" rx="8"/>
 {{- $pinN := add (div (sub (sub $chipBottom $cy0) 32) 24) 1 }}
 {{- range seq 0 (sub $pinN 1) }}{{ $py := add (add $cy0 16) (mul . 24) }}
@@ -85,13 +87,13 @@
 <circle class="pin1" cx="{{ add $cx0 14 }}" cy="{{ add $cy0 18 }}" r="3"/>
 <text class="chip-title" x="{{ add $cx0 24 }}" y="{{ add $cy0 18 }}" dominant-baseline="central">MCU</text>
 
-{{- /* 버스 */}}
+{{- /* Buses */}}
 <line class="bus" x1="{{ $bl }}" y1="{{ $hc }}" x2="{{ $bl }}" y2="{{ $blMax }}"/>
 <line class="bus" x1="{{ $br }}" y1="{{ $hc }}" x2="{{ $br }}" y2="{{ $brMax }}"/>
 <line class="stub" x1="{{ $bl }}" y1="{{ $hc }}" x2="{{ $cc }}" y2="{{ $hc }}"/>
 <line class="stub" x1="{{ add $cc $ccw }}" y1="{{ $hc }}" x2="{{ $br }}" y2="{{ $hc }}"/>
 
-{{- /* 코어 */}}
+{{- /* Core */}}
 <rect class="core" x="{{ $cc }}" y="{{ $row0 }}" width="{{ $ccw }}" height="{{ sub $coreBottom $row0 }}" rx="4"/>
 {{- range first 1 $cpu }}
 {{ partial "sdg-block.html" (dict "item" . "x" $cc "y" $row0 "w" $ccw "h" 26) }}
@@ -106,7 +108,7 @@
 {{ partial "sdg-block.html" (dict "item" $it "x" (add (add $cc 8) (mul (mod $i 2) (add $tw 6))) "y" (add $sysTop (mul (div $i 2) $tp)) "w" $tw "h" $th) }}
 {{- end }}
 
-{{- /* 코어 아래: 메모리와 시스템 */}}
+{{- /* Below the core: memory and system */}}
 {{- range $i, $it := $mem }}
 {{- $x := add $cc (mul (mod $i 2) (add $mw 6)) }}{{ $y := add $memTop (mul (div $i 2) $pitch) }}{{ $cy := add $y 15 }}
 {{- if eq (mod $i 2) 0 }}
@@ -117,7 +119,7 @@
 {{ partial "sdg-block.html" (dict "item" $it "x" $x "y" $y "w" $mw "h" $bh) }}
 {{- end }}
 
-{{- /* 왼쪽: 입출력, 바깥 연결 */}}
+{{- /* Left: I/O and external connections */}}
 {{- range $i, $it := $io }}
 {{- $y := add $row0 (mul $i $pitch) }}{{ $cy := add $y 15 }}
 <line class="stub" x1="{{ add $lc $lcw }}" y1="{{ $cy }}" x2="{{ $bl }}" y2="{{ $cy }}"/>
@@ -131,7 +133,7 @@
 {{- end }}
 {{- end }}
 
-{{- /* 오른쪽: 통신, 바깥 연결 */}}
+{{- /* Right: communication and external connections */}}
 {{- range $i, $it := $comm }}
 {{- $y := add $row0 (mul $i $pitch) }}{{ $cy := add $y 15 }}{{ $x0 := add $rc $rcw }}
 <line class="stub" x1="{{ $br }}" y1="{{ $cy }}" x2="{{ $rc }}" y2="{{ $cy }}"/>
@@ -151,7 +153,7 @@
 {{- end }}
 {{- end }}
 
-{{- /* 위: 빌드 → 디버그 포트 → 코어 */}}
+{{- /* Top: build tools → debug port → core */}}
 {{- range first 1 $debug }}
 <line class="wire" x1="{{ add $jx (div $jw 2) }}" y1="{{ add $jy $jh }}" x2="{{ add $jx (div $jw 2) }}" y2="{{ $row0 }}"/>
 {{ partial "sdg-block.html" (dict "item" . "x" $jx "y" $jy "w" $jw "h" $jh) }}
@@ -163,7 +165,7 @@
 <polygon class="head" points="{{ $ax }},{{ $jy }} {{ sub $ax 4 }},{{ sub $jy 7 }} {{ add $ax 4 }},{{ sub $jy 7 }}"/>
 {{- end }}
 
-{{- /* 왼쪽 아래: 계측기 프로브 */}}
+{{- /* Lower left: measurement probe */}}
 {{- range first 1 $probe }}
 {{- $px := 8 }}{{ $pw := 76 }}{{ $ph := 26 }}{{ $py := sub $chipBottom 52 }}{{ $pcy := add $py 13 }}
 {{ partial "sdg-block.html" (dict "item" . "x" $px "y" $py "w" $pw "h" $ph) }}
@@ -171,13 +173,13 @@
 <circle class="tip" cx="{{ $cx0 }}" cy="{{ $pcy }}" r="2.5"/>
 {{- end }}
 
-{{- /* 아래: 다음 단계 */}}
+{{- /* Bottom: next step */}}
 {{- with $next }}
 {{- $ax := add $socX 40 }}
 <line class="probe" x1="{{ $ax }}" y1="{{ add $chipBottom 8 }}" x2="{{ $ax }}" y2="{{ sub $socY 6 }}"/>
 <polygon class="head dim" points="{{ $ax }},{{ $socY }} {{ sub $ax 4 }},{{ sub $socY 7 }} {{ add $ax 4 }},{{ sub $socY 7 }}"/>
 <rect class="soc" x="{{ $socX }}" y="{{ $socY }}" width="{{ $socW }}" height="{{ $socH }}" rx="6"/>
-<text class="soc-title" x="{{ add $socX 12 }}" y="{{ add $socY 16 }}" dominant-baseline="central">리눅스 SoC</text>
+<text class="soc-title" x="{{ add $socX 12 }}" y="{{ add $socY 16 }}" dominant-baseline="central">{{ T "diagram_soc" }}</text>
 {{- range $i, $it := . }}
 {{ partial "sdg-block.html" (dict "item" $it "x" (add (add $socX 12) (mul $i (add $nw $ngap))) "y" (add $socY 30) "w" $nw "h" 26) }}
 {{- end }}
@@ -185,11 +187,11 @@
 </svg>
 </div>
 <figcaption class="sdg-key">
-  <span class="sdg-key-t">등급</span>
-  <span class="sw lv0" aria-hidden="true"></span><span>미평가</span>
+  <span class="sdg-key-t">{{ T "diagram_level" }}</span>
+  <span class="sw lv0" aria-hidden="true"></span><span>{{ T "not_rated" }}</span>
   <span class="sw lv1">1</span><span class="sw lv2">2</span><span class="sw lv3">3</span><span class="sw lv4">4</span>
   {{- if $misfit }}
-  <span class="sdg-key-miss"><svg viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2"/><polygon points="12,0.5 21.5,0.5 21.5,10"/></svg>근거 없음</span>
+  <span class="sdg-key-miss"><svg viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2"/><polygon points="12,0.5 21.5,0.5 21.5,10"/></svg>{{ T "no_evidence" }}</span>
   {{- end }}
 </figcaption>
 </figure>

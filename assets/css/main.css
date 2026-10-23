@@ -1,33 +1,33 @@
-/* Firmware Notes 스타일
+/* Firmware Notes styles
 
-   원칙
-   1. 색은 상태 표시에만 쓴다. 노란색은 '문제'와 '근거 없음'에만 쓴다.
-   2. 왼쪽 열에는 날짜, 오른쪽 열에는 내용을 둔다.
-   3. 장식, 카드, 그림자, 애니메이션, 자바스크립트는 쓰지 않는다. */
+   Rules
+   1. Color is used only to show status. Yellow marks only "Problem" and "No evidence".
+   2. The left column holds dates. The right column holds content.
+   3. No decoration, cards, shadows, animation, or JavaScript. */
 
-/* ── 토큰 ─────────────────────────────────────────── */
+/* ── Tokens ───────────────────────────────────────── */
 
 :root {
   --paper: #ffffff;
-  --panel: #f3f3f0;        /* 코드 바탕 */
-  --ink: #262624;          /* 본문 15:1 */
-  --graphite: #66665f;     /* 보조 글자 5.8:1 */
-  --rule: #d9d9d3;         /* 표의 가는 선 */
-  --off: #8c8c85;          /* 꺼진 미터 칸, 밑줄 3.4:1 */
-  --signal: #f2b300;       /* 상태 표시: 문제, 근거 없음 */
-  --signal-edge: #9a7200;  /* 흰 바탕에서 표시 윤곽 대비 4.4:1 */
+  --panel: #f3f3f0;        /* code background */
+  --ink: #262624;          /* body text, 15:1 */
+  --graphite: #66665f;     /* secondary text, 5.8:1 */
+  --rule: #d9d9d3;         /* thin table lines */
+  --off: #8c8c85;          /* empty meter blocks, underlines, 3.4:1 */
+  --signal: #f2b300;       /* status marker: Problem, No evidence */
+  --signal-edge: #9a7200;  /* marker outline on white, 4.4:1 */
   --code-literal: #3f5a70;
-  --lv1: #efefeb;          /* 등급 채움: 진할수록 깊다 */
+  --lv1: #efefeb;          /* level fill: darker means a higher level */
   --lv2: #cbcbc3;
   --lv3: #6e6e67;
   --lv4: #262624;
 
-  --font: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --font: "IBM Plex Sans", "IBM Plex Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  --side: 8.5rem;          /* 시간 열 */
+  --side: 8.5rem;          /* date column */
   --gap: 3rem;
-  --measure: 38rem;        /* 한글 한 줄 약 36자 */
+  --measure: 38rem;        /* about 75 Latin characters per line */
 
   color-scheme: light dark;
 }
@@ -49,7 +49,7 @@
   }
 }
 
-/* ── 바탕 ─────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────── */
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -65,15 +65,21 @@ body {
   color: var(--ink);
   font-family: var(--font);
   font-weight: 400;
-  line-height: 1.8;
-  word-break: keep-all;    /* 한글 어절 단위 줄바꿈 */
+  line-height: 1.65;
   overflow-wrap: break-word;
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-[lang="en"] { word-break: normal; }
+/* Korean pages: Korean font first, taller lines, and line breaks between words only. */
+:lang(ko) {
+  --font: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+}
+body:lang(ko) {
+  line-height: 1.8;
+  word-break: keep-all;
+}
 
 h1, h2, h3 { text-wrap: balance; }
 p, li, dd { text-wrap: pretty; }
@@ -120,7 +126,7 @@ a:hover {
   border: 0;
 }
 
-/* ── 배치: 왼쪽 날짜 열, 오른쪽 내용 열 ───────────── */
+/* ── Layout: date column on the left, content on the right ── */
 
 .frame {
   max-width: calc(var(--side) + var(--gap) + var(--measure) + 3rem);
@@ -147,7 +153,7 @@ a:hover {
 }
 .side > * { display: block; }
 
-/* ── 머리와 꼬리 ───────────────────────────────────── */
+/* ── Header and footer ─────────────────────────────── */
 
 .site-head { padding-block: 1.75rem 0; }
 
@@ -194,7 +200,7 @@ a:hover {
   list-style: none;
 }
 
-/* ── 첫 화면 ───────────────────────────────────────── */
+/* ── Home page ─────────────────────────────────────── */
 
 .hero { padding-block: clamp(3rem, 9vw, 6.5rem) clamp(2.5rem, 6vw, 4.5rem); }
 .hero h1 {
@@ -203,16 +209,11 @@ a:hover {
   font-size: clamp(1.75rem, 1.1rem + 2.4vw, 2.6rem);
   font-weight: 500;
   line-height: 1.34;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 .hero-text p { margin: 0 0 1rem; max-width: 34em; }
-.hero-text p[lang="en"] {
-  color: var(--graphite);
-  font-size: 0.94rem;
-  line-height: 1.7;
-}
 
-/* ── 목록과 항목 ───────────────────────────────────── */
+/* ── Lists and entries ─────────────────────────────── */
 
 .block { margin-bottom: 3.5rem; }
 
@@ -251,7 +252,7 @@ a:hover {
   font-size: 0.875rem;
 }
 
-/* 작업 내용 / 문제 / 해결 방법 / 다음 계획 */
+/* What I did / Problem / Solution / Next step */
 .trace {
   display: grid;
   gap: 0.45rem;
@@ -259,7 +260,7 @@ a:hover {
 }
 .trace > div {
   display: grid;
-  grid-template-columns: 5.25rem minmax(0, 1fr);
+  grid-template-columns: 5.75rem minmax(0, 1fr);
   column-gap: 1rem;
   align-items: baseline;
 }
@@ -273,7 +274,7 @@ a:hover {
   line-height: 1.7;
 }
 
-/* 상태 표시: 문제, 근거 없음 */
+/* Status marker: Problem, No evidence */
 .lamp {
   display: inline-block;
   width: 0.55rem;
@@ -285,7 +286,7 @@ a:hover {
   vertical-align: 0.06em;
 }
 
-/* ── 문서 ─────────────────────────────────────────── */
+/* ── Pages and posts ───────────────────────────────── */
 
 .page-head { padding-block: clamp(2.5rem, 7vw, 5rem) 2.25rem; }
 .page-head h1 {
@@ -379,7 +380,7 @@ blockquote p:last-child { margin-bottom: 0; }
   font-size: 0.875rem;
 }
 
-/* 흐름도: 본문 안의 간단한 블록 다이어그램. 좁은 화면에서는 세로로 배치된다. */
+/* Flow figure: a simple block diagram inside a post. It stacks vertically on narrow screens. */
 .flow { margin: 2rem 0; }
 .flow-steps {
   display: flex;
@@ -416,7 +417,7 @@ blockquote p:last-child { margin-bottom: 0; }
   line-height: 1.7;
 }
 
-/* ── 코드 ─────────────────────────────────────────── */
+/* ── Code ─────────────────────────────────────────── */
 
 code, kbd, samp, pre { font-family: var(--mono); }
 
@@ -444,7 +445,7 @@ pre {
   word-break: normal;
 }
 
-/* 문법 색은 셋만: 주석은 흐리게, 키워드는 굵게, 리터럴만 다른 색 */
+/* Only three syntax styles: comments are dim, keywords are bold, literals have one color. */
 .chroma .c, .chroma .c1, .chroma .cm, .chroma .cs { color: var(--graphite); font-style: italic; }
 .chroma .cp, .chroma .cpf { color: var(--graphite); }
 .chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { font-weight: 500; }
@@ -453,7 +454,7 @@ pre {
 .chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi, .chroma .mo { color: var(--code-literal); }
 .chroma .err { color: inherit; background: none; }
 
-/* ── 표 ───────────────────────────────────────────── */
+/* ── Tables ───────────────────────────────────────── */
 
 .table-wrap {
   margin: 1.75rem 0;
@@ -480,7 +481,7 @@ thead th {
   font-weight: 600;
 }
 
-/* ── 스킬 맵 ───────────────────────────────────────── */
+/* ── Skills page ───────────────────────────────────── */
 
 .group { margin-bottom: 3rem; }
 .group h2 {
@@ -527,7 +528,7 @@ thead th {
 .skills td:nth-of-type(1) { white-space: nowrap; }
 .none { color: var(--graphite); }
 
-/* 두 번째 표부터는 열 이름을 화면에 다시 표시하지 않는다(화면 낭독기에는 제공) */
+/* From the second table on, the column names are hidden on screen (screen readers still get them). */
 .skills.is-cont { border-top: 1px solid var(--ink); }
 .skills.is-cont thead {
   position: absolute;
@@ -537,7 +538,7 @@ thead th {
   clip: rect(0 0 0 0);
 }
 
-/* 등급 표시: 해당 등급까지 채우고 나머지는 윤곽선 */
+/* Level meter: filled up to the level, outlines for the rest */
 .meter {
   display: inline-flex;
   gap: 2px;
@@ -557,14 +558,14 @@ thead th {
 }
 .lv { font-variant-numeric: tabular-nums; }
 
-/* ── 기술 역량 구성도: MCU 블록 다이어그램 ────────── */
+/* ── Skill map: MCU block diagram ──────────────────── */
 
 .sdg-fig { margin: 1rem 0 0; }
 .sdg-scroll { overflow-x: auto; }
 .sdg {
   display: block;
   width: 100%;
-  min-width: 600px;        /* 좁은 화면에서는 글자를 줄이지 않고 가로 스크롤로 표시 */
+  min-width: 600px;        /* on narrow screens, scroll sideways instead of shrinking the text */
   height: auto;
 }
 .sdg text {
@@ -637,7 +638,7 @@ thead th {
 .sdg-key-miss rect { fill: var(--lv3); }
 .sdg-key-miss polygon { fill: var(--signal); stroke: var(--signal-edge); stroke-width: 0.75; }
 
-/* ── 분류와 태그 ───────────────────────────────────── */
+/* ── Categories and tags ───────────────────────────── */
 
 .term-list {
   display: grid;
@@ -653,7 +654,7 @@ thead th {
   font-variant-numeric: tabular-nums;
 }
 
-/* ── 좁은 화면 ─────────────────────────────────────── */
+/* ── Narrow screens ────────────────────────────────── */
 
 @media (max-width: 52rem) {
   .row,
@@ -703,7 +704,7 @@ thead th {
   .skills.is-cont { border-top-color: var(--rule); }
 
   .levels li { grid-template-columns: 5rem minmax(0, 1fr); }
-  .trace > div { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  .trace > div { grid-template-columns: 5.25rem minmax(0, 1fr); }
 
   .flow-steps {
     flex-direction: column;
@@ -714,7 +715,7 @@ thead th {
   .flow-arrow::before { content: "↓"; }
 }
 
-/* ── 접근성과 인쇄 ─────────────────────────────────── */
+/* ── Accessibility and print ───────────────────────── */
 
 @media (forced-colors: active) {
   .lamp {

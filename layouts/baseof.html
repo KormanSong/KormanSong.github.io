@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="{{ site.Language.Locale | default "ko-KR" }}">
+<html lang="{{ site.Language.Locale | default "en-US" }}">
 <head>
 {{ partial "head.html" . }}
 </head>
 <body>
-<a class="skip" href="#main">본문 바로가기</a>
+<a class="skip" href="#main">{{ T "skip_to_content" }}</a>
 {{ partial "header.html" . }}
 <main id="main" class="frame">
 {{ block "main" . }}{{ end }}

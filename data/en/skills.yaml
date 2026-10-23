@@ -1,0 +1,199 @@
+# Skills data. The diagram and the tables on /skill-map/ both come from this file.
+#
+# level     0 = not rated. 1 to 4 = see "levels" below. Give a level only if you can show evidence for it.
+# note      Short text under the skill name in the table (optional).
+# evidence  Path of a post that proves the level, relative to content/, without the file extension.
+#           Example: posts/2026-10-21-task-is-a-unit-of-waiting
+#
+# Fields for the diagram (an MCU block diagram)
+# area      Where the block goes. If you leave it out, the skill shows only in the table.
+#           domain (application, inside the core)   software (firmware, inside the core)
+#           core (memory and system, below the core)   io (I/O, left of the chip)
+#           comm (communication, right of the chip)    tools (outside the chip)   next (Linux SoC)
+# cpu       true = this item is the core itself (the title row of the core box).
+# slot      Position of a tool: build | debug (debug port) | probe (measurement probe)
+# short     Short label for the diagram. If empty, the diagram uses "name".
+#           A label that is too wide for its block gets a smaller font.
+# io        The external device that connects to this block, for example "Flow sensor".
+# io_dir    in | out | both
+#
+# If a skill has level 3 or higher and no evidence, the diagram and the table show a "No evidence" flag.
+# If the evidence path is wrong, the table shows "Post not found".
+
+levels:
+  - n: 1
+    meaning: Used vendor HAL or driver APIs
+    ask: Which APIs I called, and in what order
+  - n: 2
+    meaning: Set registers directly, or wrote a driver
+    ask: Which registers I set, and why I chose each value
+  - n: 3
+    meaning: Found and fixed faults or timing problems with an oscilloscope or logic analyzer
+    ask: Which waveform I captured, and what caused the problem
+  - n: 4
+    meaning: Designed a protocol or an architecture that my team uses
+    ask: Why I chose the design, and which alternatives I rejected
+
+# Table order: hardware (core, I/O, communication) → firmware → application → tools → new areas → ways of working
+groups:
+  - name: MCU core and memory
+    items:
+      - name: Arm Cortex-M (bare metal)
+        short: Cortex-M
+        area: core
+        cpu: true
+        level: 0
+        note: Startup code, vector table, linker script
+      - name: DMA
+        area: core
+        level: 0
+        note: Direct memory access
+      - name: Flash and EEPROM
+        short: Flash/EEPROM
+        area: core
+        level: 0
+        note: Stores calibration data
+      - name: Watchdog timer
+        short: Watchdog
+        area: core
+        level: 0
+
+  - name: Input and output
+    items:
+      - name: ADC
+        area: io
+        io: Flow sensor
+        io_dir: in
+        level: 0
+        note: Analog-to-digital converter. Sensor input, oversampling
+      - name: DAC
+        area: io
+        io: Control valve
+        io_dir: out
+        level: 0
+        note: Digital-to-analog converter. Valve drive output
+      - name: Timers, PWM, and input capture
+        short: Timer/PWM
+        area: io
+        level: 0
+      - name: GPIO and external interrupts
+        short: GPIO/EXTI
+        area: io
+        level: 0
+
+  - name: Communication
+    items:
+      - name: UART
+        area: comm
+        level: 0
+        note: Asynchronous serial communication
+      - name: RS-485
+        area: comm
+        io: Host controller
+        io_dir: both
+        level: 0
+        note: Half-duplex. Controls the send and receive direction
+      - name: SPI
+        area: comm
+        level: 0
+      - name: I2C
+        area: comm
+        level: 0
+      - name: CAN
+        area: comm
+        level: 0
+      # Replace this with the name of the protocol that you used.
+      - name: Industrial fieldbus
+        short: Fieldbus
+        area: comm
+        level: 0
+        note: For example EtherCAT, DeviceNet, or Modbus
+      - name: USB
+        area: comm
+        level: 0
+        note: For example the CDC class
+
+  - name: Firmware
+    items:
+      - name: C
+        area: software
+        level: 0
+        note: Embedded C
+      - name: FreeRTOS
+        area: software
+        level: 0
+        note: Tasks, queues, task notifications
+        evidence: posts/2026-10-21-task-is-a-unit-of-waiting
+      - name: Finite state machines (FSM)
+        short: State machine
+        area: software
+        level: 0
+        note: Event-driven design
+      - name: Bootloader and firmware update
+        short: Bootloader
+        area: software
+        level: 0
+
+  - name: Flow control
+    items:
+      - name: Mass flow controller (MFC) firmware
+        short: MFC firmware
+        area: domain
+        level: 0
+        note: For semiconductor equipment
+      - name: PID control
+        area: domain
+        level: 0
+        note: Flow control loop
+      - name: Sensor calibration and linearization
+        short: Calibration
+        area: domain
+        level: 0
+      - name: Real-time constraints
+        short: Real-time
+        area: domain
+        level: 0
+        note: Jitter, deadlines
+
+  - name: Development and measurement tools
+    items:
+      - name: GCC, Make, and CMake
+        short: GCC/Make
+        area: tools
+        slot: build
+        level: 0
+      - name: JTAG/SWD debugging
+        short: JTAG/SWD
+        area: tools
+        slot: debug
+        level: 0
+        note: For example OpenOCD or J-Link
+      - name: Oscilloscope and logic analyzer
+        short: Scope
+        area: tools
+        slot: probe
+        level: 0
+
+  - name: Embedded Linux
+    items:
+      - name: Building the Linux kernel and root file system
+        short: Kernel build
+        area: next
+        level: 1
+        note: BeagleBone Black, device tree. In progress
+      - name: Linux kernel drivers (IIO)
+        short: Kernel driver
+        area: next
+        level: 0
+        note: Planned
+
+  - name: Ways of working
+    items:
+      - name: Unit tests on a host PC
+        level: 0
+        note: Tests logic without hardware
+      - name: Git and code review
+        level: 0
+      - name: Technical writing in English
+        level: 0
+        note: This blog

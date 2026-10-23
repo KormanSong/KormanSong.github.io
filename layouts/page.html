@@ -3,7 +3,7 @@
 <article>
   <header class="row page-head">
     <p class="side">
-      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006. 1. 2." }}</time><span>읽는 시간 {{ .ReadingTime }}분</span>{{ end -}}
+      {{- if $isPost }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time><span>{{ T "reading_time" .ReadingTime }}</span>{{ end -}}
     </p>
     <div class="main">
       <h1>{{ partial "kotext.html" .Title }}</h1>
@@ -21,23 +21,23 @@
   <footer class="row page-foot">
     <div class="main">
       {{- with .GetTerms "categories" }}
-      <p><span class="label">분류</span>{{ range $i, $t := . }}{{ if $i }}, {{ end }}<a href="{{ $t.RelPermalink }}">{{ $t.LinkTitle }}</a>{{ end }}</p>
+      <p><span class="label">{{ T "category" }}</span>{{ range $i, $t := . }}{{ if $i }}, {{ end }}<a href="{{ $t.RelPermalink }}">{{ $t.LinkTitle }}</a>{{ end }}</p>
       {{- end }}
       {{- with .GetTerms "tags" }}
-      <ul class="tags" aria-label="태그">
+      <ul class="tags" aria-label="{{ T "tags" }}">
         {{- range . }}
         <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
         {{- end }}
       </ul>
       {{- end }}
-      {{- /* Hugo에서 PrevInSection은 더 오래된 글, NextInSection은 더 새로운 글이다 (실험으로 확인). */}}
+      {{- /* In Hugo, PrevInSection is the older post and NextInSection is the newer post (checked with a test post). */}}
       {{- if or .PrevInSection .NextInSection }}
-      <nav class="pager" aria-label="이전 글과 다음 글">
+      <nav class="pager" aria-label="{{ T "older_newer" }}">
         {{- with .PrevInSection }}
-        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">이전 글</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
+        <a rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "older_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
         {{- end }}
         {{- with .NextInSection }}
-        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">다음 글</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
+        <a rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">{{ T "newer_post" }}</span><span class="pager-title">{{ partial "kotext.html" .Title }}</span></a>
         {{- end }}
       </nav>
       {{- end }}

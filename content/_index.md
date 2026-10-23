@@ -1,7 +1,7 @@
 +++
-title = "반도체 장비용 질량 유량 제어기(MFC) 펌웨어를 개발합니다."
+title = "I develop firmware for mass flow controllers in semiconductor equipment."
 +++
 
-MCU·RTOS 기반 펌웨어를 개발해 왔고, 현재 임베디드 리눅스로 업무 영역을 넓히고 있습니다. 이 블로그에는 측정 결과와 문제 해결 과정을 기록합니다.
+A mass flow controller (MFC) measures the flow of a process gas and adjusts a valve to keep that flow at a set value. I have written MFC firmware on microcontrollers (MCUs) and with a real-time operating system (RTOS). Now I am also learning embedded Linux.
 
-<p lang="en">I develop firmware for mass flow controllers used in semiconductor process equipment, and I am expanding from MCU and RTOS work into embedded Linux. This site records measurement results and how I resolved the problems I ran into.</p>
+On this blog, I record what I measure, the problems I find, and how I solve them.

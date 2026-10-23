@@ -2,66 +2,92 @@
 
 https://kormansong.github.io
 
-반도체 장비용 질량 유량 제어기(MFC) 펌웨어 개발 기록입니다. 별도 테마 없이 이 저장소의 `layouts/`, `assets/`, `data/`로 사이트를 만들며, `main` 브랜치에 푸시하면 1~2분 뒤 자동으로 배포됩니다.
+Firmware development notes for mass flow controllers (MFCs) in semiconductor equipment. The site uses no theme. Everything comes from `layouts/`, `assets/`, `data/`, and `i18n/` in this repository. When you push to the `main` branch, the site is published 1 to 2 minutes later.
 
-## 작성 기준
+English is the source language. A Korean translation will be added later (see [Translation](#translation)).
 
-### 문체
-- 사이트 안내 문구와 소개: 합니다체
-- 프로젝트와 기술 역량 항목: 개조식(명사형 종결). 예: "디스플레이·카운터 태스크 분리"
-- 블로그 본문: 한 편 안에서 한 가지 문체로 통일
+## Writing rules
 
-### 용어
-한 개념에는 한 용어만 씁니다.
+### Plain English for a global audience
 
-| 개념 | 사용하는 용어 |
+Many readers do not speak English as a first language, and some read a machine translation. If a reader whose first language is not English can understand a post, the explanation is clear. So the blog follows these rules:
+
+- Keep each sentence to 25 words or fewer. Keep instructions to 20 words or fewer.
+- Give each sentence one idea. Give each paragraph one topic and no more than six sentences.
+- Use the active voice and the present tense when possible.
+- Use common words: "use", not "utilize" or "leverage".
+- Do not use idioms, slang, humor, or cultural references.
+- Use a one-word verb instead of a phrasal verb when one exists: "find", not "find out".
+- Spell out each abbreviation the first time: "real-time operating system (RTOS)".
+- Use one term for one concept, with the same capitalization every time (see the table below).
+- Do not use Latin abbreviations. Write "for example", not "e.g.", and "that is", not "i.e.".
+- Do not use contractions. Write "do not", not "don't".
+- Keep helper words such as "that" and "then" when they prevent confusion.
+- Do not put more than two nouns in front of a noun.
+- Keep text in figures short, because figures are not translated.
+- Use sentence case for titles and headings: "Split FreeRTOS tasks by what they wait for".
+
+### Terms
+
+| Concept | Term |
 |---|---|
-| 기록 항목 | 작업 내용, 문제, 해결 방법, 다음 계획 |
-| 프로젝트 상태 | 진행 중, 예정, 완료 |
-| 글 분류 | 측정, 설계, 문제 해결 |
-| 등급 미입력 | 미평가 |
-| 이 페이지 이름 | 기술 역량 (주소는 /skill-map/) |
+| Rows of the summary list | What I did, Problem, Solution, Next step |
+| Project status | In progress, Planned, Done |
+| Post category | Measurement, Design, Troubleshooting |
+| A skill with no level | Not rated |
+| The skills page | Skills (the address is /skill-map/) |
+| The product | mass flow controller (MFC) |
 
-### 표기
-- 날짜: `2026. 10. 21.` (문장 부호 규정: 숫자 사이 띄어 쓰기, 마지막 마침표 유지)
-- 대등한 항목 묶기: 가운뎃점(`타이머·PWM`). 업계에서 굳은 표기(`JTAG/SWD`)는 그대로 씁니다.
-- 숫자와 단위: 띄어 쓰고 줄이 바뀌지 않게 붙임 공백을 씁니다(`2&nbsp;ms`).
-- 줄바꿈: 어절 단위로 줄을 바꿉니다. 가운뎃점이 줄 첫머리에 오거나 '제어기(MFC)', '주기)을'처럼 괄호가 붙은 어절이 나뉘지 않도록 `layouts/_partials/kotext.html`이 출력 단계에서 처리하므로, 원본에는 일반 문자만 씁니다.
-- 피하는 표현: 'A가 아니라 B' 대구 반복, 극적인 끊어 쓰기, 굵은 글씨 남용, 줄표로 설명 붙이기, '-시키다' 남용, 불필요한 '의'
+### Numbers, units, and dates
 
-### 디자인
-- 색은 상태 표시에만 씁니다. 노란색은 '문제'와 '근거 없음'에만 표시합니다.
-- 왼쪽 열에는 날짜를, 오른쪽 열에는 내용을 둡니다.
-- 장식, 그림자, 애니메이션, 자바스크립트는 쓰지 않습니다.
-- 서체: IBM Plex Sans KR(본문), IBM Plex Mono(코드). 색과 크기 값은 `assets/css/main.css` 맨 위에 있습니다.
+- Put a space between a number and its unit, and keep them on one line. In a post, write `2&nbsp;ms`. In a YAML file, type a real no-break space (U+00A0).
+- Dates are formatted automatically for each language: "Oct 21, 2026" in English and "2026. 10. 21." in Korean.
 
-## 자주 하는 작업
+### Post structure
 
-### 글 쓰기
+These rules come from Patrick Winston's talk "How to Speak" and from the references at the end of this file.
 
-GitHub 웹에서 `content/posts/` → Add file → Create new file을 선택하고, 파일 이름을 `2026-11-01-영문-제목.md` 형식으로 정한 뒤 아래 머리말을 붙여 넣고 Commit합니다.
+- Give each post one main idea. If a post has two ideas, write two posts.
+- State the main idea in the title and in the first paragraph. Put the conclusion first.
+- Repeat the main idea in three places: the title, the summary list, and the "Summary" section at the end.
+- Give every performance claim a number, the test conditions, and the instrument.
+- If you were wrong about something, add a "What I got wrong" section.
+- End with what the reader learned and what comes next. Do not end with "Thanks for reading".
+
+### Design
+
+- Color is used only to show status. Yellow marks only "Problem" and "No evidence".
+- The left column holds dates. The right column holds content.
+- No decoration, shadows, animation, or JavaScript.
+- Fonts: IBM Plex Sans (text) and IBM Plex Mono (code). Korean pages use IBM Plex Sans KR. Colors and sizes are at the top of `assets/css/main.css`.
+
+## Common tasks
+
+### Write a post
+
+On GitHub, open `content/posts/`, then select Add file → Create new file. Name the file `2026-11-01-short-title.md`, paste the front matter below, and commit.
 
 ```toml
 +++
-title = '제목'
+title = 'Title in sentence case'
 date = 2026-11-01T21:00:00+09:00
-categories = ['측정']        # 측정, 설계, 문제 해결 중 하나
+categories = ['Measurement']   # Measurement, Design, or Troubleshooting
 tags = ['FreeRTOS']
-summary = '목록에 표시되는 한두 문장'
-did = '작업 내용'
-broke = '문제'
-fixed = '해결 방법'
-next = ''                    # 해결 전이라면 다음 계획
+summary = 'One or two sentences for the post list. State the main idea.'
+did = 'What I did'
+broke = 'The problem'
+fixed = 'The solution'
+next = ''                      # The next step, if the problem is not solved yet
 +++
 
-본문은 여기부터 마크다운으로 씁니다.
+Write the post here in Markdown.
 ```
 
-`did`, `broke`, `fixed`, `next` 중 비워 둔 항목은 표시되지 않습니다. PC에서는 `hugo new content posts/2026-11-01-title.md`를 실행하면 같은 머리말이 들어간 파일이 생깁니다.
+Empty fields (`did`, `broke`, `fixed`, `next`) are not shown. On a PC, `hugo new content posts/2026-11-01-title.md` creates a file with the same front matter and a section outline.
 
-### 기술 역량 등급 수정
+### Change a skill level
 
-`data/skills.yaml`의 `level`(0~4)과 `evidence`(근거 글 경로)를 수정합니다. 0은 미평가이며, 근거를 제시할 수 있는 등급만 적습니다. 기술 역량 페이지의 구성도(MCU 블록 다이어그램)와 표가 함께 바뀝니다.
+Edit `level` (0 to 4) and `evidence` (the path of a post) in `data/en/skills.yaml`. Level 0 means "not rated". Give a level only if you can show evidence for it. The diagram and the tables on the skills page update together.
 
 ```yaml
 - name: FreeRTOS
@@ -69,51 +95,82 @@ next = ''                    # 해결 전이라면 다음 계획
   evidence: posts/2026-10-21-task-is-a-unit-of-waiting
 ```
 
-구성도에서의 위치는 `area`, 짧은 이름은 `short`, 칩 바깥 연결은 `io`와 `io_dir`로 정합니다. `area`를 비워 두면 표에만 표시됩니다.
+`area` sets the position in the diagram, `short` sets the short label, and `io` and `io_dir` set the connection outside the chip. If `area` is empty, the skill shows only in the table.
 
-### 프로젝트 수정
+### Change a project
 
-`data/projects.yaml`을 수정하면 첫 화면의 '진행 중인 프로젝트'와 프로젝트 페이지가 함께 바뀝니다. `status`를 `now`에서 `done`으로 바꾸면 '완료'로 이동합니다.
+Edit `data/en/projects.yaml`. The "Current projects" list on the home page and the projects page update together. Change `status` from `now` to `done` to move a project to "Done".
 
-### 첫 화면 문구
+### Change the home page text
 
-`content/_index.md`의 `title`(큰 제목)과 본문을 수정합니다.
+Edit the `title` (the large heading) and the text in `content/_index.md`.
 
-### 이미지
+### Add an image
 
-`static/images/`에 넣고 글에서 `![측정 화면 설명](/images/파일명.png)` 형식으로 씁니다. 오실로스코프 캡처는 PNG 형식, 가로 1200픽셀 이하를 권장합니다.
+Put the file in `static/images/` and use it in a post as `![What the image shows](/images/file-name.png)`. For oscilloscope captures, use PNG at 1200 pixels wide or less.
 
-## 미리 보기
+## Translation
 
-[Hugo extended](https://gohugo.io/installation/) 0.168 이상이 필요합니다(Windows: `winget install Hugo.Hugo.Extended`).
+The Korean version will be a translation of the English text. The site is ready for it:
+
+- The interface text (menus, labels, dates) is already translated in `i18n/ko.yaml`.
+- Korean line breaks are handled by `layouts/_partials/kotext.html`.
+
+To publish Korean:
+
+1. For each page, add a translated file next to the English file, with `.ko` before `.md`. For example: `content/about.ko.md`, `content/posts/2026-10-21-task-is-a-unit-of-waiting.ko.md`.
+2. Copy `data/en/` to `data/ko/`. Translate the text fields, and keep the keys and the paths unchanged. If a file is missing in `data/ko/`, the Korean pages use the English file.
+3. In `hugo.toml`, under `[languages.ko]`, change `disabled = true` to `disabled = false`.
+
+Korean pages are then published under `/ko/`, and each translated page shows a "한국어" link in the menu.
+
+Style notes for the Korean translator: use the formal -ㅂ니다 style for site text, and the noun-ending style (개조식) for project and skill entries. The earlier Korean version of the site, with its full style guide, is in commit `59bd302`.
+
+## Preview
+
+You need [Hugo extended](https://gohugo.io/installation/) 0.168 or later (Windows: `winget install Hugo.Hugo.Extended`).
 
 ```bash
-hugo server -D      # http://localhost:1313, -D는 초안(draft)도 표시
+hugo server -D      # http://localhost:1313. -D also shows drafts.
 ```
 
-## 구조
+## Structure
 
 ```
 content/
-  _index.md           첫 화면 문구
-  posts/              글 (YYYY-MM-DD-slug.md)
-  skill-map.md        기술 역량 소개 문단 (구성도와 표는 data/skills.yaml)
-  projects.md         프로젝트 소개 문단 (목록은 data/projects.yaml)
-  about.md            소개
-data/
-  skills.yaml         기술 역량 등급과 근거
-  projects.yaml       프로젝트: 작업 내용, 문제, 해결 방법
-layouts/              페이지 템플릿 (Hugo)
-  _partials/          머리글, 바닥글, 등급 표시, 요약, 목록, 구성도, 줄바꿈 처리(kotext.html)
-assets/css/main.css   디자인 값과 전체 스타일
-static/favicon.svg    파비콘
-archetypes/posts.md   새 글 머리말 틀
-.github/workflows/hugo.yml   자동 배포
+  _index.md           Home page text
+  posts/              Posts (YYYY-MM-DD-slug.md)
+  skill-map.md        Intro text of the skills page (the diagram and tables come from data/en/skills.yaml)
+  projects.md         Intro text of the projects page (the list comes from data/en/projects.yaml)
+  about.md            About page
+data/en/
+  skills.yaml         Skill levels and evidence
+  projects.yaml       Projects: what I did, problems, solutions
+i18n/
+  en.yaml, ko.yaml    Interface text for each language
+layouts/              Page templates (Hugo)
+  _partials/          Header, footer, level meter, summary list, lists, diagram, data lookup, Korean line breaks
+assets/css/main.css   Design values and all styles
+static/favicon.svg    Site icon
+archetypes/posts.md   Front matter and outline for new posts
+.github/workflows/hugo.yml   Automatic deployment
 ```
 
-## 참고 자료
+## References
 
-- 문장 부호 규정(문화체육관광부 고시 제2014-0039호, 2015년 시행)
-- 김순영, 「영한 번역에 나타난 번역투 문장」, 『새국어생활』 22권 1호, 국립국어원, 2012
-- 국립국어원 「새국어소식」 2002년 10월호 ('-시키다' 남용)
-- W3C 국제화 작업 그룹, 「한국어 텍스트 레이아웃 및 타이포그래피를 위한 요구사항」(klreq), 7.1절 줄 나눔 (어절 단위 줄 나눔, 줄 첫머리에 올 수 없는 문자)
+Plain English
+
+- ASD-STE100 Simplified Technical English, Issue 9 (2025). Sentence length, one topic per paragraph, one word for one meaning.
+- Google developer documentation style guide, "Write for a global audience": https://developers.google.com/style/translation
+
+Post structure
+
+- Patrick Winston, "How to Speak", MIT OpenCourseWare (2018)
+- Simon Peyton Jones, "How to write a great research paper", Microsoft Research
+- George Gopen and Judith Swan, "The Science of Scientific Writing", American Scientist (1990)
+- Julia Evans, "Blogging principles": https://jvns.ca/blog/2017/03/20/blogging-principles/
+
+Korean translation
+
+- 문장 부호 규정 (Korean punctuation rules, Ministry of Culture, Sports and Tourism notice 2014-0039, effective 2015)
+- W3C, Requirements for Hangul Text Layout and Typography (klreq), section 7.1 on line breaking: https://www.w3.org/TR/klreq
