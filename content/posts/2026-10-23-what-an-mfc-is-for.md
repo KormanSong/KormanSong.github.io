@@ -40,7 +40,7 @@ In plasma-enhanced chemical vapor deposition (PECVD), the gas stays in the chamb
 
 What the wafer feels from a transient is one number: the missing area.
 
-![A step response rises from zero to the setpoint. The grey area between the setpoint and the response is the dose that never arrived.](/images/missing-area.png)
+![A step response rises from zero to the setpoint. The grey area between the setpoint and the response is the dose that never arrived.](/images/charts/missing-area.png)
 
 For the flow loop in my [previous post](/posts/2026-10-23-step-response-spectrum/), the missing area is 1/Ki ≈ 0.21&nbsp;s, multiplied by the flow. For a 60&nbsp;s step, that is 0.35&nbsp;% of the dose. For a 3&nbsp;s step, it is 7&nbsp;%. So the transient matters less as the step gets longer. Speed is not quality. The area is.
 
@@ -59,7 +59,7 @@ So the user does not need a zero error. The user needs the same error every time
 
 A process engineer builds recipes with a simple model: dose = setpoint × time. In this model, a plot of thickness against step time is a straight line through zero. Real lines do not go through zero, because of the missing area. That is fine if the intercept stays in one place.
 
-![Thickness against step time. The expected line goes through zero. The actual lines start later, and each run starts at a different point.](/images/intercept.png)
+![Thickness against step time. The expected line goes through zero. The actual lines start later, and each run starts at a different point.](/images/charts/intercept.png)
 
 This figure is an illustration, not measured data. The problem starts when the intercept moves. The gas supply has memory: gas trapped in the pipe, the tail of the previous step, and a gas box that cooled down overnight. Then the user sees things like these:
 

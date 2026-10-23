@@ -1,2 +1,3 @@
-<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
-{{- /* Images such as scope captures: load lazily, fit the text column. */ -}}
+{{- /* Images in posts. They load lazily and may be wider than the text.
+       Images in /images/charts/ are grey charts, and get the class "chart" so that dark mode can invert them. */ -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if strings.Contains .Destination "/images/charts/" }} class="chart"{{ end }} loading="lazy" decoding="async">
