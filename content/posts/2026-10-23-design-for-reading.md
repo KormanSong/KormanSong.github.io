@@ -10,7 +10,7 @@ broke = "Lines were 83 characters long on a wide screen. A date column pushed th
 fixed = "Six design values, and a new layout: one centered column of about 66 characters per line, the date above the title, and wider charts."
 +++
 
-The design of a technical blog has one job: to make complex content easy to read. Decoration does not help. Order does. This post explains why my blog was hard to read, what great designers and typographers say, and the design values that I will follow from now on.
+The design of a technical blog has one job: to make complex content easy to read. Decoration does not help. Order does. This post explains why my blog was hard to read. It also covers what great designers and typographers say, and the design values that I will follow.
 
 ## What great designers say
 
@@ -26,7 +26,11 @@ Dieter Rams designed products for Braun for decades. His [ten principles for goo
 
 ### Jony Ive: simplicity is order
 
-Jony Ive led design at Apple for many years. When he introduced iOS 7 in 2013, he described simplicity like this: "True simplicity is derived from so much more than just the absence of clutter and ornamentation." He said that it is about "bringing order to complexity" ([TechRadar](https://www.techradar.com/pro/quote-of-the-day-by-former-apple-design-chief-jony-ive-true-simplicity-is-derived-from-so-much-more-than-just-the-absence-of-clutter-and-ornamentation-laying-the-foundation-for-a-timeless-design-philosophy)).
+Jony Ive led design at Apple for many years. When he introduced iOS 7 in 2013, he described simplicity like this:
+
+> "True simplicity is derived from so much more than just the absence of clutter and ornamentation."
+
+He said that simplicity is about "bringing order to complexity" ([TechRadar](https://www.techradar.com/pro/quote-of-the-day-by-former-apple-design-chief-jony-ive-true-simplicity-is-derived-from-so-much-more-than-just-the-absence-of-clutter-and-ornamentation-laying-the-foundation-for-a-timeless-design-philosophy)).
 
 This matters for a technical blog. My posts are about control loops, signals, and gas flow. I cannot make the content simple by removing parts of it. I can only put it in order: a clear path through the text, and each figure next to the paragraph that it explains.
 
@@ -87,7 +91,7 @@ I built a new layout, measured it, and applied it to this site:
 | Summary | Labels in a side column | Labels above the text, with a thin line on the left |
 | Charts | Text width, white in dark mode | Up to 46 rem wide, and inverted in dark mode |
 
-Later, I plan to add notes in the margin for sources on wide screens, as Tufte and Gwern do, and to draw charts as SVG files so that they follow the page colors exactly.
+Later, I plan two more changes. Sources will go into notes in the margin on wide screens, as Tufte and Gwern do. Charts will become SVG files, so that they follow the page colors exactly.
 
 ## What I got wrong
 

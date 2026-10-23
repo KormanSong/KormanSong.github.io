@@ -56,8 +56,12 @@ These rules come from Patrick Winston's talk "How to Speak" and from the referen
 
 ### Design
 
+The values behind the design are in the post "Design for a technical blog: bring order to complexity".
+
+- Reading comes first. One centered column, about 66 characters per line, text at 18 pixels (17 on phones).
+- The date and reading time sit above the title.
+- Figures and the skill map may be wider than the text (up to 46 rem). Nothing else is.
 - Color is used only to show status. Yellow marks only "Problem" and "No evidence".
-- The left column holds dates. The right column holds content.
 - No decoration, shadows, animation, or JavaScript.
 - Fonts: IBM Plex Sans (text) and IBM Plex Mono (code). Korean pages use IBM Plex Sans KR. Colors and sizes are at the top of `assets/css/main.css`.
 
@@ -108,6 +112,8 @@ Edit the `title` (the large heading) and the text in `content/_index.md`.
 ### Add an image
 
 Put the file in `static/images/` and use it in a post as `![What the image shows](/images/file-name.png)`. For oscilloscope captures, use PNG at 1200 pixels wide or less.
+
+Put grey charts with a white background in `static/images/charts/`. In dark mode, the site inverts them so that they do not glare. Do not put photos or scope captures there.
 
 ## Translation
 
