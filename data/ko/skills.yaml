@@ -4,16 +4,16 @@
 levels:
   - n: 1
     meaning: "라이브러리 활용: 제조사 HAL이나 드라이버 API를 호출해 기능을 구현함"
-    ask: 호출한 API와 호출 순서
+    ask: 호출한 API 목록과 호출 순서
   - n: 2
     meaning: "레지스터 제어: 레지스터를 직접 설정하거나 드라이버를 작성함"
-    ask: 설정한 레지스터와 각 값의 설정 근거
+    ask: 레지스터 설정값과 설정 근거
   - n: 3
     meaning: "계측 기반 문제 해결: 오실로스코프나 로직 분석기로 오동작·타이밍 문제의 원인을 찾아 해결함"
-    ask: 측정 파형과 원인 분석
+    ask: 측정 파형과 원인 분석 기록
   - n: 4
     meaning: "설계: 팀에서 쓰는 프로토콜이나 아키텍처를 설계함"
-    ask: 설계 근거와 검토 후 채택하지 않은 대안
+    ask: 설계 근거와 채택하지 않은 대안
 
 groups:
   - name: MCU 코어와 메모리
@@ -28,7 +28,7 @@ groups:
         area: core
         level: 0
       - name: 플래시·EEPROM
-        short: 플래시/EEPROM
+        short: 플래시·EEPROM
         area: core
         level: 0
         note: 교정 데이터 저장
@@ -52,11 +52,11 @@ groups:
         level: 0
         note: 밸브 구동 출력
       - name: 타이머·PWM·입력 캡처
-        short: 타이머/PWM
+        short: 타이머·PWM
         area: io
         level: 0
       - name: GPIO·외부 인터럽트
-        short: GPIO/EXTI
+        short: GPIO·EXTI
         area: io
         level: 0
 
@@ -126,7 +126,7 @@ groups:
         short: 교정
         area: domain
         level: 0
-      - name: 실시간 제약 조건
+      - name: 실시간 처리
         short: 실시간
         area: domain
         level: 0
@@ -135,7 +135,7 @@ groups:
   - name: 개발·측정 도구
     items:
       - name: GCC·Make·CMake
-        short: GCC/Make
+        short: GCC·Make
         area: tools
         slot: build
         level: 0

@@ -1,59 +1,59 @@
 +++
-title = '읽기 중심의 블로그 디자인 개선'
+title = '가독성 중심의 블로그 디자인 개선'
 date = 2026-10-23T14:00:00+09:00
 draft = false
 categories = ["Writing"]
 tags = ["디자인", "타이포그래피", "블로그 운영"]
-summary = "이 블로그가 읽기 불편했던 원인을 줄 길이와 배치를 측정해 찾고, Dieter Rams, Jony Ive, 타이포그래피 전문가, 잘 만든 기술 사이트의 기준을 참고해 다시 설계했다."
+summary = "이 블로그가 읽기 불편했던 원인을 줄 길이와 배치를 측정해 찾고, Dieter Rams, Jony Ive, 타이포그래피 전문가, 다른 기술 사이트의 기준을 참고해 다시 설계했다."
 result = "한 줄 글자 수(영문) 평균 83자 → 67자(최적 66자)"
 +++
 
-블로그 디자인을 읽기 기준으로 다시 정리했다. 장식은 더하지 않고 본문 배치와 순서를 바꿨으며, 영문판 한 줄 글자 수는 평균 83자에서 67자로 줄었다.
+블로그 디자인을 가독성 기준으로 다시 설계했다. 장식은 더하지 않고 본문 배치와 순서를 바꿨으며, 영문판 한 줄 글자 수는 평균 83자에서 67자로 줄었다.
 
 ## 디자이너의 기준
 
-### Dieter Rams: 적게, 그러나 더 낫게
+### Dieter Rams의 디자인 원칙
 
-Dieter Rams는 수십 년 동안 브라운(Braun)의 제품을 디자인했다. Rams의 [좋은 디자인의 10가지 원칙](https://vitsoe.com/gb/about/good-design)은 디자인 분야에서 널리 인용된다. 이 중 다섯 가지는 블로그에 그대로 적용된다.
+Dieter Rams는 수십 년 동안 Braun의 제품을 디자인했다. Rams의 [좋은 디자인의 10가지 원칙](https://vitsoe.com/gb/about/good-design)은 디자인 분야에서 널리 인용된다. 이 중 다섯 가지는 블로그에 그대로 적용된다.
 
 - “좋은 디자인은 제품을 유용하게 한다.” 블로그의 용도는 읽기이며, 다른 요소는 모두 그다음이다.
-- “좋은 디자인은 제품의 이해를 돕는다.” 잘된 디자인은 따로 설명할 필요가 없다. 독자가 다음에 어디를 봐야 할지 고민하지 않아야 한다.
-- “좋은 디자인은 눈에 띄지 않는다.” 디자인이 드러나지 않아야 내용이 눈에 들어온다.
+- “좋은 디자인은 제품의 이해를 돕는다.” 독자가 다음에 어디를 봐야 할지 고민하지 않게 한다.
+- “좋은 디자인은 눈에 띄지 않는다.” 디자인은 드러나지 않게 하고 내용이 먼저 보이게 한다.
 - “좋은 디자인은 마지막 디테일까지 빈틈없다.” Rams는 “어떤 것도 임의로 정하거나 우연에 맡겨서는 안 된다”고 했다.
 - “좋은 디자인은 가능한 한 적게 디자인한 것이다.” Rams는 이를 “적게, 그러나 더 낫게(Less, but better)”로 요약했다.
 
-### Jony Ive: 단순함은 질서
+### Jony Ive가 말한 단순함
 
-Jony Ive는 오랫동안 애플의 디자인을 이끌었다. 2013년 iOS 7을 소개하면서 단순함을 이렇게 설명했다.
+Jony Ive는 오랫동안 Apple의 디자인을 이끌었다. 2013년 iOS 7을 소개하면서 단순함을 이렇게 설명했다.
 
 > 진정한 단순함은 어수선함과 장식을 없애는 것만으로는 얻을 수 없다(True simplicity is derived from so much more than just the absence of clutter and ornamentation).
 
 Ive는 단순함이 ‘복잡한 것에 질서를 부여하는 일’이라고 했다([TechRadar](https://www.techradar.com/pro/quote-of-the-day-by-former-apple-design-chief-jony-ive-true-simplicity-is-derived-from-so-much-more-than-just-the-absence-of-clutter-and-ornamentation-laying-the-foundation-for-a-timeless-design-philosophy)).
 
-내 글은 제어 루프, 신호, 가스 유량을 다루므로 내용을 덜어 내 단순하게 만들 수는 없다. 대신 글의 흐름을 분명히 하고, 그림은 설명하는 문단 바로 옆에 둔다.
+내 글은 제어 루프, 신호, 가스 유량을 다루므로 내용을 줄여 단순하게 만들 수는 없다. 대신 글의 흐름을 분명히 하고, 그림은 그 그림을 설명하는 문단 바로 옆에 둔다.
 
-Ive는 2025년 [Stripe Sessions](https://stripe.com/sessions/2025/a-conversation-with-sir-jony-ive) 대담에서 정성도 이야기했다. 아무도 보지 않는 가구 안쪽까지 마감하는 장인을 예로 들며 “사람으로서 얼마나 성숙했는지는 아무도 보지 않을 때 하는 일에서 드러난다”고 했다([Jim Nielsen의 기록](https://blog.jim-nielsen.com/2025/notes-from-interview-with-jony-ive/)에서 인용). 웹 페이지라면 대체 텍스트, 줄바꿈, 다크 모드가 가구 안쪽에 해당한다.
+Ive는 2025년 [Stripe Sessions](https://stripe.com/sessions/2025/a-conversation-with-sir-jony-ive) 대담에서 정성도 이야기했다. 아무도 보지 않는 가구 안쪽까지 마감하는 장인을 예로 들며 “사람으로서 얼마나 성숙했는지는 아무도 보지 않을 때 하는 일에서 드러난다”고 했다([Jim Nielsen의 기록](https://blog.jim-nielsen.com/2025/notes-from-interview-with-jony-ive/)에서 인용). 웹 페이지에서는 대체 텍스트, 줄바꿈, 다크 모드처럼 독자가 잘 보지 않는 부분이 여기에 해당한다.
 
 ## 타이포그래피 기준
 
-글 위주의 사이트에서는 글자 크기, 줄 길이, 줄 간격이 읽기 편한 정도를 좌우한다. 다음 두 자료가 구체적인 수치를 제시한다.
+글 위주의 사이트에서는 글자 크기, 줄 길이, 줄 간격이 가독성을 좌우한다. 다음 두 자료가 구체적인 수치를 제시한다.
 
 | 항목 | Matthew Butterick | Robert Bringhurst |
 |---|---|---|
 | 한 줄 글자 수(영문) | 45~90자 | 45~75자, 최적 66자 |
-| 웹 본문 글자 크기 | 15~25px | |
-| 줄 간격 | 글자 크기의 120~145% | |
+| 웹 본문 글자 크기 | 15~25px | – |
+| 줄 간격 | 글자 크기의 120~145% | – |
 
-Butterick의 첫 번째 규칙은 ‘본문이 먼저’다. 문서의 품질은 대부분 본문이 어떻게 보이는지에 달려 있다는 뜻이다([Practical Typography](https://practicaltypography.com/typography-in-ten-minutes.html)). Bringhurst의 수치는 『The Elements of Typographic Style』에 나온다([인용 출처](https://webtypography.net/2.1.2)).
+Butterick의 첫 번째 규칙은 ‘본문 우선’이다. 문서의 품질은 대부분 본문이 어떻게 보이는지에 달려 있다는 뜻이다([Practical Typography](https://practicaltypography.com/typography-in-ten-minutes.html)). Bringhurst의 수치는 『The Elements of Typographic Style』에 나온다([인용 출처](https://webtypography.net/2.1.2)).
 
-## 잘 만든 기술 사이트
+## 참고한 기술 사이트
 
 - Bartosz Ciechanowski는 [GPS](https://ciechanow.ski/gps/)처럼 사물의 작동 원리를 길게 설명하는 글을 쓴다. 조작할 수 있는 그림이 설명하는 글 바로 옆에 있다.
 - Edward Tufte의 강의 유인물은 잘 짜인 본문, 여백의 주석, 본문 일부로 들어간 차트로 단순하게 구성된다. [Tufte CSS](https://github.com/edwardtufte/tufte-css)는 이 방식을 웹으로 옮긴 것이다.
 - Gwern Branwen의 사이트는 미니멀리즘, 좋은 타이포그래피, 흑백, 여백 주석을 바탕으로 한다. 링크한 페이지의 사본도 보관해 링크가 끊기지 않게 한다([Design](https://gwern.net/design)).
-- Julia Evans는 아는 것과 모르는 것을 솔직하게 밝히고, 처음 시작할 때 있었으면 했던 글을 쓴다([Blogging principles](https://jvns.ca/blog/2017/03/20/blogging-principles/)).
+- Julia Evans는 아는 것과 모르는 것을 솔직하게 밝히고, 자신이 처음 배울 때 찾던 글을 쓴다([Blogging principles](https://jvns.ca/blog/2017/03/20/blogging-principles/)).
 
-네 사이트 모두 장식을 쓰지 않는다. 본문을 뚜렷한 한 단으로 배치하고, 그림은 설명하는 문단 바로 옆에 둔다.
+네 사이트 모두 장식 요소 없이 본문을 한 단으로 두고, 그림을 필요한 위치에 정확히 둔다.
 
 ## 이 블로그의 문제점
 
@@ -73,7 +73,7 @@ Butterick의 첫 번째 규칙은 ‘본문이 먼저’다. 문서의 품질은
 3. 서체 패밀리 하나(IBM Plex), 회색 계열, 상태 표시 색 하나만 쓴다. 애니메이션과 자바스크립트는 쓰지 않는다.
 4. 보이지 않는 세부까지 챙긴다. 숫자와 단위가 줄바꿈으로 떨어지지 않게 하고, 모든 그림에 대체 텍스트를 넣고, 차트도 다크 모드를 따르게 한다.
 5. 모든 수치에 조건을 붙이고, 글마다 잘못 생각했던 점을 적는다.
-6. 순수 HTML과 CSS로 만들고, 내년이면 낡아 보일 유행은 따르지 않는다.
+6. 순수 HTML과 CSS로 만들고, 금방 낡아 보일 유행은 따르지 않는다.
 
 ## 변경 내용
 
@@ -98,7 +98,7 @@ Butterick의 첫 번째 규칙은 ‘본문이 먼저’다. 문서의 품질은
 
 ## 요약
 
-- 기술 블로그는 읽기를 기준으로 설계하고, 본문을 가장 먼저 다룬다.
+- 기술 블로그는 가독성을 기준으로 설계하고, 본문 글자 크기와 줄 길이를 먼저 정한다.
 - 복잡한 내용은 덜어 내지 않고 순서와 배치를 정리해 단순하게 만든다.
 - 권장 수치를 따른다. 한 줄은 영문 기준 약 45~75자, 최적값은 66자다.
 - 대체 텍스트, 줄바꿈, 다크 모드처럼 보이지 않는 세부까지 챙긴다.
