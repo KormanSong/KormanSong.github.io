@@ -14,8 +14,7 @@ titleCaseStyle = "none"   # Keep titles as written (sentence case).
   author = "KormanSong"
   github = "https://github.com/KormanSong"
 
-# English is the source language. Korean will be a translation of the English text.
-# To publish Korean, add the translated files (see README) and set disabled = false.
+# English is the source language. Korean pages are published under /ko/ (see README).
 [languages]
   [languages.en]
     locale = "en-US"
@@ -44,15 +43,15 @@ titleCaseStyle = "none"   # Keep titles as written (sentence case).
     locale = "ko-KR"
     label = "한국어"
     weight = 2
-    disabled = true
+    disabled = false
     [languages.ko.params]
-      description = "반도체 장비용 질량 유량 제어기(MFC) 펌웨어 개발 기록. 측정 결과와 문제 해결 과정."
+      description = "반도체 장비용 질량유량제어기(MFC) 펌웨어 개발 기록. 측정 결과, 문제 원인과 해결 과정."
     [[languages.ko.menus.main]]
       name = "글"
       pageRef = "/posts"
       weight = 10
     [[languages.ko.menus.main]]
-      name = "기술 역량"
+      name = "보유 기술"
       pageRef = "/skill-map"
       weight = 20
     [[languages.ko.menus.main]]

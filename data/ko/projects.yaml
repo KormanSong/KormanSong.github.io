@@ -1,0 +1,33 @@
+# 한국어 페이지용 프로젝트 데이터. 필드 설명은 data/en/projects.yaml 머리말 참고.
+# did, broke, next는 항목을 ". "로 구분. 첫 화면에는 broke(없으면 next)의 첫 항목만 표시.
+
+- title: 이벤트 기반 FreeRTOS 카운터 재설계
+  status: now
+  since: "2026-10"
+  stack: [STM32, FreeRTOS, 7세그먼트 다이내믹 구동]
+  did: 표시 태스크와 카운터 태스크로 분리. `vTaskDelayUntil`로 주기를 정확히 1초로 유지. 버튼 A·B 사양을 상태 전이표로 다시 작성.
+  broke: 표시 태스크가 자릿수마다 공유 변수를 다시 읽어 한 프레임에 이전 값과 새 값의 숫자가 섞일 수 있음. 표시 태스크가 대기 상태에 들어가지 않아 아이들 태스크가 실행되지 않음.
+  next: 프레임마다 값을 한 번만 복사. 프레임 사이에 2ms씩 대기. 주기가 짧은 태스크에 높은 우선순위 부여. 이후 슈퍼루프, FreeRTOS, 동기식 설계 비교.
+  post: posts/2026-10-21-task-is-a-unit-of-waiting
+
+- title: BeagleBone Black용 리눅스 커널 빌드
+  status: now
+  since: "2026-10"
+  stack: [AM335x, Linux 5.10(TI), 디바이스 트리]
+  did: USB 네트워크로 SSH 접속. sysfs로 LED 트리거 변경. 디바이스 트리의 노드 주소와 compatible 문자열로 드라이버와 장치가 연결되는 과정 추적.
+  next: Bootlin 실습 자료로 U-Boot, 커널, 루트 파일 시스템 빌드. 디바이스 트리 오버레이로 I2C 활성화. 시리얼 콘솔 연결.
+
+- title: 리눅스(1GHz)와 PRU(200MHz)의 소프트웨어 UART 타이밍
+  status: planned
+  stack: [cyclictest, PREEMPT_RT, PRU]
+  summary: 115200bps 직렬 데이터를 사용자 공간, 커널 hrtimer, PRU의 세 가지 방식으로 비트뱅잉해 송신. 비트 폭의 지터를 오실로스코프로 측정.
+
+- title: I2C 압력 센서용 리눅스 IIO 드라이버
+  status: planned
+  stack: [Linux IIO, I2C, 디바이스 트리]
+  summary: 메인라인 커널에 드라이버가 없는 센서 선정. 업스트림에 제출할 수 있는 수준으로 드라이버 작성.
+
+- title: PRU 기반 소형 MFC 제어기
+  status: planned
+  stack: [PRU, PID, 유량 센서]
+  summary: 유량 센서 입력, 밸브 출력, PID 제어 루프를 PRU에서 실행. 세 가지 구현 방식의 제어 주기 지터 측정.

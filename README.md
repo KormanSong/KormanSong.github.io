@@ -4,7 +4,7 @@ https://kormansong.github.io
 
 Firmware development notes for mass flow controllers (MFCs) in semiconductor equipment. The site uses no theme. Everything comes from `layouts/`, `assets/`, `data/`, and `i18n/` in this repository. When you push to the `main` branch, the site is published 1 to 2 minutes later.
 
-English is the source language. A Korean translation will be added later (see [Translation](#translation)).
+English is the source language. The Korean version is published under `/ko/` (see [Translation](#translation)).
 
 ## Writing rules
 
@@ -90,7 +90,7 @@ Write the post here in Markdown.
 
 ### Change a skill level
 
-Edit `level` (0 to 4) and `evidence` (the path of a post) in `data/en/skills.yaml`. Level 0 means "not rated". Give a level only if you can show evidence for it. The diagram and the tables on the skills page update together.
+Edit `level` (0 to 4) and `evidence` (the path of a post) in `data/en/skills.yaml`. Level 0 means "not rated". Give a level only if you can show evidence for it. The diagram and the tables on the skills page update together. Make the same change in `data/ko/skills.yaml`, because the Korean pages read only that file.
 
 ```yaml
 - name: FreeRTOS
@@ -102,7 +102,7 @@ Edit `level` (0 to 4) and `evidence` (the path of a post) in `data/en/skills.yam
 
 ### Change a project
 
-Edit `data/en/projects.yaml`. The "Current projects" list on the home page and the projects page update together. Change `status` from `now` to `done` to move a project to "Done".
+Edit `data/en/projects.yaml`. The "Current projects" list on the home page and the projects page update together. Change `status` from `now` to `done` to move a project to "Done". Make the same change in `data/ko/projects.yaml`.
 
 ### Change the home page text
 
@@ -116,20 +116,21 @@ Put grey charts with a white background in `static/images/charts/`. In dark mode
 
 ## Translation
 
-The Korean version will be a translation of the English text. The site is ready for it:
+The Korean version is published under `/ko/`, and each translated page shows a "한국어" link in the menu.
 
-- The interface text (menus, labels, dates) is already translated in `i18n/ko.yaml`.
+- Each Korean page sits next to its English file, with `.ko` before `.md`. For example: `content/about.ko.md`, `content/posts/2026-10-21-task-is-a-unit-of-waiting.ko.md`.
+- The Korean data files are in `data/ko/`. Keep the keys, the levels, and the paths the same as in `data/en/`. If a file is missing in `data/ko/`, the Korean pages use the English file.
+- The interface text (menus, labels, dates) is in `i18n/ko.yaml`. The Korean menu names and the site description are in `hugo.toml` under `[languages.ko]`.
 - Korean line breaks are handled by `layouts/_partials/kotext.html`.
+- When you add or change an English post, add or update its `.ko.md` file too. Keep the front matter keys, the date, the numbers, the code, the links, and the images. Internal links in Korean posts start with `/ko/posts/`.
+- To hide the Korean version, set `disabled = true` under `[languages.ko]` in `hugo.toml`.
 
-To publish Korean:
+Style notes for Korean:
 
-1. For each page, add a translated file next to the English file, with `.ko` before `.md`. For example: `content/about.ko.md`, `content/posts/2026-10-21-task-is-a-unit-of-waiting.ko.md`.
-2. Copy `data/en/` to `data/ko/`. Translate the text fields, and keep the keys and the paths unchanged. If a file is missing in `data/ko/`, the Korean pages use the English file.
-3. In `hugo.toml`, under `[languages.ko]`, change `disabled = true` to `disabled = false`.
-
-Korean pages are then published under `/ko/`, and each translated page shows a "한국어" link in the menu.
-
-Style notes for the Korean translator: use the formal -ㅂ니다 style for site text, and the noun-ending style (개조식) for project and skill entries. The earlier Korean version of the site, with its full style guide, is in commit `59bd302`.
+- Write each post from its meaning, not sentence by sentence. Leave out sentences that only describe the page or the post.
+- Posts use the plain -다 style. The About page and the interface text use the formal -ㅂ니다 style. Project and skill entries use noun endings (개조식).
+- Attach units to numbers: 2ms, 0.35%, 5.5Torr. In sentences, write seconds as 초.
+- Use the terms that Korean engineers use, for example 정정 시간, 계단 응답, 오버슈트, 편향, 산포, 진도 (KS A ISO 5725), 열식 MFC, 압력식 MFC.
 
 ## Preview
 
@@ -151,6 +152,7 @@ content/
 data/en/
   skills.yaml         Skill levels and evidence
   projects.yaml       Projects: what I did, problems, solutions
+data/ko/              The same files for the Korean pages
 i18n/
   en.yaml, ko.yaml    Interface text for each language
 layouts/              Page templates (Hugo)
