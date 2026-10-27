@@ -1,0 +1,46 @@
+# 프로젝트 목록. 첫 화면의 '진행 중인 프로젝트' 목록과 /ko/projects/ 페이지가 이 파일에서 만들어집니다.
+#
+# status    now(진행 중) | planned(예정) | done(완료)
+# since     시작 연월, YYYY-MM (선택). 왼쪽 날짜 열에 표시됩니다.
+# stack     사용한 칩, 도구, 기술
+# summary   한두 문장의 설명 (주로 예정 항목에 사용)
+# did       작업 내용
+# broke     문제. 이 항목에는 노란색 표시가 붙습니다.
+# fixed     해결 방법
+# next      다음 계획
+# post      관련 글의 경로. content/ 기준이며 확장자는 쓰지 않습니다.
+#
+# 항목은 개조식(명사형 종결)으로 짧게 씁니다. 사용하지 않는 항목은 지우십시오.
+# 첫 화면에는 broke(없으면 next)의 첫 항목만 표시되므로, 항목 사이는 마침표와 공백('. ')으로 구분합니다.
+# 숫자와 단위 사이에는 붙임 공백(U+00A0)을 씁니다. 예: 2 ms
+
+- title: FreeRTOS 카운터의 이벤트 기반 재설계
+  status: now
+  since: "2026-10"
+  stack: [STM32, FreeRTOS, 7세그먼트 디스플레이 멀티플렉싱]
+  did: 작업을 디스플레이 태스크와 카운터 태스크로 분리. `vTaskDelayUntil`로 주기를 정확히 1초로 유지. 버튼 A·B 사양을 상태 전이표로 다시 작성
+  broke: 디스플레이 태스크가 자리마다 공유 변수를 다시 읽어, 한 프레임에 이전 숫자와 새 숫자가 섞일 수 있음. 디스플레이 태스크가 한 번도 블로킹되지 않아 유휴 태스크가 전혀 실행되지 않음
+  next: 프레임마다 값을 한 번만 복사. 프레임 사이에 2 ms 동안 블로킹. 주기가 짧은 태스크에 더 높은 우선순위 부여. 이후 슈퍼루프, FreeRTOS, 동기식 설계 비교
+  post: posts/2026-10-21-task-is-a-unit-of-waiting
+
+- title: BeagleBone Black용 리눅스 커널 빌드
+  status: now
+  since: "2026-10"
+  stack: [AM335x, Linux 5.10 (TI), 디바이스 트리]
+  did: USB 네트워킹으로 SSH 접속. sysfs로 LED 트리거 변경. 디바이스 트리의 노드 주소와 compatible 문자열이 드라이버를 디바이스에 연결하는 과정 추적
+  next: Bootlin 실습 자료로 U-Boot, 커널, 루트 파일 시스템 빌드. 디바이스 트리 오버레이로 I2C 활성화. 시리얼 콘솔 연결
+
+- title: 리눅스(1 GHz)와 PRU(200 MHz)의 소프트웨어 UART 타이밍
+  status: planned
+  stack: [cyclictest, PREEMPT_RT, PRU]
+  summary: 115200 bps 시리얼 데이터를 사용자 공간, 커널 hrtimer, PRU 세 가지 방식의 비트뱅잉으로 송신. 각 비트 폭의 지터를 오실로스코프로 측정
+
+- title: I2C 압력 센서용 리눅스 IIO 드라이버
+  status: planned
+  stack: [Linux IIO, I2C, 디바이스 트리]
+  summary: 메인라인 커널에 드라이버가 없는 센서 선정. 업스트림에 제출할 수 있는 수준으로 드라이버 작성
+
+- title: PRU 기반 소형 MFC 제어기
+  status: planned
+  stack: [PRU, PID, 유량 센서]
+  summary: 유량 센서 입력, 밸브 출력, PID 제어 루프를 PRU에서 실행. 세 가지 구현에서 제어 주기의 지터 측정
