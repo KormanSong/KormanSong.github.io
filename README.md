@@ -127,8 +127,8 @@ The Korean version is published under `/ko/`, and each translated page shows a "
 
 Style notes for Korean:
 
-- Write each post from its meaning, not sentence by sentence. Leave out sentences that only describe the page or the post.
-- Posts use the plain -다 style. The About page and the interface text use the formal -ㅂ니다 style. Project and skill entries use noun endings (개조식).
+- Write each post from its meaning, not sentence by sentence. Leave out sentences that only describe the page or the post, and do not narrate the work like an essay.
+- Explanations use the formal -ㅂ니다 style. Lists, tables, conditions, and comparisons use noun endings (개조식). Do not use the plain -다 style in posts.
 - Attach units to numbers: 2ms, 0.35%, 5.5Torr. In sentences, write seconds as 초.
 - Use the terms that Korean engineers use, for example 정정 시간, 계단 응답, 오버슈트, 편향, 산포, 진도 (KS A ISO 5725), 열식 MFC, 압력식 MFC.
 - Use one Korean term for one concept: 부족분 (the missing area), 런 (a process run), RF 인가 (plasma on), 정상 상태 유량 (steady flow), N% F.S. 설정 (a setpoint at N % of full scale).

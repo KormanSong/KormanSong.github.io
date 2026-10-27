@@ -37,7 +37,7 @@ as_of: "<span>기준일</span>{{ .Date }}"
 overview: 보유 기술 블록도
 levels: 단계별 판정 기준
 evidence_needed: "증빙 자료:"
-levels_note: "미정: 아직 단계를 매기지 않은 기술입니다. 단계는 증빙할 수 있을 때만 매기며, 3단계 이상은 근거 글을 함께 적습니다."
+levels_note: 미정
 col_skill: 기술
 col_level: 단계
 col_evidence: 근거 글
