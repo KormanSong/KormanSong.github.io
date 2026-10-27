@@ -45,7 +45,7 @@ titleCaseStyle = "none"   # Keep titles as written (sentence case).
     weight = 2
     disabled = false
     [languages.ko.params]
-      description = "반도체 장비용 질량유량제어기(MFC) 펌웨어 개발 기록. 측정 결과, 문제 원인과 해결 과정."
+      description = "반도체 장비용 질량유량제어기(MFC) 펌웨어 개발 기록. 측정 결과, 문제와 해결 방법."
     [[languages.ko.menus.main]]
       name = "글"
       pageRef = "/posts"

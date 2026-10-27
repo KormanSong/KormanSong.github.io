@@ -3,17 +3,17 @@
 
 levels:
   - n: 1
-    meaning: 제조사 라이브러리(HAL)와 드라이버 API로 기능을 구현함
+    meaning: "라이브러리 활용: 제조사 HAL이나 드라이버 API를 호출해 기능을 구현함"
     ask: 호출한 API와 호출 순서
   - n: 2
-    meaning: 레지스터를 직접 설정하거나 드라이버를 작성함
-    ask: 설정한 레지스터와 각 값을 정한 이유
+    meaning: "레지스터 제어: 레지스터를 직접 설정하거나 드라이버를 작성함"
+    ask: 설정한 레지스터와 각 값의 설정 근거
   - n: 3
-    meaning: 오실로스코프나 로직 분석기로 결함·타이밍 문제의 원인을 찾아 해결함
-    ask: 측정한 파형과 문제 원인
+    meaning: "계측 기반 문제 해결: 오실로스코프나 로직 분석기로 오동작·타이밍 문제의 원인을 찾아 해결함"
+    ask: 측정 파형과 원인 분석
   - n: 4
-    meaning: 팀에서 쓰는 통신 프로토콜이나 소프트웨어 구조를 설계함
-    ask: 설계 이유와 검토 후 채택하지 않은 대안
+    meaning: "설계: 팀에서 쓰는 프로토콜이나 아키텍처를 설계함"
+    ask: 설계 근거와 검토 후 채택하지 않은 대안
 
 groups:
   - name: MCU 코어와 메모리
@@ -27,7 +27,6 @@ groups:
       - name: DMA
         area: core
         level: 0
-        note: 직접 메모리 접근
       - name: 플래시·EEPROM
         short: 플래시/EEPROM
         area: core
@@ -45,18 +44,18 @@ groups:
         io: 유량 센서
         io_dir: in
         level: 0
-        note: 아날로그-디지털 변환기. 센서 입력, 오버샘플링
+        note: 센서 입력, 오버샘플링
       - name: DAC
         area: io
         io: 제어 밸브
         io_dir: out
         level: 0
-        note: 디지털-아날로그 변환기. 밸브 구동 출력
-      - name: 타이머, PWM, 입력 캡처
+        note: 밸브 구동 출력
+      - name: 타이머·PWM·입력 캡처
         short: 타이머/PWM
         area: io
         level: 0
-      - name: GPIO, 외부 인터럽트
+      - name: GPIO·외부 인터럽트
         short: GPIO/EXTI
         area: io
         level: 0
@@ -66,7 +65,6 @@ groups:
       - name: UART
         area: comm
         level: 0
-        note: 비동기 직렬 통신
       - name: RS-485
         area: comm
         io: 상위 제어기
@@ -98,7 +96,6 @@ groups:
       - name: C
         area: software
         level: 0
-        note: 임베디드 C
       - name: FreeRTOS
         area: software
         level: 0
@@ -109,7 +106,7 @@ groups:
         area: software
         level: 0
         note: 이벤트 기반 설계
-      - name: 부트로더, 펌웨어 업데이트
+      - name: 부트로더·펌웨어 업데이트
         short: 부트로더
         area: software
         level: 0
@@ -129,15 +126,15 @@ groups:
         short: 교정
         area: domain
         level: 0
-      - name: 실시간 제약
+      - name: 실시간 제약 조건
         short: 실시간
         area: domain
         level: 0
-        note: 지터, 마감 시간
+        note: 지터, 데드라인
 
   - name: 개발·측정 도구
     items:
-      - name: GCC, Make, CMake
+      - name: GCC·Make·CMake
         short: GCC/Make
         area: tools
         slot: build
@@ -148,7 +145,7 @@ groups:
         slot: debug
         level: 0
         note: OpenOCD, J-Link 등
-      - name: 오실로스코프, 로직 분석기
+      - name: 오실로스코프·로직 분석기
         short: 계측기
         area: tools
         slot: probe
@@ -172,7 +169,7 @@ groups:
       - name: 호스트 PC 단위 테스트
         level: 0
         note: 하드웨어 없이 로직 검증
-      - name: Git, 코드 리뷰
+      - name: Git·코드 리뷰
         level: 0
       - name: 영문 기술 문서 작성
         level: 0

@@ -34,25 +34,25 @@ post_count: "{{ .Count }}편"
 
 # 보유 기술 페이지
 as_of: "<span>기준일</span>{{ .Date }}"
-overview: MCU 블록도
-levels: 단계 기준
-evidence_needed: "증빙:"
-levels_note: 빈 칸은 아직 단계를 매기지 않은 기술입니다. 단계는 증빙할 수 있을 때만 매기고, 3단계 이상은 근거 글을 함께 적습니다.
+overview: 기술 배치도(MCU 블록도 형식)
+levels: 단계별 판정 기준
+evidence_needed: "증빙 내용:"
+levels_note: 미정. 단계는 증빙할 수 있는 기술에만 부여하며, 3단계 이상은 근거 글을 함께 제시합니다.
 col_skill: 기술
 col_level: 단계
 col_evidence: 근거 글
 no_evidence: 근거 글 없음
 post_not_found: 글을 찾을 수 없음
 none: 없음
-not_rated: 평가 전
+not_rated: 미정
 level_n: "{{ .Count }}단계"
-diagram_title: "보유 기술을 MCU 블록도로 나타낸 그림입니다. 블록이 진할수록 단계가 높고, 기술별 단계와 근거 글은 아래 표에 있습니다."
+diagram_title: "보유 기술 블록도(색이 진할수록 높은 단계)"
 diagram_soc: 리눅스 SoC
 diagram_level: 단계
 
 # 404 페이지
 not_found_title: 페이지를 찾을 수 없습니다
-not_found_text: '주소가 바뀌었거나 삭제된 페이지일 수 있습니다. <a href="{{ .posts }}">전체 글</a>이나 <a href="{{ .home }}">첫 화면</a>에서 다시 찾아 주십시오.'
+not_found_text: '주소가 바뀌었거나 없는 페이지일 수 있습니다. <a href="{{ .posts }}">전체 글</a>이나 <a href="{{ .home }}">첫 화면</a>에서 다시 찾아 주십시오.'
 
 # 목록 머리글
 posts: 최근 글
